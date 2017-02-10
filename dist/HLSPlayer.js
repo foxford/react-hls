@@ -18,8 +18,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-require('hls.js');
-
 var HLSPlayer = function (_Component) {
   _inherits(HLSPlayer, _Component);
 
@@ -49,7 +47,7 @@ var HLSPlayer = function (_Component) {
     value: function render() {
       var _this3 = this;
 
-      return _react2.default.createElement('video', { ref: function ref(video) {
+      return _react2.default.createElement('video', { style: { width: '400px', height: '250px' }, ref: function ref(video) {
           _this3.videoElement = video;
         } });
     }

@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-require('hls.js');
 
 class HLSPlayer extends Component {
 
@@ -17,7 +16,7 @@ class HLSPlayer extends Component {
 
   render() {
     return (
-      <video ref={ (video) => { this.videoElement = video; } } />
+      <video style={ { width:'400px', height: '250px' } } ref={ (video) => { this.videoElement = video; } } />
     );
   }
 }
