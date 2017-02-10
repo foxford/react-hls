@@ -18,7 +18,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Hls = require('hls.js'); // for Hls object visibility
+var Hls = require('hls.js/lib/hls').default;
 
 var HLSPlayer = function (_Component) {
   _inherits(HLSPlayer, _Component);
@@ -30,13 +30,28 @@ var HLSPlayer = function (_Component) {
   }
 
   _createClass(HLSPlayer, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      if (Hls.isSupported()) {
+        var hls = new Hls();
+
+        hls.loadSource('http://www.streambox.fr/playlists/test_001/stream.m3u8');
+        hls.attachMedia(this.videoElement);
+        hls.on(Hls.Events.MANIFEST_PARSED, function () {
+          _this2.videoElement.play();
+        });
+      }
+    }
+  }, {
     key: 'render',
     value: function render() {
-      return _react2.default.createElement(
-        'div',
-        null,
-        'HLS Player!'
-      );
+      var _this3 = this;
+
+      return _react2.default.createElement('video', { ref: function ref(video) {
+          _this3.videoElement = video;
+        } });
     }
   }]);
 
