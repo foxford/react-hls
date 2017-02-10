@@ -17280,7 +17280,6 @@ var HLSPlayer = function (_Component) {
 
 exports.default = HLSPlayer;
 
-
-module.exports = HLSPlayer;
+// module.exports = HLSPlayer;
 
 },{"hls.js/lib":35,"react":78}]},{},[79]);
