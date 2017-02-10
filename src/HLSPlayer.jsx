@@ -24,4 +24,4 @@ class HLSPlayer extends Component {
 
 export default HLSPlayer;
 
-// module.exports = HLSPlayer;
+module.exports = HLSPlayer;
