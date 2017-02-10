@@ -10,9 +10,7 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _lib = require('hls.js/lib');
-
-var _lib2 = _interopRequireDefault(_lib);
+require('script-loader!hls.js');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -36,12 +34,12 @@ var HLSPlayer = function (_Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
-      if (_lib2.default.isSupported()) {
-        var hls = new _lib2.default();
+      if (Hls.isSupported()) {
+        var hls = new Hls();
 
         hls.loadSource('http://www.streambox.fr/playlists/test_001/stream.m3u8');
         hls.attachMedia(this.videoElement);
-        hls.on(_lib2.default.Events.MANIFEST_PARSED, function () {
+        hls.on(Hls.Events.MANIFEST_PARSED, function () {
           _this2.videoElement.play();
         });
       }
