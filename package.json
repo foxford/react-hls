@@ -6,11 +6,12 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "compile": "./node_modules/.bin/babel src/ -d dist/ --presets es2015,react",
+    "bundle": "./node_modules/.bin/browserify -t [ babelify --presets [ es2015 react ] ] ./src/HLSPlayer.jsx -o ./dist/HLSPlayer.js",
     "prepublish": "npm run-script compile"
   },
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/foxford/react-hls.git"
   },
   "keywords": [
     "react-hls",
@@ -21,8 +22,10 @@
   "devDependencies": {
     "babel": "^6.3.13",
     "babel-cli": "^6.3.17",
-    "babel-preset-es2015": "^6.3.13",
-    "babel-preset-react": "^6.3.13"
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-react": "^6.22.0",
+    "babelify": "^7.3.0",
+    "browserify": "^14.0.0"
   },
   "dependencies": {
     "hls.js": "^0.6.21",
