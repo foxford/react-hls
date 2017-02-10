@@ -1,0 +1,30 @@
+{
+  "name": "react-hls",
+  "version": "0.1.0",
+  "description": "React component for HLS player",
+  "main": "dist/HLSPlayer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "compile": "./node_modules/.bin/babel src/ -d dist/ --presets es2015,react",
+    "prepublish": "npm run-script compile"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [
+    "react-hls",
+    "react"
+  ],
+  "author": "PidginEnemy <e.tolchennikov@netology-group.ru>",
+  "license": "MIT",
+  "devDependencies": {
+    "babel": "^6.3.13",
+    "babel-cli": "^6.3.17",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-react": "^6.3.13"
+  },
+  "dependencies": {
+    "react": "^15.4.2"
+  }
+}
