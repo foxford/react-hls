@@ -47,9 +47,9 @@ var HLSPlayer = function (_Component) {
     value: function render() {
       var _this3 = this;
 
-      return _react2.default.createElement('video', { style: { width: '400px', height: '250px' }, ref: function ref(video) {
+      return _react2.default.createElement('video', { style: { width: '100%', height: '100%' }, ref: function ref(video) {
           _this3.videoElement = video;
-        } });
+        }, controls: true });
     }
   }]);
 
