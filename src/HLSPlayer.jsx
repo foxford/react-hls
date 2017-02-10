@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import 'script-loader!hls.js';
+import 'hls.js';
 
 class HLSPlayer extends Component {
   render() {
