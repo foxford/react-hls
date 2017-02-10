@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import 'hls.js';
+const Hls = require('hls.js'); // for Hls object visibility
 
 class HLSPlayer extends Component {
   render() {
