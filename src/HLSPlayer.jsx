@@ -16,7 +16,7 @@ class HLSPlayer extends Component {
 
   render() {
     return (
-      <video style={ { width:'400px', height: '250px' } } ref={ (video) => { this.videoElement = video; } } />
+      <video style={ { width:'100%', height: '100%' } } ref={ (video) => { this.videoElement = video; } } controls />
     );
   }
 }
