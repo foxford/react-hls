@@ -57,6 +57,7 @@ var HLSPlayer = function (_Component) {
       var customControls = this.props.customControls;
 
       var customControlsAttr = customControls ? 'controls' : false;
+
       var videoContainerStyles = {
         position: 'relative'
       };
@@ -70,20 +71,20 @@ var HLSPlayer = function (_Component) {
         left: 0,
         right: 0,
         display: 'flex',
-        'justify-content': 'space-around',
+        justifyContent: 'space-around',
         padding: '5px',
-        background: '#375a7f'
+        background: customControls && customControls.panelBg || '#000'
       };
       var buttonStyles = {
-        background: 'rgba(0,0,0,.5)',
-        color: '#eee',
+        background: customControls && customControls.buttonBg || 'rgba(0,0,0,.5)',
+        color: customControls && customControls.buttonColor || '#eee',
         border: 'none'
       };
       var rangeDuration = {
-        'flex-basis': '60%'
+        flexBasis: '60%'
       };
       var rangeVolume = {
-        'flex-basis': '10%'
+        flexBasis: '10%'
       };
 
       return _react2.default.createElement(
@@ -98,22 +99,27 @@ var HLSPlayer = function (_Component) {
           _react2.default.createElement(
             'button',
             { style: buttonStyles, type: 'button' },
-            'Play'
+            customControls.playBtnContent ? _react2.default.createElement('span', { dangerouslySetInnerHTML: this.rawHTML(customControls.playBtnContent) }) : 'Play'
           ),
           _react2.default.createElement('input', { style: rangeDuration, type: 'range', value: '0' }),
           _react2.default.createElement(
             'button',
             { style: buttonStyles, type: 'button' },
-            'Mute'
+            customControls.volumeBtnContent ? _react2.default.createElement('span', { dangerouslySetInnerHTML: this.rawHTML(customControls.volumeBtnContent) }) : 'Mute'
           ),
           _react2.default.createElement('input', { style: rangeVolume, type: 'range', min: '0', max: '1', step: '0.1', value: '1' }),
           _react2.default.createElement(
             'button',
             { style: buttonStyles, type: 'button' },
-            'Full-Screen'
+            customControls.fullScreenBtnContent ? _react2.default.createElement('span', { dangerouslySetInnerHTML: this.rawHTML(customControls.fullScreenBtnContent) }) : 'Full-screen'
           )
         )
       );
+    }
+  }], [{
+    key: 'rawHTML',
+    value: function rawHTML(html) {
+      return { __html: html };
     }
   }]);
 
@@ -123,7 +129,12 @@ var HLSPlayer = function (_Component) {
 HLSPlayer.propTypes = {
   source: _react.PropTypes.string.isRequired,
   customControls: _react.PropTypes.shape({
-    bgColor: _react.PropTypes.string
+    panelBg: _react.PropTypes.string,
+    buttonBg: _react.PropTypes.string,
+    buttonColor: _react.PropTypes.string,
+    playBtnContent: _react.PropTypes.string,
+    volumeBtnContent: _react.PropTypes.string,
+    fullScreenBtnContent: _react.PropTypes.string
   })
 };
 exports.default = HLSPlayer;
