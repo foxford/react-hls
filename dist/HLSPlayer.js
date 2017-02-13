@@ -39,6 +39,10 @@ var HLSPlayer = function (_Component) {
     _this.handlePlayBtn = _this.handlePlayBtn.bind(_this);
     _this.handleFullScreenBtn = _this.handleFullScreenBtn.bind(_this);
     _this.handleVolumeBtn = _this.handleVolumeBtn.bind(_this);
+    _this.handleVolumeChange = _this.handleVolumeChange.bind(_this);
+    _this.handleDurationChange = _this.handleDurationChange.bind(_this);
+    _this.handleDurationMouseDown = _this.handleDurationMouseDown.bind(_this);
+    _this.handleDurationMouseUp = _this.handleDurationMouseUp.bind(_this);
     return _this;
   }
 
@@ -97,6 +101,26 @@ var HLSPlayer = function (_Component) {
       this.setState({
         isMuted: !isMuted
       });
+    }
+  }, {
+    key: 'handleVolumeChange',
+    value: function handleVolumeChange() {
+      this.videoElement = this.volumeBar.value;
+    }
+  }, {
+    key: 'handleDurationChange',
+    value: function handleDurationChange() {
+      console.log('on duration change!');
+    }
+  }, {
+    key: 'handleDurationMouseDown',
+    value: function handleDurationMouseDown() {
+      console.log('on duration mouse down!');
+    }
+  }, {
+    key: 'handleDurationMouseUp',
+    value: function handleDurationMouseUp() {
+      console.log('on duration mouse up!');
     }
   }, {
     key: 'render',
@@ -158,19 +182,41 @@ var HLSPlayer = function (_Component) {
           { style: controlsPanelStyles },
           _react2.default.createElement(
             'button',
-            { style: buttonStyles, type: 'button', onClick: this.handlePlayBtn },
+            { style: buttonStyles,
+              type: 'button',
+              onClick: this.handlePlayBtn },
             playBtnContent
           ),
-          _react2.default.createElement('input', { style: rangeDuration, type: 'range', value: '0' }),
+          _react2.default.createElement('input', { style: rangeDuration,
+            type: 'range',
+            value: '0',
+            onChange: this.handleDurationChange,
+            onMouseDown: this.handleDurationMouseDown,
+            onMouseUp: this.handleDurationMouseUp
+          }),
           _react2.default.createElement(
             'button',
-            { style: buttonStyles, type: 'button', onClick: this.handleVolumeBtn },
+            { style: buttonStyles,
+              type: 'button',
+              onClick: this.handleVolumeBtn },
             volumeBtnContent
           ),
-          _react2.default.createElement('input', { style: rangeVolume, type: 'range', min: '0', max: '1', step: '0.1', value: '1' }),
+          _react2.default.createElement('input', { style: rangeVolume,
+            type: 'range',
+            min: '0',
+            max: '1',
+            step: '0.1',
+            value: '1',
+            ref: function ref(bar) {
+              _this3.volumeBar = bar;
+            },
+            onChange: this.handleVolumeChange
+          }),
           _react2.default.createElement(
             'button',
-            { style: buttonStyles, type: 'button', onClick: this.handleFullScreenBtn },
+            { style: buttonStyles,
+              type: 'button',
+              onClick: this.handleFullScreenBtn },
             _react2.default.createElement('span', { dangerouslySetInnerHTML: this.rawHTML(customControls.fullScreenBtnContent) })
           )
         )

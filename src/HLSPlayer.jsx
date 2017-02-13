@@ -48,6 +48,10 @@ class HLSPlayer extends Component {
     this.handlePlayBtn = this.handlePlayBtn.bind(this);
     this.handleFullScreenBtn = this.handleFullScreenBtn.bind(this);
     this.handleVolumeBtn = this.handleVolumeBtn.bind(this);
+    this.handleVolumeChange = this.handleVolumeChange.bind(this);
+    this.handleDurationChange = this.handleDurationChange.bind(this);
+    this.handleDurationMouseDown = this.handleDurationMouseDown.bind(this);
+    this.handleDurationMouseUp = this.handleDurationMouseUp.bind(this);
   }
 
   componentDidMount() {
@@ -104,6 +108,22 @@ class HLSPlayer extends Component {
     });
   }
 
+  handleVolumeChange() {
+    this.videoElement = this.volumeBar.value;
+  }
+
+  handleDurationChange() {
+    console.log('on duration change!');
+  }
+
+  handleDurationMouseDown() {
+    console.log('on duration mouse down!');
+  }
+
+  handleDurationMouseUp() {
+    console.log('on duration mouse up!');
+  }
+
   render() {
     const { isPlaying, isMuted } = this.state;
     const { isCustom, customControls } = this.props;
@@ -156,11 +176,35 @@ class HLSPlayer extends Component {
         {
           customControls &&
             <div style={controlsPanelStyles}>
-              <button style={buttonStyles} type="button" onClick={ this.handlePlayBtn }>{playBtnContent}</button>
-              <input style={rangeDuration} type="range" value="0" />
-              <button style={buttonStyles} type="button" onClick={ this.handleVolumeBtn }>{volumeBtnContent}</button>
-              <input style={rangeVolume} type="range" min="0" max="1" step="0.1" value="1" />
-              <button style={buttonStyles} type="button" onClick={ this.handleFullScreenBtn }>
+              <button style={buttonStyles}
+                      type="button"
+                      onClick={ this.handlePlayBtn }>
+                {playBtnContent}
+              </button>
+              <input style={rangeDuration}
+                     type="range"
+                     value="0"
+                     onChange={ this.handleDurationChange }
+                     onMouseDown={ this.handleDurationMouseDown }
+                     onMouseUp={ this.handleDurationMouseUp }
+              />
+              <button style={buttonStyles}
+                      type="button"
+                      onClick={ this.handleVolumeBtn }>
+                {volumeBtnContent}
+              </button>
+              <input style={rangeVolume}
+                     type="range"
+                     min="0"
+                     max="1"
+                     step="0.1"
+                     value="1"
+                     ref={ (bar) => { this.volumeBar = bar; } }
+                     onChange={ this.handleVolumeChange }
+              />
+              <button style={buttonStyles}
+                      type="button"
+                      onClick={ this.handleFullScreenBtn }>
                 { <span dangerouslySetInnerHTML={ this.rawHTML(customControls.fullScreenBtnContent) } /> }
               </button>
             </div>
