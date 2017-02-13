@@ -92,7 +92,7 @@ var HLSPlayer = function (_Component) {
       var isMuted = this.state.isMuted;
 
 
-      this.videoElement.mute = !isMuted;
+      this.videoElement.muted = !isMuted;
 
       this.setState({
         isMuted: !isMuted
@@ -145,7 +145,7 @@ var HLSPlayer = function (_Component) {
 
       if (isPlaying) playBtnContent = _react2.default.createElement('span', { dangerouslySetInnerHTML: this.rawHTML(customControls.pauseBtnContent) });else playBtnContent = _react2.default.createElement('span', { dangerouslySetInnerHTML: this.rawHTML(customControls.playBtnContent) });
 
-      if (isMuted) volumeBtnContent = _react2.default.createElement('span', { dangerouslySetInnerHTML: this.rawHTML(customControls.volumeBtnContent) });else volumeBtnContent = _react2.default.createElement('span', { dangerouslySetInnerHTML: this.rawHTML(customControls.muteBtnContent) });
+      if (isMuted) volumeBtnContent = _react2.default.createElement('span', { dangerouslySetInnerHTML: this.rawHTML(customControls.muteBtnContent) });else volumeBtnContent = _react2.default.createElement('span', { dangerouslySetInnerHTML: this.rawHTML(customControls.volumeBtnContent) });
 
       return _react2.default.createElement(
         'div',
@@ -170,7 +170,7 @@ var HLSPlayer = function (_Component) {
           _react2.default.createElement('input', { style: rangeVolume, type: 'range', min: '0', max: '1', step: '0.1', value: '1' }),
           _react2.default.createElement(
             'button',
-            { style: buttonStyles, type: 'button' },
+            { style: buttonStyles, type: 'button', onCLick: this.handleFullScreenBtn },
             _react2.default.createElement('span', { dangerouslySetInnerHTML: this.rawHTML(customControls.fullScreenBtnContent) })
           )
         )
