@@ -199,7 +199,7 @@ var HLSPlayer = function (_Component) {
         { style: videoContainerStyles },
         _react2.default.createElement('video', { style: videoStyles, ref: function ref(video) {
             _this3.videoElement = video;
-          }, controls: customControlsAttr }),
+          }, controls: customControlsAttr, onClick: this.handlePlayBtn }),
         customControls && _react2.default.createElement(
           'div',
           { style: controlsPanelStyles },

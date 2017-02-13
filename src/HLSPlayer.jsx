@@ -195,7 +195,7 @@ class HLSPlayer extends Component {
 
     return (
       <div style={videoContainerStyles}>
-        <video style={videoStyles} ref={ (video) => { this.videoElement = video; } } controls={customControlsAttr} />
+        <video style={videoStyles} ref={ (video) => { this.videoElement = video; } } controls={customControlsAttr} onClick={ this.handlePlayBtn } />
         {
           customControls &&
             <div style={controlsPanelStyles}>
