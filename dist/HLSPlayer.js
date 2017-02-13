@@ -170,7 +170,7 @@ var HLSPlayer = function (_Component) {
           _react2.default.createElement('input', { style: rangeVolume, type: 'range', min: '0', max: '1', step: '0.1', value: '1' }),
           _react2.default.createElement(
             'button',
-            { style: buttonStyles, type: 'button', onCLick: this.handleFullScreenBtn },
+            { style: buttonStyles, type: 'button', onClick: this.handleFullScreenBtn },
             _react2.default.createElement('span', { dangerouslySetInnerHTML: this.rawHTML(customControls.fullScreenBtnContent) })
           )
         )
