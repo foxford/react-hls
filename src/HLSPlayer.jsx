@@ -126,9 +126,9 @@ class HLSPlayer extends Component {
       playBtnContent = customControls.pauseBtnContent ? <span dangerouslySetInnerHTML={ this.rawHTML(customControls.pauseBtnContent) } /> : 'Pause';
 
     if (isMuted)
-      volumeBtnContent = customControls.volumeBtnContent ? <span dangerouslySetInnerHTML={ this.rawHTML(customControls.volumeBtnContent) } /> : 'Mute';
-    else
       volumeBtnContent = customControls.muteBtnContent ? <span dangerouslySetInnerHTML={ this.rawHTML(customControls.muteBtnContent) } /> : 'Unmute';
+    else
+      volumeBtnContent = customControls.volumeBtnContent ? <span dangerouslySetInnerHTML={ this.rawHTML(customControls.volumeBtnContent) } /> : 'Mute';
 
     return (
       <div style={videoContainerStyles}>
