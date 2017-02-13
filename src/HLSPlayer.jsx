@@ -34,7 +34,7 @@ class HLSPlayer extends Component {
       volumeBtnContent: PropTypes.string,
       muteBtnContent: PropTypes.string,
       fullScreenBtnContent: PropTypes.string
-    }).isRequired
+    })
   };
 
   state = {
@@ -113,8 +113,14 @@ class HLSPlayer extends Component {
   }
 
   handleVolumeChange() {
-    this.videoElement.volume = this.volumeBar.value;
+    const volume = this.volumeBar.value;
+
+    this.videoElement.volume = volume;
+    this.setState({
+      isMuted: parseInt(volume) === 0
+    });
   }
+
 
   handleDurationChange() {
     this.videoElement.currentTime = this.videoElement.duration * (this.durationBar.value / 100);
@@ -122,10 +128,16 @@ class HLSPlayer extends Component {
 
   handleDurationMouseDown() {
     this.videoElement.pause();
+    this.setState({
+      isPlaying: false
+    });
   }
 
   handleDurationMouseUp() {
     this.videoElement.play();
+    this.setState({
+      isPlaying: true
+    });
   }
 
   render() {

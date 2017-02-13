@@ -109,7 +109,12 @@ var HLSPlayer = function (_Component) {
   }, {
     key: 'handleVolumeChange',
     value: function handleVolumeChange() {
-      this.videoElement.volume = this.volumeBar.value;
+      var volume = this.volumeBar.value;
+
+      this.videoElement.volume = volume;
+      this.setState({
+        isMuted: parseInt(volume) === 0
+      });
     }
   }, {
     key: 'handleDurationChange',
@@ -120,11 +125,17 @@ var HLSPlayer = function (_Component) {
     key: 'handleDurationMouseDown',
     value: function handleDurationMouseDown() {
       this.videoElement.pause();
+      this.setState({
+        isPlaying: false
+      });
     }
   }, {
     key: 'handleDurationMouseUp',
     value: function handleDurationMouseUp() {
       this.videoElement.play();
+      this.setState({
+        isPlaying: true
+      });
     }
   }, {
     key: 'render',
@@ -260,7 +271,7 @@ HLSPlayer.propTypes = {
     volumeBtnContent: _react.PropTypes.string,
     muteBtnContent: _react.PropTypes.string,
     fullScreenBtnContent: _react.PropTypes.string
-  }).isRequired
+  })
 };
 exports.default = HLSPlayer;
 
