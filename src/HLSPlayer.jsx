@@ -117,7 +117,7 @@ class HLSPlayer extends Component {
 
     this.videoElement.volume = volume;
     this.setState({
-      isMuted: parseInt(volume) === 0
+      isMuted: parseFloat(volume) === 0
     });
   }
 
