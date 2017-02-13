@@ -97,7 +97,7 @@ class HLSPlayer extends Component {
   handleVolumeBtn() {
     const { isMuted } = this.state;
 
-    this.videoElement.mute = !isMuted;
+    this.videoElement.muted = !isMuted;
 
     this.setState({
       isMuted: !isMuted
@@ -146,9 +146,9 @@ class HLSPlayer extends Component {
       playBtnContent = <span dangerouslySetInnerHTML={ this.rawHTML(customControls.playBtnContent) } />;
 
     if (isMuted)
-      volumeBtnContent = <span dangerouslySetInnerHTML={ this.rawHTML(customControls.volumeBtnContent) } />;
-    else
       volumeBtnContent = <span dangerouslySetInnerHTML={ this.rawHTML(customControls.muteBtnContent) } />;
+    else
+      volumeBtnContent = <span dangerouslySetInnerHTML={ this.rawHTML(customControls.volumeBtnContent) } />;
 
     return (
       <div style={videoContainerStyles}>
@@ -160,7 +160,7 @@ class HLSPlayer extends Component {
               <input style={rangeDuration} type="range" value="0" />
               <button style={buttonStyles} type="button" onClick={ this.handleVolumeBtn }>{volumeBtnContent}</button>
               <input style={rangeVolume} type="range" min="0" max="1" step="0.1" value="1" />
-              <button style={buttonStyles} type="button">
+              <button style={buttonStyles} type="button" onCLick={ this.handleFullScreenBtn }>
                 { <span dangerouslySetInnerHTML={ this.rawHTML(customControls.fullScreenBtnContent) } /> }
               </button>
             </div>
