@@ -51,7 +51,9 @@ var HLSPlayer = function (_Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
-      var isPlaying = this.state.isPlaying;
+      var _state = this.state,
+          isPlaying = _state.isPlaying,
+          isMuted = _state.isMuted;
       var source = this.props.source;
 
 
@@ -61,11 +63,10 @@ var HLSPlayer = function (_Component) {
         hls.loadSource(source);
         hls.attachMedia(this.videoElement);
 
-        if (isPlaying) {
-          hls.on(_src2.default.Events.MANIFEST_PARSED, function () {
-            _this2.videoElement.play();
-          });
-        }
+        hls.on(_src2.default.Events.MANIFEST_PARSED, function () {
+          if (isPlaying) _this2.videoElement.play();
+          if (isMuted) _this2.videoElement.muted = true;
+        });
       }
 
       this.videoElement.addEventListener('timeupdate', function () {
@@ -149,9 +150,9 @@ var HLSPlayer = function (_Component) {
     value: function render() {
       var _this3 = this;
 
-      var _state = this.state,
-          isPlaying = _state.isPlaying,
-          isMuted = _state.isMuted;
+      var _state2 = this.state,
+          isPlaying = _state2.isPlaying,
+          isMuted = _state2.isMuted;
       var _props = this.props,
           isCustom = _props.isCustom,
           customControls = _props.customControls;

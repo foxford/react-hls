@@ -55,7 +55,7 @@ class HLSPlayer extends Component {
   }
 
   componentDidMount() {
-    const { isPlaying } = this.state;
+    const { isPlaying, isMuted } = this.state;
     const { source } = this.props;
 
     if (Hls.isSupported()) {
@@ -64,11 +64,12 @@ class HLSPlayer extends Component {
       hls.loadSource(source);
       hls.attachMedia(this.videoElement);
 
-      if (isPlaying) {
-        hls.on(Hls.Events.MANIFEST_PARSED, () => {
+      hls.on(Hls.Events.MANIFEST_PARSED, () => {
+        if (isPlaying)
           this.videoElement.play();
-        });
-      }
+        if (isMuted)
+          this.videoElement.muted = true;
+      });
     }
 
     this.videoElement.addEventListener('timeupdate', () => {
