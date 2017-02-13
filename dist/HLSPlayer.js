@@ -142,7 +142,7 @@ var HLSPlayer = function (_Component) {
 
       if (isPlaying) playBtnContent = customControls.playBtnContent ? _react2.default.createElement('span', { dangerouslySetInnerHTML: this.rawHTML(customControls.playBtnContent) }) : 'Play';else playBtnContent = customControls.pauseBtnContent ? _react2.default.createElement('span', { dangerouslySetInnerHTML: this.rawHTML(customControls.pauseBtnContent) }) : 'Pause';
 
-      if (isMuted) volumeBtnContent = customControls.volumeBtnContent ? _react2.default.createElement('span', { dangerouslySetInnerHTML: this.rawHTML(customControls.volumeBtnContent) }) : 'Mute';else volumeBtnContent = customControls.muteBtnContent ? _react2.default.createElement('span', { dangerouslySetInnerHTML: this.rawHTML(customControls.muteBtnContent) }) : 'Sound on';
+      if (isMuted) volumeBtnContent = customControls.volumeBtnContent ? _react2.default.createElement('span', { dangerouslySetInnerHTML: this.rawHTML(customControls.volumeBtnContent) }) : 'Mute';else volumeBtnContent = customControls.muteBtnContent ? _react2.default.createElement('span', { dangerouslySetInnerHTML: this.rawHTML(customControls.muteBtnContent) }) : 'Unmute';
 
       return _react2.default.createElement(
         'div',
