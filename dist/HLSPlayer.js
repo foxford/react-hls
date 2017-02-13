@@ -10,6 +10,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _src = require('hls.js/src');
+
+var _src2 = _interopRequireDefault(_src);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -17,8 +21,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Hls = require('hls.js/src');
 
 var HLSPlayer = function (_Component) {
   _inherits(HLSPlayer, _Component);
@@ -37,12 +39,12 @@ var HLSPlayer = function (_Component) {
       var source = this.props.source;
 
 
-      if (Hls.isSupported()) {
-        var hls = new Hls();
+      if (_src2.default.isSupported()) {
+        var hls = new _src2.default();
 
         hls.loadSource(source);
         hls.attachMedia(this.videoElement);
-        hls.on(Hls.Events.MANIFEST_PARSED, function () {
+        hls.on(_src2.default.Events.MANIFEST_PARSED, function () {
           _this2.videoElement.play();
         });
       }
@@ -52,9 +54,57 @@ var HLSPlayer = function (_Component) {
     value: function render() {
       var _this3 = this;
 
-      return _react2.default.createElement('video', { style: { width: '100%', height: '100%' }, ref: function ref(video) {
-          _this3.videoElement = video;
-        }, controls: true });
+      var customControls = this.props.customControls;
+
+      var customControlsAttr = customControls ? 'controls' : false;
+      var videoContainerStyles = {
+        position: 'relative'
+      };
+      var videoStyles = {
+        width: '100%',
+        height: '100%'
+      };
+      var controlsPanelStyles = {
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        padding: '5px',
+        background: '#375a7f'
+      };
+      var buttonStyles = {
+        background: 'rgba(0,0,0,.5)',
+        color: '#eee'
+      };
+
+      return _react2.default.createElement(
+        'div',
+        { style: videoContainerStyles },
+        _react2.default.createElement('video', { style: videoStyles, ref: function ref(video) {
+            _this3.videoElement = video;
+          }, controls: customControlsAttr }),
+        customControls && _react2.default.createElement(
+          'div',
+          { style: controlsPanelStyles },
+          _react2.default.createElement(
+            'button',
+            { style: buttonStyles, type: 'button' },
+            'Play'
+          ),
+          _react2.default.createElement('input', { type: 'range', value: '0' }),
+          _react2.default.createElement(
+            'button',
+            { style: buttonStyles, type: 'button' },
+            'Mute'
+          ),
+          _react2.default.createElement('input', { type: 'range', min: '0', max: '1', step: '0.1', value: '1' }),
+          _react2.default.createElement(
+            'button',
+            { style: buttonStyles, type: 'button' },
+            'Full-Screen'
+          )
+        )
+      );
     }
   }]);
 
@@ -62,7 +112,10 @@ var HLSPlayer = function (_Component) {
 }(_react.Component);
 
 HLSPlayer.propTypes = {
-  source: _react.PropTypes.string.isRequired
+  source: _react.PropTypes.string.isRequired,
+  customControls: _react.PropTypes.shape({
+    bgColor: _react.PropTypes.string
+  })
 };
 exports.default = HLSPlayer;
 
