@@ -33,7 +33,7 @@ class HLSPlayer extends Component {
     }
   }
 
-  static rawHTML(html) {
+  rawHTML(html) {
     return { __html: html };
   }
 
