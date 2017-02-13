@@ -31,9 +31,10 @@ var HLSPlayer = function (_Component) {
     var _this = _possibleConstructorReturn(this, (HLSPlayer.__proto__ || Object.getPrototypeOf(HLSPlayer)).call(this, props, context));
 
     _this.state = {
-      isPlaying: false,
-      isMuted: false
+      isPlaying: _this.props.isPlaying,
+      isMuted: _this.props.isMuted
     };
+
 
     _this.handlePlayBtn = _this.handlePlayBtn.bind(_this);
     _this.handleFullScreenBtn = _this.handleFullScreenBtn.bind(_this);
@@ -105,9 +106,11 @@ var HLSPlayer = function (_Component) {
       var _state = this.state,
           isPlaying = _state.isPlaying,
           isMuted = _state.isMuted;
-      var customControls = this.props.customControls;
+      var _props = this.props,
+          isCustom = _props.isCustom,
+          customControls = _props.customControls;
 
-      var customControlsAttr = customControls ? 'controls' : false;
+      var customControlsAttr = isCustom ? false : 'controls';
       var videoContainerStyles = {
         position: 'relative'
       };
@@ -123,11 +126,11 @@ var HLSPlayer = function (_Component) {
         display: 'flex',
         justifyContent: 'space-around',
         padding: '5px',
-        background: customControls && customControls.panelBg || '#000'
+        background: customControls.panelBg
       };
       var buttonStyles = {
-        background: customControls && customControls.buttonBg || 'rgba(0,0,0,.5)',
-        color: customControls && customControls.buttonColor || '#eee',
+        background: customControls.buttonBg,
+        color: customControls.buttonColor,
         border: 'none',
         outline: 'none'
       };
@@ -140,9 +143,9 @@ var HLSPlayer = function (_Component) {
       var playBtnContent = '';
       var volumeBtnContent = '';
 
-      if (isPlaying) playBtnContent = customControls.playBtnContent ? _react2.default.createElement('span', { dangerouslySetInnerHTML: this.rawHTML(customControls.playBtnContent) }) : 'Play';else playBtnContent = customControls.pauseBtnContent ? _react2.default.createElement('span', { dangerouslySetInnerHTML: this.rawHTML(customControls.pauseBtnContent) }) : 'Pause';
+      if (isPlaying) playBtnContent = _react2.default.createElement('span', { dangerouslySetInnerHTML: this.rawHTML(customControls.pauseBtnContent) });else playBtnContent = _react2.default.createElement('span', { dangerouslySetInnerHTML: this.rawHTML(customControls.playBtnContent) });
 
-      if (isMuted) volumeBtnContent = customControls.volumeBtnContent ? _react2.default.createElement('span', { dangerouslySetInnerHTML: this.rawHTML(customControls.volumeBtnContent) }) : 'Mute';else volumeBtnContent = customControls.muteBtnContent ? _react2.default.createElement('span', { dangerouslySetInnerHTML: this.rawHTML(customControls.muteBtnContent) }) : 'Unmute';
+      if (isMuted) volumeBtnContent = _react2.default.createElement('span', { dangerouslySetInnerHTML: this.rawHTML(customControls.volumeBtnContent) });else volumeBtnContent = _react2.default.createElement('span', { dangerouslySetInnerHTML: this.rawHTML(customControls.muteBtnContent) });
 
       return _react2.default.createElement(
         'div',
@@ -168,7 +171,7 @@ var HLSPlayer = function (_Component) {
           _react2.default.createElement(
             'button',
             { style: buttonStyles, type: 'button' },
-            customControls.fullScreenBtnContent ? _react2.default.createElement('span', { dangerouslySetInnerHTML: this.rawHTML(customControls.fullScreenBtnContent) }) : 'Full-screen'
+            _react2.default.createElement('span', { dangerouslySetInnerHTML: this.rawHTML(customControls.fullScreenBtnContent) })
           )
         )
       );
@@ -178,7 +181,26 @@ var HLSPlayer = function (_Component) {
   return HLSPlayer;
 }(_react.Component);
 
+HLSPlayer.defaultProps = {
+  isPlaying: false,
+  isMuted: false,
+  isCustom: true,
+  source: '',
+  customControls: {
+    panelBg: '#000',
+    buttonBg: 'none',
+    buttonColor: '#fff',
+    playBtnContent: 'Play',
+    pauseBtnContent: 'Pause',
+    volumeBtnContent: 'Mute',
+    muteBtnContent: 'Unmute',
+    fullScreenBtnContent: 'Full-screen'
+  }
+};
 HLSPlayer.propTypes = {
+  isPlaying: _react.PropTypes.bool,
+  isMuted: _react.PropTypes.bool,
+  isCustom: _react.PropTypes.bool,
   source: _react.PropTypes.string.isRequired,
   customControls: _react.PropTypes.shape({
     panelBg: _react.PropTypes.string,
@@ -189,7 +211,7 @@ HLSPlayer.propTypes = {
     volumeBtnContent: _react.PropTypes.string,
     muteBtnContent: _react.PropTypes.string,
     fullScreenBtnContent: _react.PropTypes.string
-  })
+  }).isRequired
 };
 exports.default = HLSPlayer;
 
