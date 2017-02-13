@@ -23,10 +23,10 @@ var Hls = require('hls.js/src');
 var HLSPlayer = function (_Component) {
   _inherits(HLSPlayer, _Component);
 
-  function HLSPlayer() {
+  function HLSPlayer(props, context) {
     _classCallCheck(this, HLSPlayer);
 
-    return _possibleConstructorReturn(this, (HLSPlayer.__proto__ || Object.getPrototypeOf(HLSPlayer)).apply(this, arguments));
+    return _possibleConstructorReturn(this, (HLSPlayer.__proto__ || Object.getPrototypeOf(HLSPlayer)).call(this, props, context));
   }
 
   _createClass(HLSPlayer, [{
@@ -34,10 +34,13 @@ var HLSPlayer = function (_Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
+      var source = this.props.source;
+
+
       if (Hls.isSupported()) {
         var hls = new Hls();
 
-        hls.loadSource('http://www.streambox.fr/playlists/test_001/stream.m3u8');
+        hls.loadSource(source);
         hls.attachMedia(this.videoElement);
         hls.on(Hls.Events.MANIFEST_PARSED, function () {
           _this2.videoElement.play();
@@ -58,6 +61,9 @@ var HLSPlayer = function (_Component) {
   return HLSPlayer;
 }(_react.Component);
 
+HLSPlayer.propTypes = {
+  source: _react.PropTypes.string.isRequired
+};
 exports.default = HLSPlayer;
 
 
