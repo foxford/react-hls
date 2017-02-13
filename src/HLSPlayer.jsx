@@ -105,7 +105,7 @@ class HLSPlayer extends Component {
   handleVolumeBtn() {
     const { isMuted } = this.state;
 
-    this.videoElement.volume = isMuted ? 1 : 0;
+    this.videoElement.muted = !isMuted;
     this.volumeBar.value = isMuted ? 1 : 0;
 
     this.setState({
@@ -115,10 +115,12 @@ class HLSPlayer extends Component {
 
   handleVolumeChange() {
     const volume = this.volumeBar.value;
+    const isMuted = parseFloat(volume) === 0;
 
     this.videoElement.volume = volume;
+    this.videoElement.muted = isMuted;
     this.setState({
-      isMuted: parseFloat(volume) === 0
+      isMuted: isMuted
     });
   }
 

@@ -100,7 +100,7 @@ var HLSPlayer = function (_Component) {
       var isMuted = this.state.isMuted;
 
 
-      this.videoElement.volume = isMuted ? 1 : 0;
+      this.videoElement.muted = !isMuted;
       this.volumeBar.value = isMuted ? 1 : 0;
 
       this.setState({
@@ -111,10 +111,12 @@ var HLSPlayer = function (_Component) {
     key: 'handleVolumeChange',
     value: function handleVolumeChange() {
       var volume = this.volumeBar.value;
+      var isMuted = parseFloat(volume) === 0;
 
       this.videoElement.volume = volume;
+      this.videoElement.muted = isMuted;
       this.setState({
-        isMuted: parseFloat(volume) === 0
+        isMuted: isMuted
       });
     }
   }, {
