@@ -69,12 +69,21 @@ var HLSPlayer = function (_Component) {
         bottom: 0,
         left: 0,
         right: 0,
+        display: 'flex',
+        'justify-content': 'space-around',
         padding: '5px',
         background: '#375a7f'
       };
       var buttonStyles = {
         background: 'rgba(0,0,0,.5)',
-        color: '#eee'
+        color: '#eee',
+        border: 'none'
+      };
+      var rangeDuration = {
+        'flex-basis': '60%'
+      };
+      var rangeVolume = {
+        'flex-basis': '10%'
       };
 
       return _react2.default.createElement(
@@ -91,13 +100,13 @@ var HLSPlayer = function (_Component) {
             { style: buttonStyles, type: 'button' },
             'Play'
           ),
-          _react2.default.createElement('input', { type: 'range', value: '0' }),
+          _react2.default.createElement('input', { style: rangeDuration, type: 'range', value: '0' }),
           _react2.default.createElement(
             'button',
             { style: buttonStyles, type: 'button' },
             'Mute'
           ),
-          _react2.default.createElement('input', { type: 'range', min: '0', max: '1', step: '0.1', value: '1' }),
+          _react2.default.createElement('input', { style: rangeVolume, type: 'range', min: '0', max: '1', step: '0.1', value: '1' }),
           _react2.default.createElement(
             'button',
             { style: buttonStyles, type: 'button' },
