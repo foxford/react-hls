@@ -21,9 +21,11 @@ Add folder to babel-loader config as "include" argument in your webpack configur
 
     class HLSPage extends Component {
       render() {
+        const source = 'http://www.streambox.fr/playlists/test_001/stream.m3u8';
+
         return (
           <div>
-            <HLSPlayer />
+            <HLSPlayer source={source} />
           </div>
         );
       }
