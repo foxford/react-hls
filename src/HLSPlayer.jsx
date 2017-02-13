@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-const Hls = require('hls.js/lib/hls').default;
+const Hls = require('hls.js/src');
 
 class HLSPlayer extends Component {
 
