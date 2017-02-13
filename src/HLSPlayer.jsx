@@ -67,8 +67,10 @@ class HLSPlayer extends Component {
       hls.on(Hls.Events.MANIFEST_PARSED, () => {
         if (isPlaying)
           this.videoElement.play();
-        if (isMuted)
+        if (isMuted) {
           this.videoElement.muted = true;
+          this.volumeBar.value = 0;
+        }
       });
     }
 

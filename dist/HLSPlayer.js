@@ -65,7 +65,10 @@ var HLSPlayer = function (_Component) {
 
         hls.on(_src2.default.Events.MANIFEST_PARSED, function () {
           if (isPlaying) _this2.videoElement.play();
-          if (isMuted) _this2.videoElement.muted = true;
+          if (isMuted) {
+            _this2.videoElement.muted = true;
+            _this2.volumeBar.value = 0;
+          }
         });
       }
 
