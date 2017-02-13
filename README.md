@@ -15,3 +15,18 @@ Add folder to babel-loader config as "include" argument in your webpack configur
     /node_modules\/hls\.js/
  ```````
 ## Usage example
+
+    import React, { Component } from 'react';
+    import HLSPlayer from 'react-hls';
+
+    class HLSPage extends Component {
+      render() {
+        return (
+          <div>
+            <HLSPlayer />
+          </div>
+        );
+      }
+    }
+
+    export default HLSPage;
