@@ -68,7 +68,7 @@ var HLSPlayer = function (_Component) {
         }
       }
 
-      this.videoElement.on('timeupdate', function () {
+      this.videoElement.addEventListener('timeupdate', function () {
         _this2.durationBar.value = 100 / _this2.videoElement.duration * _this2.videoElement.currentTime;
       });
     }
@@ -109,7 +109,7 @@ var HLSPlayer = function (_Component) {
   }, {
     key: 'handleVolumeChange',
     value: function handleVolumeChange() {
-      this.videoElement = this.volumeBar.value;
+      this.videoElement.volume = this.volumeBar.value;
     }
   }, {
     key: 'handleDurationChange',

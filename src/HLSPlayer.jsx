@@ -71,7 +71,7 @@ class HLSPlayer extends Component {
       }
     }
 
-    this.videoElement.on('timeupdate', () => {
+    this.videoElement.addEventListener('timeupdate', () => {
       this.durationBar.value = (100 / this.videoElement.duration) * this.videoElement.currentTime;
     });
   }
@@ -113,7 +113,7 @@ class HLSPlayer extends Component {
   }
 
   handleVolumeChange() {
-    this.videoElement = this.volumeBar.value;
+    this.videoElement.volume = this.volumeBar.value;
   }
 
   handleDurationChange() {
