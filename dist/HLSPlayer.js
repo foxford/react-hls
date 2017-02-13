@@ -50,6 +50,11 @@ var HLSPlayer = function (_Component) {
       }
     }
   }, {
+    key: 'rawHTML',
+    value: function rawHTML(html) {
+      return { __html: html };
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _this3 = this;
@@ -115,11 +120,6 @@ var HLSPlayer = function (_Component) {
           )
         )
       );
-    }
-  }], [{
-    key: 'rawHTML',
-    value: function rawHTML(html) {
-      return { __html: html };
     }
   }]);
 
