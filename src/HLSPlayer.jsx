@@ -160,7 +160,7 @@ class HLSPlayer extends Component {
               <input style={rangeDuration} type="range" value="0" />
               <button style={buttonStyles} type="button" onClick={ this.handleVolumeBtn }>{volumeBtnContent}</button>
               <input style={rangeVolume} type="range" min="0" max="1" step="0.1" value="1" />
-              <button style={buttonStyles} type="button" onCLick={ this.handleFullScreenBtn }>
+              <button style={buttonStyles} type="button" onClick={ this.handleFullScreenBtn }>
                 { <span dangerouslySetInnerHTML={ this.rawHTML(customControls.fullScreenBtnContent) } /> }
               </button>
             </div>
