@@ -28,7 +28,17 @@ var HLSPlayer = function (_Component) {
   function HLSPlayer(props, context) {
     _classCallCheck(this, HLSPlayer);
 
-    return _possibleConstructorReturn(this, (HLSPlayer.__proto__ || Object.getPrototypeOf(HLSPlayer)).call(this, props, context));
+    var _this = _possibleConstructorReturn(this, (HLSPlayer.__proto__ || Object.getPrototypeOf(HLSPlayer)).call(this, props, context));
+
+    _this.state = {
+      isPlaying: false,
+      isMuted: false
+    };
+
+    _this.handlePlayBtn = _this.handlePlayBtn.bind(_this);
+    _this.handleFullScreenBtn = _this.handleFullScreenBtn.bind(_this);
+    _this.handleVolumeBtn = _this.handleVolumeBtn.bind(_this);
+    return _this;
   }
 
   _createClass(HLSPlayer, [{
@@ -36,6 +46,7 @@ var HLSPlayer = function (_Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
+      var isPlaying = this.state.isPlaying;
       var source = this.props.source;
 
 
@@ -44,9 +55,12 @@ var HLSPlayer = function (_Component) {
 
         hls.loadSource(source);
         hls.attachMedia(this.videoElement);
-        hls.on(_src2.default.Events.MANIFEST_PARSED, function () {
-          _this2.videoElement.play();
-        });
+
+        if (isPlaying) {
+          hls.on(_src2.default.Events.MANIFEST_PARSED, function () {
+            _this2.videoElement.play();
+          });
+        }
       }
     }
   }, {
@@ -55,14 +69,45 @@ var HLSPlayer = function (_Component) {
       return { __html: html };
     }
   }, {
+    key: 'handlePlayBtn',
+    value: function handlePlayBtn() {
+      var isPlaying = this.state.isPlaying;
+
+
+      if (isPlaying) this.videoElement.pause();else this.videoElement.play();
+
+      this.setState({
+        isPlaying: !isPlaying
+      });
+    }
+  }, {
+    key: 'handleFullScreenBtn',
+    value: function handleFullScreenBtn() {
+      if (this.videoElement.requestFullscreen) this.videoElement.requestFullscreen();else if (this.videoElement.mozRequestFullScreen) this.videoElement.mozRequestFullScreen();else if (this.videoElement.webkitRequestFullscreen) this.videoElement.webkitRequestFullscreen();
+    }
+  }, {
+    key: 'handleVolumeBtn',
+    value: function handleVolumeBtn() {
+      var isMuted = this.state.isMuted;
+
+
+      this.videoElement.mute = !isMuted;
+
+      this.setState({
+        isMuted: !isMuted
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _this3 = this;
 
+      var _state = this.state,
+          isPlaying = _state.isPlaying,
+          isMuted = _state.isMuted;
       var customControls = this.props.customControls;
 
       var customControlsAttr = customControls ? 'controls' : false;
-
       var videoContainerStyles = {
         position: 'relative'
       };
@@ -83,7 +128,8 @@ var HLSPlayer = function (_Component) {
       var buttonStyles = {
         background: customControls && customControls.buttonBg || 'rgba(0,0,0,.5)',
         color: customControls && customControls.buttonColor || '#eee',
-        border: 'none'
+        border: 'none',
+        outline: 'none'
       };
       var rangeDuration = {
         flexBasis: '60%'
@@ -91,6 +137,12 @@ var HLSPlayer = function (_Component) {
       var rangeVolume = {
         flexBasis: '10%'
       };
+      var playBtnContent = '';
+      var volumeBtnContent = '';
+
+      if (isPlaying) playBtnContent = customControls.playBtnContent ? _react2.default.createElement('span', { dangerouslySetInnerHTML: this.rawHTML(customControls.playBtnContent) }) : 'Play';else playBtnContent = customControls.pauseBtnContent ? _react2.default.createElement('span', { dangerouslySetInnerHTML: this.rawHTML(customControls.pauseBtnContent) }) : 'Pause';
+
+      if (isMuted) volumeBtnContent = customControls.volumeBtnContent ? _react2.default.createElement('span', { dangerouslySetInnerHTML: this.rawHTML(customControls.volumeBtnContent) }) : 'Mute';else volumeBtnContent = customControls.muteBtnContent ? _react2.default.createElement('span', { dangerouslySetInnerHTML: this.rawHTML(customControls.muteBtnContent) }) : 'Sound on';
 
       return _react2.default.createElement(
         'div',
@@ -103,14 +155,14 @@ var HLSPlayer = function (_Component) {
           { style: controlsPanelStyles },
           _react2.default.createElement(
             'button',
-            { style: buttonStyles, type: 'button' },
-            customControls.playBtnContent ? _react2.default.createElement('span', { dangerouslySetInnerHTML: this.rawHTML(customControls.playBtnContent) }) : 'Play'
+            { style: buttonStyles, type: 'button', onClick: this.handlePlayBtn },
+            playBtnContent
           ),
           _react2.default.createElement('input', { style: rangeDuration, type: 'range', value: '0' }),
           _react2.default.createElement(
             'button',
-            { style: buttonStyles, type: 'button' },
-            customControls.volumeBtnContent ? _react2.default.createElement('span', { dangerouslySetInnerHTML: this.rawHTML(customControls.volumeBtnContent) }) : 'Mute'
+            { style: buttonStyles, type: 'button', onClick: this.handleVolumeBtn },
+            volumeBtnContent
           ),
           _react2.default.createElement('input', { style: rangeVolume, type: 'range', min: '0', max: '1', step: '0.1', value: '1' }),
           _react2.default.createElement(
@@ -133,7 +185,9 @@ HLSPlayer.propTypes = {
     buttonBg: _react.PropTypes.string,
     buttonColor: _react.PropTypes.string,
     playBtnContent: _react.PropTypes.string,
+    pauseBtnContent: _react.PropTypes.string,
     volumeBtnContent: _react.PropTypes.string,
+    muteBtnContent: _react.PropTypes.string,
     fullScreenBtnContent: _react.PropTypes.string
   })
 };

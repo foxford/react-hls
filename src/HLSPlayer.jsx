@@ -5,6 +5,15 @@ class HLSPlayer extends Component {
 
   constructor(props, context) {
     super(props, context);
+
+    this.state = {
+      isPlaying: false,
+      isMuted: false
+    };
+
+    this.handlePlayBtn = this.handlePlayBtn.bind(this);
+    this.handleFullScreenBtn = this.handleFullScreenBtn.bind(this);
+    this.handleVolumeBtn = this.handleVolumeBtn.bind(this);
   }
 
   static propTypes = {
@@ -14,12 +23,15 @@ class HLSPlayer extends Component {
       buttonBg: PropTypes.string,
       buttonColor: PropTypes.string,
       playBtnContent: PropTypes.string,
+      pauseBtnContent: PropTypes.string,
       volumeBtnContent: PropTypes.string,
+      muteBtnContent: PropTypes.string,
       fullScreenBtnContent: PropTypes.string
     })
   };
 
   componentDidMount() {
+    const { isPlaying } = this.state;
     const { source } = this.props;
 
     if (Hls.isSupported()) {
@@ -27,9 +39,12 @@ class HLSPlayer extends Component {
 
       hls.loadSource(source);
       hls.attachMedia(this.videoElement);
-      hls.on(Hls.Events.MANIFEST_PARSED, () => {
-        this.videoElement.play();
-      });
+
+      if (isPlaying) {
+        hls.on(Hls.Events.MANIFEST_PARSED, () => {
+          this.videoElement.play();
+        });
+      }
     }
   }
 
@@ -37,10 +52,42 @@ class HLSPlayer extends Component {
     return { __html: html };
   }
 
+  handlePlayBtn() {
+    const { isPlaying } = this.state;
+
+    if (isPlaying)
+      this.videoElement.pause();
+    else
+      this.videoElement.play();
+
+    this.setState({
+      isPlaying: !isPlaying
+    });
+  }
+
+  handleFullScreenBtn() {
+    if (this.videoElement.requestFullscreen)
+      this.videoElement.requestFullscreen();
+    else if (this.videoElement.mozRequestFullScreen)
+      this.videoElement.mozRequestFullScreen();
+    else if (this.videoElement.webkitRequestFullscreen)
+      this.videoElement.webkitRequestFullscreen();
+  }
+
+  handleVolumeBtn() {
+    const { isMuted } = this.state;
+
+    this.videoElement.mute = !isMuted;
+
+    this.setState({
+      isMuted: !isMuted
+    });
+  }
+
   render() {
+    const { isPlaying, isMuted } = this.state;
     const { customControls } = this.props;
     const customControlsAttr = customControls ? 'controls' : false;
-
     const videoContainerStyles = {
       position: 'relative'
     };
@@ -61,7 +108,8 @@ class HLSPlayer extends Component {
     const buttonStyles = {
       background: customControls && customControls.buttonBg || 'rgba(0,0,0,.5)',
       color: customControls && customControls.buttonColor || '#eee',
-      border: 'none'
+      border: 'none',
+      outline: 'none'
     };
     const rangeDuration = {
       flexBasis: '60%'
@@ -69,6 +117,18 @@ class HLSPlayer extends Component {
     const rangeVolume = {
       flexBasis: '10%'
     };
+    let playBtnContent = '';
+    let volumeBtnContent = '';
+
+    if (isPlaying)
+      playBtnContent = customControls.playBtnContent ? <span dangerouslySetInnerHTML={ this.rawHTML(customControls.playBtnContent) } /> : 'Play';
+    else
+      playBtnContent = customControls.pauseBtnContent ? <span dangerouslySetInnerHTML={ this.rawHTML(customControls.pauseBtnContent) } /> : 'Pause';
+
+    if (isMuted)
+      volumeBtnContent = customControls.volumeBtnContent ? <span dangerouslySetInnerHTML={ this.rawHTML(customControls.volumeBtnContent) } /> : 'Mute';
+    else
+      volumeBtnContent = customControls.muteBtnContent ? <span dangerouslySetInnerHTML={ this.rawHTML(customControls.muteBtnContent) } /> : 'Sound on';
 
     return (
       <div style={videoContainerStyles}>
@@ -76,13 +136,9 @@ class HLSPlayer extends Component {
         {
           customControls &&
             <div style={controlsPanelStyles}>
-              <button style={buttonStyles} type="button">
-                { customControls.playBtnContent ? <span dangerouslySetInnerHTML={ this.rawHTML(customControls.playBtnContent) } /> : 'Play' }
-              </button>
+              <button style={buttonStyles} type="button" onClick={ this.handlePlayBtn }>{playBtnContent}</button>
               <input style={rangeDuration} type="range" value="0" />
-              <button style={buttonStyles} type="button">
-                { customControls.volumeBtnContent ? <span dangerouslySetInnerHTML={ this.rawHTML(customControls.volumeBtnContent) } /> : 'Mute' }
-              </button>
+              <button style={buttonStyles} type="button" onClick={ this.handleVolumeBtn }>{volumeBtnContent}</button>
               <input style={rangeVolume} type="range" min="0" max="1" step="0.1" value="1" />
               <button style={buttonStyles} type="button">
                 { customControls.fullScreenBtnContent ? <span dangerouslySetInnerHTML={ this.rawHTML(customControls.fullScreenBtnContent) } /> : 'Full-screen' }
