@@ -71,6 +71,10 @@ var HLSPlayer = function (_Component) {
       this.videoElement.addEventListener('timeupdate', function () {
         _this2.durationBar.value = 100 / _this2.videoElement.duration * _this2.videoElement.currentTime;
       });
+
+      this.videoElement.addEventListener('ended', function () {
+        _this2.videoElement.pause();
+      });
     }
   }, {
     key: 'rawHTML',
