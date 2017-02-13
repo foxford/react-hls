@@ -67,6 +67,10 @@ var HLSPlayer = function (_Component) {
           });
         }
       }
+
+      this.videoElement.on('timeupdate', function () {
+        _this2.durationBar.value = 100 / _this2.videoElement.duration * _this2.videoElement.currentTime;
+      });
     }
   }, {
     key: 'rawHTML',
@@ -110,17 +114,17 @@ var HLSPlayer = function (_Component) {
   }, {
     key: 'handleDurationChange',
     value: function handleDurationChange() {
-      console.log('on duration change!');
+      this.videoElement.currentTime = this.videoElement.duration * (this.durationBar.value / 100);
     }
   }, {
     key: 'handleDurationMouseDown',
     value: function handleDurationMouseDown() {
-      console.log('on duration mouse down!');
+      this.videoElement.pause();
     }
   }, {
     key: 'handleDurationMouseUp',
     value: function handleDurationMouseUp() {
-      console.log('on duration mouse up!');
+      this.videoElement.play();
     }
   }, {
     key: 'render',
@@ -158,9 +162,6 @@ var HLSPlayer = function (_Component) {
         border: 'none',
         outline: 'none'
       };
-      var rangeDuration = {
-        flexBasis: '60%'
-      };
       var rangeVolume = {
         flexBasis: '10%'
       };
@@ -187,9 +188,11 @@ var HLSPlayer = function (_Component) {
               onClick: this.handlePlayBtn },
             playBtnContent
           ),
-          _react2.default.createElement('input', { style: rangeDuration,
-            type: 'range',
-            value: '0',
+          _react2.default.createElement('input', { type: 'range',
+            defaultValue: '0',
+            ref: function ref(bar) {
+              _this3.durationBar = bar;
+            },
             onChange: this.handleDurationChange,
             onMouseDown: this.handleDurationMouseDown,
             onMouseUp: this.handleDurationMouseUp
@@ -206,7 +209,7 @@ var HLSPlayer = function (_Component) {
             min: '0',
             max: '1',
             step: '0.1',
-            value: '1',
+            defaultValue: '1',
             ref: function ref(bar) {
               _this3.volumeBar = bar;
             },

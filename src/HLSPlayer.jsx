@@ -70,6 +70,10 @@ class HLSPlayer extends Component {
         });
       }
     }
+
+    this.videoElement.on('timeupdate', () => {
+      this.durationBar.value = (100 / this.videoElement.duration) * this.videoElement.currentTime;
+    });
   }
 
   rawHTML(html) {
@@ -113,15 +117,15 @@ class HLSPlayer extends Component {
   }
 
   handleDurationChange() {
-    console.log('on duration change!');
+    this.videoElement.currentTime = this.videoElement.duration * (this.durationBar.value / 100);
   }
 
   handleDurationMouseDown() {
-    console.log('on duration mouse down!');
+    this.videoElement.pause();
   }
 
   handleDurationMouseUp() {
-    console.log('on duration mouse up!');
+    this.videoElement.play();
   }
 
   render() {
@@ -151,9 +155,6 @@ class HLSPlayer extends Component {
       border: 'none',
       outline: 'none'
     };
-    const rangeDuration = {
-      flexBasis: '60%'
-    };
     const rangeVolume = {
       flexBasis: '10%'
     };
@@ -181,9 +182,9 @@ class HLSPlayer extends Component {
                       onClick={ this.handlePlayBtn }>
                 {playBtnContent}
               </button>
-              <input style={rangeDuration}
-                     type="range"
-                     value="0"
+              <input type="range"
+                     defaultValue="0"
+                     ref={ (bar) => { this.durationBar = bar; } }
                      onChange={ this.handleDurationChange }
                      onMouseDown={ this.handleDurationMouseDown }
                      onMouseUp={ this.handleDurationMouseUp }
@@ -198,7 +199,7 @@ class HLSPlayer extends Component {
                      min="0"
                      max="1"
                      step="0.1"
-                     value="1"
+                     defaultValue="1"
                      ref={ (bar) => { this.volumeBar = bar; } }
                      onChange={ this.handleVolumeChange }
               />
