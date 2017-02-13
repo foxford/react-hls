@@ -106,6 +106,7 @@ class HLSPlayer extends Component {
     const { isMuted } = this.state;
 
     this.videoElement.muted = !isMuted;
+    this.videoElement.volume = isMuted ? 0 : 1;
 
     this.setState({
       isMuted: !isMuted
