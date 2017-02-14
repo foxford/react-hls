@@ -131,7 +131,7 @@ class HLSPlayer extends Component {
 
   handleVolumeChange() {
     const volume = this.volumeBar.state.value;
-    const isMuted = parseFloat(volume) === 0;
+    const isMuted = parseFloat(volume) <= 0;
 
     this.videoElement.volume = volume;
     this.videoElement.muted = isMuted;
@@ -168,7 +168,8 @@ class HLSPlayer extends Component {
     };
     const videoStyles = {
       width:'100%',
-      height: '100%'
+      height: '100%',
+      paddingBottom: '30px'
     };
     const controlsPanelStyles = {
       position: 'absolute',
@@ -178,6 +179,7 @@ class HLSPlayer extends Component {
       display: 'flex',
       justifyContent: 'space-around',
       padding: '5px',
+      zIndex: 100,
       background: customControls.panelBg
     };
     const buttonStyles = {
@@ -186,8 +188,12 @@ class HLSPlayer extends Component {
       border: 'none',
       outline: 'none'
     };
+    const rangeDuration = {
+      margin: '5px 10px'
+    };
     const rangeVolume = {
-      flexBasis: '10%'
+      flexBasis: '10%',
+      margin: '5px 10px'
     };
     let playBtnContent = '';
     let volumeBtnContent = '';
@@ -214,6 +220,7 @@ class HLSPlayer extends Component {
                 {playBtnContent}
               </button>
               <Slider
+                style={rangeDuration}
                 ref={ (bar) => { this.durationBar = bar; } }
                 onChange={ this.handleDurationChange }
                 onBeforeChange={ this.handleDurationMouseDown }
@@ -237,7 +244,7 @@ class HLSPlayer extends Component {
                       type="button"
                       onClick={ this.handleFullScreenBtn }>
                 { <span dangerouslySetInnerHTML={ this.rawHTML(customControls.fullScreenBtnContent) } /> }
-              </button>=
+              </button>
             </div>
         }
       </div>

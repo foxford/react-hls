@@ -131,7 +131,7 @@ var HLSPlayer = function (_Component) {
     key: 'handleVolumeChange',
     value: function handleVolumeChange() {
       var volume = this.volumeBar.state.value;
-      var isMuted = parseFloat(volume) === 0;
+      var isMuted = parseFloat(volume) <= 0;
 
       this.videoElement.volume = volume;
       this.videoElement.muted = isMuted;
@@ -178,7 +178,8 @@ var HLSPlayer = function (_Component) {
       };
       var videoStyles = {
         width: '100%',
-        height: '100%'
+        height: '100%',
+        paddingBottom: '30px'
       };
       var controlsPanelStyles = {
         position: 'absolute',
@@ -188,6 +189,7 @@ var HLSPlayer = function (_Component) {
         display: 'flex',
         justifyContent: 'space-around',
         padding: '5px',
+        zIndex: 100,
         background: customControls.panelBg
       };
       var buttonStyles = {
@@ -196,8 +198,12 @@ var HLSPlayer = function (_Component) {
         border: 'none',
         outline: 'none'
       };
+      var rangeDuration = {
+        margin: '5px 10px'
+      };
       var rangeVolume = {
-        flexBasis: '10%'
+        flexBasis: '10%',
+        margin: '5px 10px'
       };
       var playBtnContent = '';
       var volumeBtnContent = '';
@@ -223,6 +229,7 @@ var HLSPlayer = function (_Component) {
             playBtnContent
           ),
           _react2.default.createElement(_rcSlider2.default, {
+            style: rangeDuration,
             ref: function ref(bar) {
               _this3.durationBar = bar;
             },
@@ -254,8 +261,7 @@ var HLSPlayer = function (_Component) {
               type: 'button',
               onClick: this.handleFullScreenBtn },
             _react2.default.createElement('span', { dangerouslySetInnerHTML: this.rawHTML(customControls.fullScreenBtnContent) })
-          ),
-          '='
+          )
         )
       );
     }
