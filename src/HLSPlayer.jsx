@@ -81,7 +81,9 @@ class HLSPlayer extends Component {
 
     this.videoElement.addEventListener('timeupdate', () => {
       this.durationBar.setState({
-        value: (100 / this.videoElement.duration) * this.videoElement.currentTime,
+        value: (100 / this.videoElement.duration) * this.videoElement.currentTime
+      });
+      this.setState({
         currentTime: formatTime(this.videoElement.currentTime, this._hasHours())
       });
     });

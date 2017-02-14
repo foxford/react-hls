@@ -82,7 +82,9 @@ var HLSPlayer = function (_Component) {
 
       this.videoElement.addEventListener('timeupdate', function () {
         _this2.durationBar.setState({
-          value: 100 / _this2.videoElement.duration * _this2.videoElement.currentTime,
+          value: 100 / _this2.videoElement.duration * _this2.videoElement.currentTime
+        });
+        _this2.setState({
           currentTime: formatTime(_this2.videoElement.currentTime, _this2._hasHours())
         });
       });
