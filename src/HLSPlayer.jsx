@@ -15,6 +15,7 @@ class HLSPlayer extends Component {
       panelBg: '#000',
       buttonBg: 'none',
       buttonColor: '#fff',
+      timePadding: '0',
       playBtnContent: 'Play',
       pauseBtnContent: 'Pause',
       volumeBtnContent: 'Mute',
@@ -32,6 +33,7 @@ class HLSPlayer extends Component {
       panelBg: PropTypes.string,
       buttonBg: PropTypes.string,
       buttonColor: PropTypes.string,
+      timePadding: PropTypes.string,
       playBtnContent: PropTypes.string,
       pauseBtnContent: PropTypes.string,
       volumeBtnContent: PropTypes.string,
@@ -197,6 +199,9 @@ class HLSPlayer extends Component {
       flexBasis: '10%',
       margin: '5px 10px'
     };
+    const timers = {
+      padding: customControls.timePadding
+    };
     let playBtnContent = '';
     let volumeBtnContent = '';
 
@@ -221,14 +226,14 @@ class HLSPlayer extends Component {
                       onClick={ this.handlePlayBtn }>
                 {playBtnContent}
               </button>
-              <span>{currentTime}</span>
+              <span style={timers}>{currentTime}</span>
               <Slider
                 style={rangeDuration}
                 ref={ (bar) => { this.durationBar = bar; } }
                 onChange={ this.handleDurationChange }
                 onAfterChange={ this.handleDurationChange }
               />
-              <span>{duration}</span>
+              <span style={timers}>{duration}</span>
               <button style={buttonStyles}
                       type="button"
                       onClick={ this.handleVolumeBtn }>

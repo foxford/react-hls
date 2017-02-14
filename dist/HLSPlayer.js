@@ -208,6 +208,9 @@ var HLSPlayer = function (_Component) {
         flexBasis: '10%',
         margin: '5px 10px'
       };
+      var timers = {
+        padding: customControls.timePadding
+      };
       var playBtnContent = '';
       var volumeBtnContent = '';
 
@@ -233,7 +236,7 @@ var HLSPlayer = function (_Component) {
           ),
           _react2.default.createElement(
             'span',
-            null,
+            { style: timers },
             currentTime
           ),
           _react2.default.createElement(_rcSlider2.default, {
@@ -246,7 +249,7 @@ var HLSPlayer = function (_Component) {
           }),
           _react2.default.createElement(
             'span',
-            null,
+            { style: timers },
             duration
           ),
           _react2.default.createElement(
@@ -292,6 +295,7 @@ HLSPlayer.defaultProps = {
     panelBg: '#000',
     buttonBg: 'none',
     buttonColor: '#fff',
+    timePadding: '0',
     playBtnContent: 'Play',
     pauseBtnContent: 'Pause',
     volumeBtnContent: 'Mute',
@@ -308,6 +312,7 @@ HLSPlayer.propTypes = {
     panelBg: _react.PropTypes.string,
     buttonBg: _react.PropTypes.string,
     buttonColor: _react.PropTypes.string,
+    timePadding: _react.PropTypes.string,
     playBtnContent: _react.PropTypes.string,
     pauseBtnContent: _react.PropTypes.string,
     volumeBtnContent: _react.PropTypes.string,
