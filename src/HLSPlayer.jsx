@@ -53,8 +53,6 @@ class HLSPlayer extends Component {
     this.handleVolumeBtn = this.handleVolumeBtn.bind(this);
     this.handleVolumeChange = this.handleVolumeChange.bind(this);
     this.handleDurationChange = this.handleDurationChange.bind(this);
-    this.handleDurationMouseDown = this.handleDurationMouseDown.bind(this);
-    this.handleDurationMouseUp = this.handleDurationMouseUp.bind(this);
   }
 
   componentDidMount() {
@@ -145,21 +143,6 @@ class HLSPlayer extends Component {
     this.videoElement.currentTime = this.videoElement.duration * (this.durationBar.state.value / 100);
   }
 
-  handleDurationMouseDown() {
-    this.videoElement.pause();
-    this.setState({
-      isPlaying: false
-    });
-  }
-
-  handleDurationMouseUp() {
-    this.videoElement.play();
-    this.setState({
-      isPlaying: true
-    });
-    this.handleDurationChange();
-  }
-
   render() {
     const { isPlaying, isMuted } = this.state;
     const { isCustom, customControls } = this.props;
@@ -224,8 +207,7 @@ class HLSPlayer extends Component {
                 style={rangeDuration}
                 ref={ (bar) => { this.durationBar = bar; } }
                 onChange={ this.handleDurationChange }
-                onBeforeChange={ this.handleDurationMouseDown }
-                onAfterChange={ this.handleDurationMouseUp }
+                onAfterChange={ this.handleDurationChange }
               />
               <button style={buttonStyles}
                       type="button"

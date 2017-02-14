@@ -47,8 +47,6 @@ var HLSPlayer = function (_Component) {
     _this.handleVolumeBtn = _this.handleVolumeBtn.bind(_this);
     _this.handleVolumeChange = _this.handleVolumeChange.bind(_this);
     _this.handleDurationChange = _this.handleDurationChange.bind(_this);
-    _this.handleDurationMouseDown = _this.handleDurationMouseDown.bind(_this);
-    _this.handleDurationMouseUp = _this.handleDurationMouseUp.bind(_this);
     return _this;
   }
 
@@ -145,23 +143,6 @@ var HLSPlayer = function (_Component) {
       this.videoElement.currentTime = this.videoElement.duration * (this.durationBar.state.value / 100);
     }
   }, {
-    key: 'handleDurationMouseDown',
-    value: function handleDurationMouseDown() {
-      this.videoElement.pause();
-      this.setState({
-        isPlaying: false
-      });
-    }
-  }, {
-    key: 'handleDurationMouseUp',
-    value: function handleDurationMouseUp() {
-      this.videoElement.play();
-      this.setState({
-        isPlaying: true
-      });
-      this.handleDurationChange();
-    }
-  }, {
     key: 'render',
     value: function render() {
       var _this3 = this;
@@ -235,8 +216,7 @@ var HLSPlayer = function (_Component) {
               _this3.durationBar = bar;
             },
             onChange: this.handleDurationChange,
-            onBeforeChange: this.handleDurationMouseDown,
-            onAfterChange: this.handleDurationMouseUp
+            onAfterChange: this.handleDurationChange
           }),
           _react2.default.createElement(
             'button',
