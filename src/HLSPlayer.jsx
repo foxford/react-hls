@@ -48,6 +48,7 @@ class HLSPlayer extends Component {
     isPlaying: this.props.isPlaying,
     isMuted: this.props.isMuted,
     showPlaybackMenu: false,
+    activeRate: 4,
     currentTime: '00:00',
     duration: '00:00'
   };
@@ -168,18 +169,22 @@ class HLSPlayer extends Component {
   }
 
   handlePlayBackBtn() {
+    this.playbackMenu.style.top = -this.playbackMenu.clientHeight;
+    this.playbackMenu.style.left = this.playbackBtn.style.offsetLeft;
     this.setState({
       showPlaybackMenu: !this.state.showPlaybackMenu
     });
   }
 
   handlePlayBackRateChange(rate) {
-    this.playbackMenu.style.left = this.playbackBtn.style.offsetLeft;
-    this.videoElement.playbackRate = rate;
+    this.setState({
+      activeRate: rate.id
+    });
+    this.videoElement.playbackRate = rate.value;
   }
 
   render() {
-    const { isPlaying, isMuted, currentTime, duration, showPlaybackMenu } = this.state;
+    const { isPlaying, isMuted, currentTime, duration, showPlaybackMenu, activeRate } = this.state;
     const { isCustom, customControls } = this.props;
     const customControlsAttr = isCustom ? false : 'controls';
 
@@ -198,7 +203,6 @@ class HLSPlayer extends Component {
       right: 0,
       display: 'flex',
       justifyContent: 'space-around',
-      padding: '5px',
       zIndex: 100,
       background: customControls.panelBg
     };
@@ -208,6 +212,7 @@ class HLSPlayer extends Component {
       border: 'none',
       outline: 'none'
     };
+    const activeBtnStyles = { ...buttonStyles, ...{ background: '#fff', color: '#000' } };
     const rangeDuration = {
       margin: '5px 10px'
     };
@@ -232,27 +237,28 @@ class HLSPlayer extends Component {
 
     const playbackRates = [{
       id: 1,
-      value: 0.5
+      value: 2
     }, {
       id: 2,
-      value: 0.75
-    }, {
-      id: 3,
-      value: 1
-    }, {
-      id: 4,
-      value: 1.25
-    }, {
-      id: 5,
       value: 1.5
     }, {
+      id: 3,
+      value: 1.25
+    }, {
+      id: 4,
+      value: 1
+    }, {
+      id: 5,
+      value: 0.75
+    }, {
       id: 6,
-      value: 2
+      value: 0.5
     }];
     const playbackRatesList = playbackRates.map(item =>
-      <button key={item.id} style={buttonStyles}
+      <button key={item.id}
+              style={ activeRate === item.id ? activeBtnStyles : buttonStyles }
               type="button"
-              onClick={ this.handlePlayBackRateChange.bind(this,item.value) }
+              onClick={ this.handlePlayBackRateChange.bind(this,item) }
       >
         {item.value}
       </button>

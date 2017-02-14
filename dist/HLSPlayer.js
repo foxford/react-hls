@@ -4,6 +4,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = require('react');
@@ -40,6 +42,7 @@ var HLSPlayer = function (_Component) {
       isPlaying: _this.props.isPlaying,
       isMuted: _this.props.isMuted,
       showPlaybackMenu: false,
+      activeRate: 4,
       currentTime: '00:00',
       duration: '00:00'
     };
@@ -166,6 +169,8 @@ var HLSPlayer = function (_Component) {
   }, {
     key: 'handlePlayBackBtn',
     value: function handlePlayBackBtn() {
+      this.playbackMenu.style.top = -this.playbackMenu.clientHeight;
+      this.playbackMenu.style.left = this.playbackBtn.style.offsetLeft;
       this.setState({
         showPlaybackMenu: !this.state.showPlaybackMenu
       });
@@ -173,8 +178,10 @@ var HLSPlayer = function (_Component) {
   }, {
     key: 'handlePlayBackRateChange',
     value: function handlePlayBackRateChange(rate) {
-      this.playbackMenu.style.left = this.playbackBtn.style.offsetLeft;
-      this.videoElement.playbackRate = rate;
+      this.setState({
+        activeRate: rate.id
+      });
+      this.videoElement.playbackRate = rate.value;
     }
   }, {
     key: 'render',
@@ -186,7 +193,8 @@ var HLSPlayer = function (_Component) {
           isMuted = _state2.isMuted,
           currentTime = _state2.currentTime,
           duration = _state2.duration,
-          showPlaybackMenu = _state2.showPlaybackMenu;
+          showPlaybackMenu = _state2.showPlaybackMenu,
+          activeRate = _state2.activeRate;
       var _props = this.props,
           isCustom = _props.isCustom,
           customControls = _props.customControls;
@@ -208,7 +216,6 @@ var HLSPlayer = function (_Component) {
         right: 0,
         display: 'flex',
         justifyContent: 'space-around',
-        padding: '5px',
         zIndex: 100,
         background: customControls.panelBg
       };
@@ -218,6 +225,7 @@ var HLSPlayer = function (_Component) {
         border: 'none',
         outline: 'none'
       };
+      var activeBtnStyles = _extends({}, buttonStyles, { background: '#fff', color: '#000' });
       var rangeDuration = {
         margin: '5px 10px'
       };
@@ -242,29 +250,30 @@ var HLSPlayer = function (_Component) {
 
       var playbackRates = [{
         id: 1,
-        value: 0.5
+        value: 2
       }, {
         id: 2,
-        value: 0.75
-      }, {
-        id: 3,
-        value: 1
-      }, {
-        id: 4,
-        value: 1.25
-      }, {
-        id: 5,
         value: 1.5
       }, {
+        id: 3,
+        value: 1.25
+      }, {
+        id: 4,
+        value: 1
+      }, {
+        id: 5,
+        value: 0.75
+      }, {
         id: 6,
-        value: 2
+        value: 0.5
       }];
       var playbackRatesList = playbackRates.map(function (item) {
         return _react2.default.createElement(
           'button',
-          { key: item.id, style: buttonStyles,
+          { key: item.id,
+            style: activeRate === item.id ? activeBtnStyles : buttonStyles,
             type: 'button',
-            onClick: _this3.handlePlayBackRateChange.bind(_this3, item.value)
+            onClick: _this3.handlePlayBackRateChange.bind(_this3, item)
           },
           item.value
         );
