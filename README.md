@@ -13,9 +13,9 @@ HLS player for react applications
 Add folder to babel-loader config as "include" argument in your webpack configuration. For more info see [babel-loader](https://github.com/babel/babel-loader)
 
     /node_modules\/hls\.js/
- ```````
-## Usage example
 
+## Usage example
+ ```````
     import React, { Component } from 'react';
     import HLSPlayer from 'react-hls';
 
@@ -32,6 +32,7 @@ Add folder to babel-loader config as "include" argument in your webpack configur
     }
 
     export default HLSPage;
+ ```````
 
 ## Notes
 
