@@ -10,7 +10,7 @@ HLS player for react applications
 
     npm install
 
-Add folder to babel-loader config as "include" argument in your webpack configuration. For more info see [babel-loader](https://github.com/babel/babel-loader)
+Hls.js library imports from original sources (src folder), that's why you need install hls.js dependencies & add folder to babel-loader config as "include" argument in your webpack configuration. For more info see [babel-loader](https://github.com/babel/babel-loader)
 
     /node_modules\/hls\.js/
 
