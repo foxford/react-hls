@@ -39,6 +39,7 @@ var HLSPlayer = function (_Component) {
     _this.state = {
       isPlaying: _this.props.isPlaying,
       isMuted: _this.props.isMuted,
+      showPlaybackMenu: false,
       currentTime: '00:00',
       duration: '00:00'
     };
@@ -49,6 +50,7 @@ var HLSPlayer = function (_Component) {
     _this.handleVolumeBtn = _this.handleVolumeBtn.bind(_this);
     _this.handleVolumeChange = _this.handleVolumeChange.bind(_this);
     _this.handleDurationChange = _this.handleDurationChange.bind(_this);
+    _this.handlePlayBackBtn = _this.handlePlayBackBtn.bind(_this);
     return _this;
   }
 
@@ -162,6 +164,13 @@ var HLSPlayer = function (_Component) {
       this.videoElement.currentTime = this.videoElement.duration * (this.durationBar.state.value / 100);
     }
   }, {
+    key: 'handlePlayBackBtn',
+    value: function handlePlayBackBtn() {
+      this.setState({
+        showPlaybackMenu: !this.state.showPlaybackMenu
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _this3 = this;
@@ -170,7 +179,8 @@ var HLSPlayer = function (_Component) {
           isPlaying = _state2.isPlaying,
           isMuted = _state2.isMuted,
           currentTime = _state2.currentTime,
-          duration = _state2.duration;
+          duration = _state2.duration,
+          showPlaybackMenu = _state2.showPlaybackMenu;
       var _props = this.props,
           isCustom = _props.isCustom,
           customControls = _props.customControls;
@@ -275,6 +285,19 @@ var HLSPlayer = function (_Component) {
             'button',
             { style: buttonStyles,
               type: 'button',
+              onClick: this.handlePlayBackBtn
+            },
+            _react2.default.createElement('span', { dangerouslySetInnerHTML: this.rawHTML(customControls.playBackRateContent) })
+          ),
+          showPlaybackMenu && _react2.default.createElement(
+            'div',
+            null,
+            'playback rate menu'
+          ),
+          _react2.default.createElement(
+            'button',
+            { style: buttonStyles,
+              type: 'button',
               onClick: this.handleFullScreenBtn },
             _react2.default.createElement('span', { dangerouslySetInnerHTML: this.rawHTML(customControls.fullScreenBtnContent) })
           )
@@ -300,7 +323,8 @@ HLSPlayer.defaultProps = {
     pauseBtnContent: 'Pause',
     volumeBtnContent: 'Mute',
     muteBtnContent: 'Unmute',
-    fullScreenBtnContent: 'Full-screen'
+    fullScreenBtnContent: 'Full-screen',
+    playBackRateContent: 'Rate'
   }
 };
 HLSPlayer.propTypes = {
@@ -317,7 +341,8 @@ HLSPlayer.propTypes = {
     pauseBtnContent: _react.PropTypes.string,
     volumeBtnContent: _react.PropTypes.string,
     muteBtnContent: _react.PropTypes.string,
-    fullScreenBtnContent: _react.PropTypes.string
+    fullScreenBtnContent: _react.PropTypes.string,
+    playBackRateContent: _react.PropTypes.string
   })
 };
 exports.default = HLSPlayer;

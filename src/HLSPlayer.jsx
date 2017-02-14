@@ -20,7 +20,8 @@ class HLSPlayer extends Component {
       pauseBtnContent: 'Pause',
       volumeBtnContent: 'Mute',
       muteBtnContent: 'Unmute',
-      fullScreenBtnContent: 'Full-screen'
+      fullScreenBtnContent: 'Full-screen',
+      playBackRateContent: 'Rate'
     }
   };
 
@@ -38,13 +39,15 @@ class HLSPlayer extends Component {
       pauseBtnContent: PropTypes.string,
       volumeBtnContent: PropTypes.string,
       muteBtnContent: PropTypes.string,
-      fullScreenBtnContent: PropTypes.string
+      fullScreenBtnContent: PropTypes.string,
+      playBackRateContent: PropTypes.string
     })
   };
 
   state = {
     isPlaying: this.props.isPlaying,
     isMuted: this.props.isMuted,
+    showPlaybackMenu: false,
     currentTime: '00:00',
     duration: '00:00'
   };
@@ -57,6 +60,7 @@ class HLSPlayer extends Component {
     this.handleVolumeBtn = this.handleVolumeBtn.bind(this);
     this.handleVolumeChange = this.handleVolumeChange.bind(this);
     this.handleDurationChange = this.handleDurationChange.bind(this);
+    this.handlePlayBackBtn = this.handlePlayBackBtn.bind(this);
   }
 
   componentDidMount() {
@@ -163,8 +167,14 @@ class HLSPlayer extends Component {
     this.videoElement.currentTime = this.videoElement.duration * (this.durationBar.state.value / 100);
   }
 
+  handlePlayBackBtn() {
+    this.setState({
+      showPlaybackMenu: !this.state.showPlaybackMenu
+    });
+  }
+
   render() {
-    const { isPlaying, isMuted, currentTime, duration } = this.state;
+    const { isPlaying, isMuted, currentTime, duration, showPlaybackMenu } = this.state;
     const { isCustom, customControls } = this.props;
     const customControlsAttr = isCustom ? false : 'controls';
     const videoContainerStyles = {
@@ -249,6 +259,18 @@ class HLSPlayer extends Component {
                 onChange={ this.handleVolumeChange }
                 onAfterChange={ this.handleVolumeChange }
               />
+              <button style={buttonStyles}
+                      type="button"
+                      onClick={ this.handlePlayBackBtn }
+              >
+                { <span dangerouslySetInnerHTML={ this.rawHTML(customControls.playBackRateContent) } /> }
+              </button>
+              {
+                showPlaybackMenu &&
+                <div>
+                  playback rate menu
+                </div>
+              }
               <button style={buttonStyles}
                       type="button"
                       onClick={ this.handleFullScreenBtn }>
