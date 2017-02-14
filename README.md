@@ -33,6 +33,6 @@ Add folder to babel-loader config as "include" argument in your webpack configur
 
     export default HLSPage;
 
-### Notes
+## Notes
 
 Duration & volume controls made with rc-slider, see docs - https://github.com/react-component/slider
