@@ -65,7 +65,9 @@ var HLSPlayer = function (_Component) {
       var _state = this.state,
           isPlaying = _state.isPlaying,
           isMuted = _state.isMuted;
-      var source = this.props.source;
+      var _props = this.props,
+          source = _props.source,
+          disableControls = _props.disableControls;
 
 
       if (_src2.default.isSupported()) {
@@ -78,27 +80,33 @@ var HLSPlayer = function (_Component) {
           if (isPlaying) _this2.videoElement.play();
           if (isMuted) {
             _this2.videoElement.muted = true;
-            _this2.volumeBar.setState({
-              value: 0
-            });
+            if (!disableControls) {
+              _this2.volumeBar.setState({
+                value: 0
+              });
+            }
           }
         });
       }
 
       this.videoElement.addEventListener('timeupdate', function () {
-        _this2.durationBar.setState({
-          value: 100 / _this2.videoElement.duration * _this2.videoElement.currentTime
-        });
-        _this2.setState({
-          currentTime: formatTime(_this2.videoElement.currentTime, _this2._hasHours())
-        });
+        if (!disableControls) {
+          _this2.durationBar.setState({
+            value: 100 / _this2.videoElement.duration * _this2.videoElement.currentTime
+          });
+          _this2.setState({
+            currentTime: formatTime(_this2.videoElement.currentTime, _this2._hasHours())
+          });
+        }
       });
 
       this.videoElement.addEventListener('canplay', function () {
-        _this2.setState({
-          duration: formatTime(_this2.videoElement.duration, _this2._hasHours()),
-          currentTime: formatTime(0, _this2._hasHours())
-        });
+        if (!disableControls) {
+          _this2.setState({
+            duration: formatTime(_this2.videoElement.duration, _this2._hasHours()),
+            currentTime: formatTime(0, _this2._hasHours())
+          });
+        }
       });
 
       this.videoElement.addEventListener('ended', function () {
@@ -198,9 +206,9 @@ var HLSPlayer = function (_Component) {
           duration = _state2.duration,
           showPlaybackMenu = _state2.showPlaybackMenu,
           activeRate = _state2.activeRate;
-      var _props = this.props,
-          customControls = _props.customControls,
-          disableControls = _props.disableControls;
+      var _props2 = this.props,
+          customControls = _props2.customControls,
+          disableControls = _props2.disableControls;
 
 
       var videoContainerStyles = {

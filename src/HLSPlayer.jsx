@@ -66,7 +66,7 @@ class HLSPlayer extends Component {
 
   componentDidMount() {
     const { isPlaying, isMuted } = this.state;
-    const { source } = this.props;
+    const { source, disableControls } = this.props;
 
     if (Hls.isSupported()) {
       const hls = new Hls();
@@ -79,27 +79,33 @@ class HLSPlayer extends Component {
           this.videoElement.play();
         if (isMuted) {
           this.videoElement.muted = true;
-          this.volumeBar.setState({
-            value: 0
-          });
+          if (!disableControls) {
+            this.volumeBar.setState({
+              value: 0
+            });
+          }
         }
       });
     }
 
     this.videoElement.addEventListener('timeupdate', () => {
-      this.durationBar.setState({
-        value: (100 / this.videoElement.duration) * this.videoElement.currentTime
-      });
-      this.setState({
-        currentTime: formatTime(this.videoElement.currentTime, this._hasHours())
-      });
+      if (!disableControls) {
+        this.durationBar.setState({
+          value: (100 / this.videoElement.duration) * this.videoElement.currentTime
+        });
+        this.setState({
+          currentTime: formatTime(this.videoElement.currentTime, this._hasHours())
+        });
+      }
     });
 
     this.videoElement.addEventListener('canplay', () => {
-      this.setState({
-        duration: formatTime(this.videoElement.duration, this._hasHours()),
-        currentTime: formatTime(0, this._hasHours())
-      });
+      if (!disableControls) {
+        this.setState({
+          duration: formatTime(this.videoElement.duration, this._hasHours()),
+          currentTime: formatTime(0, this._hasHours())
+        });
+      }
     });
 
     this.videoElement.addEventListener('ended', () => {
