@@ -221,7 +221,6 @@ class HLSPlayer extends Component {
     const playbackMenu = {
       position: 'absolute',
       top: '-100px',
-      left: this.playbackBtn.offsetLeft,
       display: 'flex',
       flexDirection: 'column',
       padding: '5px',

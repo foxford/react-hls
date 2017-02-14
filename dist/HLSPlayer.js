@@ -231,7 +231,6 @@ var HLSPlayer = function (_Component) {
       var playbackMenu = {
         position: 'absolute',
         top: '-100px',
-        left: this.playbackBtn.offsetLeft,
         display: 'flex',
         flexDirection: 'column',
         padding: '5px',
