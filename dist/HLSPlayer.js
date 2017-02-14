@@ -51,6 +51,7 @@ var HLSPlayer = function (_Component) {
     _this.handleVolumeChange = _this.handleVolumeChange.bind(_this);
     _this.handleDurationChange = _this.handleDurationChange.bind(_this);
     _this.handlePlayBackBtn = _this.handlePlayBackBtn.bind(_this);
+    _this.handlePlayBackRateChange = _this.handlePlayBackRateChange.bind(_this);
     return _this;
   }
 
@@ -171,6 +172,11 @@ var HLSPlayer = function (_Component) {
       });
     }
   }, {
+    key: 'handlePlayBackRateChange',
+    value: function handlePlayBackRateChange(rate) {
+      this.videoElement.playbackRate = rate;
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _this3 = this;
@@ -186,6 +192,7 @@ var HLSPlayer = function (_Component) {
           customControls = _props.customControls;
 
       var customControlsAttr = isCustom ? false : 'controls';
+
       var videoContainerStyles = {
         position: 'relative'
       };
@@ -221,8 +228,48 @@ var HLSPlayer = function (_Component) {
       var timers = {
         padding: customControls.timePadding
       };
+      var playbackMenu = {
+        position: 'absolute',
+        top: '-100px',
+        left: this.playbackBtn.offsetLeft,
+        display: 'flex',
+        flexDirection: 'column',
+        padding: '5px',
+        background: customControls.panelBg
+      };
+
       var playBtnContent = '';
       var volumeBtnContent = '';
+
+      var playbackRates = [{
+        id: 1,
+        value: 0.5
+      }, {
+        id: 2,
+        value: 0.75
+      }, {
+        id: 3,
+        value: 1
+      }, {
+        id: 4,
+        value: 1.25
+      }, {
+        id: 5,
+        value: 1.5
+      }, {
+        id: 6,
+        value: 2
+      }];
+      var playbackRatesList = playbackRates.map(function (item) {
+        return _react2.default.createElement(
+          'button',
+          { key: item.id, style: buttonStyles,
+            type: 'button',
+            onClick: _this3.handlePlayBackRateChange(item.value)
+          },
+          item.value
+        );
+      });
 
       if (isPlaying) playBtnContent = _react2.default.createElement('span', { dangerouslySetInnerHTML: this.rawHTML(customControls.pauseBtnContent) });else playBtnContent = _react2.default.createElement('span', { dangerouslySetInnerHTML: this.rawHTML(customControls.playBtnContent) });
 
@@ -285,14 +332,17 @@ var HLSPlayer = function (_Component) {
             'button',
             { style: buttonStyles,
               type: 'button',
+              ref: function ref(playback) {
+                _this3.playbackBtn = playback;
+              },
               onClick: this.handlePlayBackBtn
             },
             _react2.default.createElement('span', { dangerouslySetInnerHTML: this.rawHTML(customControls.playBackRateContent) })
           ),
           showPlaybackMenu && _react2.default.createElement(
             'div',
-            null,
-            'playback rate menu'
+            { style: playbackMenu },
+            playbackRatesList
           ),
           _react2.default.createElement(
             'button',

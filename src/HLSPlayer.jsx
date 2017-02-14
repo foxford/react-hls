@@ -61,6 +61,7 @@ class HLSPlayer extends Component {
     this.handleVolumeChange = this.handleVolumeChange.bind(this);
     this.handleDurationChange = this.handleDurationChange.bind(this);
     this.handlePlayBackBtn = this.handlePlayBackBtn.bind(this);
+    this.handlePlayBackRateChange = this.handlePlayBackRateChange.bind(this);
   }
 
   componentDidMount() {
@@ -173,10 +174,15 @@ class HLSPlayer extends Component {
     });
   }
 
+  handlePlayBackRateChange(rate) {
+    this.videoElement.playbackRate = rate;
+  }
+
   render() {
     const { isPlaying, isMuted, currentTime, duration, showPlaybackMenu } = this.state;
     const { isCustom, customControls } = this.props;
     const customControlsAttr = isCustom ? false : 'controls';
+
     const videoContainerStyles = {
       position: 'relative'
     };
@@ -212,8 +218,46 @@ class HLSPlayer extends Component {
     const timers = {
       padding: customControls.timePadding
     };
+    const playbackMenu = {
+      position: 'absolute',
+      top: '-100px',
+      left: this.playbackBtn.offsetLeft,
+      display: 'flex',
+      flexDirection: 'column',
+      padding: '5px',
+      background: customControls.panelBg
+    };
+
     let playBtnContent = '';
     let volumeBtnContent = '';
+
+    const playbackRates = [{
+      id: 1,
+      value: 0.5
+    }, {
+      id: 2,
+      value: 0.75
+    }, {
+      id: 3,
+      value: 1
+    }, {
+      id: 4,
+      value: 1.25
+    }, {
+      id: 5,
+      value: 1.5
+    }, {
+      id: 6,
+      value: 2
+    }];
+    const playbackRatesList = playbackRates.map(item =>
+      <button key={item.id} style={buttonStyles}
+              type="button"
+              onClick={ this.handlePlayBackRateChange(item.value) }
+      >
+        {item.value}
+      </button>
+    );
 
     if (isPlaying)
       playBtnContent = <span dangerouslySetInnerHTML={ this.rawHTML(customControls.pauseBtnContent) } />;
@@ -261,14 +305,15 @@ class HLSPlayer extends Component {
               />
               <button style={buttonStyles}
                       type="button"
+                      ref={ (playback) => { this.playbackBtn = playback; } }
                       onClick={ this.handlePlayBackBtn }
               >
                 { <span dangerouslySetInnerHTML={ this.rawHTML(customControls.playBackRateContent) } /> }
               </button>
               {
                 showPlaybackMenu &&
-                <div>
-                  playback rate menu
+                <div style={playbackMenu}>
+                  {playbackRatesList}
                 </div>
               }
               <button style={buttonStyles}
