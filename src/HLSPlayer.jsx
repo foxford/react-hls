@@ -222,9 +222,7 @@ class HLSPlayer extends Component {
               <Slider
                 style={rangeDuration}
                 ref={ (bar) => { this.durationBar = bar; } }
-                onChange={ this.handleDurationChange }
-                onBeforeChange={ this.handleDurationMouseDown }
-                onAfterChange={ this.handleDurationMouseUp }
+                onAfterChange={ this.handleDurationChange }
               />
               <button style={buttonStyles}
                       type="button"
@@ -238,7 +236,7 @@ class HLSPlayer extends Component {
                 step={0.1}
                 defaultValue={1}
                 ref={ (bar) => { this.volumeBar = bar; } }
-                onChange={ this.handleVolumeChange }
+                onAfterChange={ this.handleVolumeChange }
               />
               <button style={buttonStyles}
                       type="button"

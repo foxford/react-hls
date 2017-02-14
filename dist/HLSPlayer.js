@@ -233,9 +233,7 @@ var HLSPlayer = function (_Component) {
             ref: function ref(bar) {
               _this3.durationBar = bar;
             },
-            onChange: this.handleDurationChange,
-            onBeforeChange: this.handleDurationMouseDown,
-            onAfterChange: this.handleDurationMouseUp
+            onAfterChange: this.handleDurationChange
           }),
           _react2.default.createElement(
             'button',
@@ -253,7 +251,7 @@ var HLSPlayer = function (_Component) {
             ref: function ref(bar) {
               _this3.volumeBar = bar;
             },
-            onChange: this.handleVolumeChange
+            onAfterChange: this.handleVolumeChange
           }),
           _react2.default.createElement(
             'button',
