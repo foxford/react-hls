@@ -215,6 +215,7 @@ var HLSPlayer = function (_Component) {
         left: 0,
         right: 0,
         display: 'flex',
+        padding: '5px',
         justifyContent: 'space-around',
         zIndex: 100,
         background: customControls.panelBg
@@ -238,11 +239,9 @@ var HLSPlayer = function (_Component) {
       };
       var playbackMenu = {
         position: 'absolute',
-        top: '-100px',
+        display: 'flex',
         flexDirection: 'column',
-        padding: '5px',
-        background: customControls.panelBg,
-        display: showPlaybackMenu ? 'flex' : 'none'
+        background: customControls.panelBg
       };
 
       var playBtnContent = '';
@@ -354,7 +353,7 @@ var HLSPlayer = function (_Component) {
                 _this3.playbackMenu = menu;
               }
             },
-            playbackRatesList
+            showPlaybackMenu && { playbackRatesList: playbackRatesList }
           ),
           _react2.default.createElement(
             'button',

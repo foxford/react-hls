@@ -202,6 +202,7 @@ class HLSPlayer extends Component {
       left: 0,
       right: 0,
       display: 'flex',
+      padding: '5px',
       justifyContent: 'space-around',
       zIndex: 100,
       background: customControls.panelBg
@@ -225,11 +226,9 @@ class HLSPlayer extends Component {
     };
     const playbackMenu = {
       position: 'absolute',
-      top: '-100px',
+      display: 'flex',
       flexDirection: 'column',
-      padding: '5px',
-      background: customControls.panelBg,
-      display: showPlaybackMenu ? 'flex' : 'none'
+      background: customControls.panelBg
     };
 
     let playBtnContent = '';
@@ -318,7 +317,9 @@ class HLSPlayer extends Component {
               <div style={playbackMenu}
                    ref={ (menu) => { this.playbackMenu = menu; } }
               >
-                {playbackRatesList}
+                {
+                  showPlaybackMenu && {playbackRatesList}
+                }
               </div>
               <button style={buttonStyles}
                       type="button"
