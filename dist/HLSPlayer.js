@@ -51,7 +51,6 @@ var HLSPlayer = function (_Component) {
     _this.handleVolumeChange = _this.handleVolumeChange.bind(_this);
     _this.handleDurationChange = _this.handleDurationChange.bind(_this);
     _this.handlePlayBackBtn = _this.handlePlayBackBtn.bind(_this);
-    _this.handlePlayBackRateChange = _this.handlePlayBackRateChange.bind(_this);
     return _this;
   }
 
@@ -174,6 +173,7 @@ var HLSPlayer = function (_Component) {
   }, {
     key: 'handlePlayBackRateChange',
     value: function handlePlayBackRateChange(rate) {
+      this.playbackMenu.style.left = this.playbackBtn.style.offsetLeft;
       this.videoElement.playbackRate = rate;
     }
   }, {
@@ -264,7 +264,7 @@ var HLSPlayer = function (_Component) {
           'button',
           { key: item.id, style: buttonStyles,
             type: 'button',
-            onClick: _this3.handlePlayBackRateChange(item.value)
+            onClick: _this3.handlePlayBackRateChange.bind(_this3, item.value)
           },
           item.value
         );
@@ -340,7 +340,11 @@ var HLSPlayer = function (_Component) {
           ),
           showPlaybackMenu && _react2.default.createElement(
             'div',
-            { style: playbackMenu },
+            { style: playbackMenu,
+              ref: function ref(menu) {
+                _this3.playbackMenu = menu;
+              }
+            },
             playbackRatesList
           ),
           _react2.default.createElement(

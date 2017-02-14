@@ -61,7 +61,6 @@ class HLSPlayer extends Component {
     this.handleVolumeChange = this.handleVolumeChange.bind(this);
     this.handleDurationChange = this.handleDurationChange.bind(this);
     this.handlePlayBackBtn = this.handlePlayBackBtn.bind(this);
-    this.handlePlayBackRateChange = this.handlePlayBackRateChange.bind(this);
   }
 
   componentDidMount() {
@@ -175,6 +174,7 @@ class HLSPlayer extends Component {
   }
 
   handlePlayBackRateChange(rate) {
+    this.playbackMenu.style.left = this.playbackBtn.style.offsetLeft;
     this.videoElement.playbackRate = rate;
   }
 
@@ -252,7 +252,7 @@ class HLSPlayer extends Component {
     const playbackRatesList = playbackRates.map(item =>
       <button key={item.id} style={buttonStyles}
               type="button"
-              onClick={ this.handlePlayBackRateChange(item.value) }
+              onClick={ this.handlePlayBackRateChange.bind(this,item.value) }
       >
         {item.value}
       </button>
@@ -311,7 +311,9 @@ class HLSPlayer extends Component {
               </button>
               {
                 showPlaybackMenu &&
-                <div style={playbackMenu}>
+                <div style={playbackMenu}
+                     ref={ (menu) => { this.playbackMenu = menu; } }
+                >
                   {playbackRatesList}
                 </div>
               }
