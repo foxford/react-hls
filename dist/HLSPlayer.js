@@ -39,8 +39,8 @@ var HLSPlayer = function (_Component) {
     var _this = _possibleConstructorReturn(this, (HLSPlayer.__proto__ || Object.getPrototypeOf(HLSPlayer)).call(this, props, context));
 
     _this.state = {
-      isPlaying: _this.props.isPlaying,
-      isMuted: _this.props.isMuted,
+      isPlaying: _this.props.autoPlay,
+      isMuted: _this.props.autoMute,
       showPlaybackMenu: false,
       activeRate: 4,
       currentTime: '00:00',
@@ -387,8 +387,8 @@ var HLSPlayer = function (_Component) {
 }(_react.Component);
 
 HLSPlayer.defaultProps = {
-  isPlaying: false,
-  isMuted: false,
+  autoPlay: false,
+  autoMute: false,
   disableControls: false,
   source: '',
   customControls: {
@@ -405,8 +405,8 @@ HLSPlayer.defaultProps = {
   }
 };
 HLSPlayer.propTypes = {
-  isPlaying: _react.PropTypes.bool,
-  isMuted: _react.PropTypes.bool,
+  autoPlay: _react.PropTypes.bool,
+  autoMute: _react.PropTypes.bool,
   disableControls: _react.PropTypes.bool,
   source: _react.PropTypes.string.isRequired,
   customControls: _react.PropTypes.shape({

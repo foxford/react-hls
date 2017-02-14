@@ -7,8 +7,8 @@ import 'rc-slider/assets/index.css';
 class HLSPlayer extends Component {
 
   static defaultProps = {
-    isPlaying: false,
-    isMuted: false,
+    autoPlay: false,
+    autoMute: false,
     disableControls: false,
     source: '',
     customControls: {
@@ -26,8 +26,8 @@ class HLSPlayer extends Component {
   };
 
   static propTypes = {
-    isPlaying: PropTypes.bool,
-    isMuted: PropTypes.bool,
+    autoPlay: PropTypes.bool,
+    autoMute: PropTypes.bool,
     disableControls: PropTypes.bool,
     source: PropTypes.string.isRequired,
     customControls: PropTypes.shape({
@@ -45,8 +45,8 @@ class HLSPlayer extends Component {
   };
 
   state = {
-    isPlaying: this.props.isPlaying,
-    isMuted: this.props.isMuted,
+    isPlaying: this.props.autoPlay,
+    isMuted: this.props.autoMute,
     showPlaybackMenu: false,
     activeRate: 4,
     currentTime: '00:00',
