@@ -199,10 +199,9 @@ var HLSPlayer = function (_Component) {
           showPlaybackMenu = _state2.showPlaybackMenu,
           activeRate = _state2.activeRate;
       var _props = this.props,
-          isCustom = _props.isCustom,
-          customControls = _props.customControls;
+          customControls = _props.customControls,
+          disableControls = _props.disableControls;
 
-      var customControlsAttr = isCustom ? false : 'controls';
 
       var videoContainerStyles = {
         position: 'relative'
@@ -289,10 +288,13 @@ var HLSPlayer = function (_Component) {
       return _react2.default.createElement(
         'div',
         { style: videoContainerStyles },
-        _react2.default.createElement('video', { style: videoStyles, ref: function ref(video) {
+        _react2.default.createElement('video', { style: videoStyles,
+          ref: function ref(video) {
             _this3.videoElement = video;
-          }, controls: customControlsAttr, onClick: this.handlePlayBtn }),
-        customControls && _react2.default.createElement(
+          },
+          onClick: this.handlePlayBtn
+        }),
+        !disableControls && _react2.default.createElement(
           'div',
           { style: controlsPanelStyles },
           _react2.default.createElement(
@@ -377,7 +379,7 @@ var HLSPlayer = function (_Component) {
 HLSPlayer.defaultProps = {
   isPlaying: false,
   isMuted: false,
-  isCustom: true,
+  disableControls: false,
   source: '',
   customControls: {
     panelBg: '#000',
@@ -395,7 +397,7 @@ HLSPlayer.defaultProps = {
 HLSPlayer.propTypes = {
   isPlaying: _react.PropTypes.bool,
   isMuted: _react.PropTypes.bool,
-  isCustom: _react.PropTypes.bool,
+  disableControls: _react.PropTypes.bool,
   source: _react.PropTypes.string.isRequired,
   customControls: _react.PropTypes.shape({
     panelBg: _react.PropTypes.string,

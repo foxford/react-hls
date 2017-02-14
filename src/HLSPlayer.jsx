@@ -9,7 +9,7 @@ class HLSPlayer extends Component {
   static defaultProps = {
     isPlaying: false,
     isMuted: false,
-    isCustom: true,
+    disableControls: false,
     source: '',
     customControls: {
       panelBg: '#000',
@@ -28,7 +28,7 @@ class HLSPlayer extends Component {
   static propTypes = {
     isPlaying: PropTypes.bool,
     isMuted: PropTypes.bool,
-    isCustom: PropTypes.bool,
+    disableControls: PropTypes.bool,
     source: PropTypes.string.isRequired,
     customControls: PropTypes.shape({
       panelBg: PropTypes.string,
@@ -187,8 +187,7 @@ class HLSPlayer extends Component {
 
   render() {
     const { isPlaying, isMuted, currentTime, duration, showPlaybackMenu, activeRate } = this.state;
-    const { isCustom, customControls } = this.props;
-    const customControlsAttr = isCustom ? false : 'controls';
+    const { customControls, disableControls } = this.props;
 
     const videoContainerStyles = {
       position: 'relative'
@@ -278,9 +277,12 @@ class HLSPlayer extends Component {
 
     return (
       <div style={videoContainerStyles}>
-        <video style={videoStyles} ref={ (video) => { this.videoElement = video; } } controls={customControlsAttr} onClick={ this.handlePlayBtn } />
+        <video style={videoStyles}
+               ref={ (video) => { this.videoElement = video; } }
+               onClick={ this.handlePlayBtn }
+        />
         {
-          customControls &&
+          !disableControls &&
             <div style={controlsPanelStyles}>
               <button style={buttonStyles}
                       type="button"
