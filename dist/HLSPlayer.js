@@ -126,6 +126,8 @@ var HLSPlayer = function (_Component) {
   }, {
     key: 'handlePlayBtn',
     value: function handlePlayBtn(e) {
+      if (this.props.disableControls) return;
+
       e.stopPropagation();
 
       var isPlaying = this.state.isPlaying;

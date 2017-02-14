@@ -122,6 +122,9 @@ class HLSPlayer extends Component {
   }
 
   handlePlayBtn(e) {
+    if (this.props.disableControls)
+      return;
+
     e.stopPropagation();
 
     const { isPlaying } = this.state;
