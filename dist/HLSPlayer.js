@@ -327,19 +327,19 @@ function formatTime(time, isHours) {
     var m = Math.floor(time / 60);
     var s = Math.floor(time % 60);
 
-    return h.lead0(2) + ':' + m.lead0(2) + ':' + s.lead0(2);
+    return lead0(h, 2) + ':' + lead0(m, 2) + ':' + lead0(s, 2);
   } else {
     var _m = Math.floor(time / 60);
     var _s = Math.floor(time % 60);
 
-    return _m.lead0(2) + ':' + _s.lead0(2);
+    return lead0(_m, 2) + ':' + lead0(_s, 2);
   }
 }
 
-Number.prototype.lead0 = function (n) {
-  var nz = "" + undefined;
+function lead0(val, n) {
+  var nz = "" + val;
   while (nz.length < n) {
     nz = "0" + nz;
   }
   return nz;
-};
+}

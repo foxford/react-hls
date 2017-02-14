@@ -267,19 +267,19 @@ function formatTime(time, isHours) {
     const m = Math.floor(time / 60);
     const s = Math.floor(time % 60);
 
-    return `${h.lead0(2)}:${m.lead0(2)}:${s.lead0(2)}`;
+    return `${lead0(h,2)}:${lead0(m,2)}:${lead0(s,2)}`;
   } else {
     const m = Math.floor(time / 60);
     const s = Math.floor(time % 60);
 
-    return `${m.lead0(2)}:${s.lead0(2)}`;
+    return `${lead0(m,2)}:${lead0(s,2)}`;
   }
 }
 
-Number.prototype.lead0 = (n) => {
-  let nz = "" + this;
+function lead0(val, n) {
+  let nz = "" + val;
   while (nz.length < n) {
     nz = "0" + nz;
   }
   return nz;
-};
+}
