@@ -239,10 +239,10 @@ var HLSPlayer = function (_Component) {
       var playbackMenu = {
         position: 'absolute',
         top: '-100px',
-        display: 'flex',
         flexDirection: 'column',
         padding: '5px',
-        background: customControls.panelBg
+        background: customControls.panelBg,
+        display: showPlaybackMenu ? 'flex' : 'none'
       };
 
       var playBtnContent = '';
@@ -347,7 +347,7 @@ var HLSPlayer = function (_Component) {
             },
             _react2.default.createElement('span', { dangerouslySetInnerHTML: this.rawHTML(customControls.playBackRateContent) })
           ),
-          showPlaybackMenu && _react2.default.createElement(
+          _react2.default.createElement(
             'div',
             { style: playbackMenu,
               ref: function ref(menu) {

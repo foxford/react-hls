@@ -226,10 +226,10 @@ class HLSPlayer extends Component {
     const playbackMenu = {
       position: 'absolute',
       top: '-100px',
-      display: 'flex',
       flexDirection: 'column',
       padding: '5px',
-      background: customControls.panelBg
+      background: customControls.panelBg,
+      display: showPlaybackMenu ? 'flex' : 'none'
     };
 
     let playBtnContent = '';
@@ -315,14 +315,11 @@ class HLSPlayer extends Component {
               >
                 { <span dangerouslySetInnerHTML={ this.rawHTML(customControls.playBackRateContent) } /> }
               </button>
-              {
-                showPlaybackMenu &&
-                <div style={playbackMenu}
-                     ref={ (menu) => { this.playbackMenu = menu; } }
-                >
-                  {playbackRatesList}
-                </div>
-              }
+              <div style={playbackMenu}
+                   ref={ (menu) => { this.playbackMenu = menu; } }
+              >
+                {playbackRatesList}
+              </div>
               <button style={buttonStyles}
                       type="button"
                       onClick={ this.handleFullScreenBtn }>
