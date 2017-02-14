@@ -72,13 +72,17 @@ class HLSPlayer extends Component {
           this.videoElement.play();
         if (isMuted) {
           this.videoElement.muted = true;
-          this.volumeBar.value = 0;
+          this.volumeBar.setState({
+            value: 0
+          });
         }
       });
     }
 
     this.videoElement.addEventListener('timeupdate', () => {
-      this.durationBar.value = (100 / this.videoElement.duration) * this.videoElement.currentTime;
+      this.durationBar.setState({
+        value: (100 / this.videoElement.duration) * this.videoElement.currentTime
+      });
     });
 
     this.videoElement.addEventListener('ended', () => {
@@ -116,7 +120,9 @@ class HLSPlayer extends Component {
     const { isMuted } = this.state;
 
     this.videoElement.muted = !isMuted;
-    this.volumeBar.value = isMuted ? 1 : 0;
+    this.volumeBar.setState({
+      value: isMuted ? 1 : 0
+    });
 
     this.setState({
       isMuted: !isMuted
@@ -124,7 +130,7 @@ class HLSPlayer extends Component {
   }
 
   handleVolumeChange() {
-    const volume = this.volumeBar.value;
+    const volume = this.volumeBar.state.value;
     const isMuted = parseFloat(volume) === 0;
 
     this.videoElement.volume = volume;
@@ -136,7 +142,7 @@ class HLSPlayer extends Component {
 
 
   handleDurationChange() {
-    this.videoElement.currentTime = this.videoElement.duration * (this.durationBar.value / 100);
+    this.videoElement.currentTime = this.videoElement.duration * (this.durationBar.state.value / 100);
   }
 
   handleDurationMouseDown() {
@@ -231,7 +237,7 @@ class HLSPlayer extends Component {
                       type="button"
                       onClick={ this.handleFullScreenBtn }>
                 { <span dangerouslySetInnerHTML={ this.rawHTML(customControls.fullScreenBtnContent) } /> }
-              </button>
+              </button>=
             </div>
         }
       </div>

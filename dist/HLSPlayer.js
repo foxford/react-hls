@@ -73,13 +73,17 @@ var HLSPlayer = function (_Component) {
           if (isPlaying) _this2.videoElement.play();
           if (isMuted) {
             _this2.videoElement.muted = true;
-            _this2.volumeBar.value = 0;
+            _this2.volumeBar.setState({
+              value: 0
+            });
           }
         });
       }
 
       this.videoElement.addEventListener('timeupdate', function () {
-        _this2.durationBar.value = 100 / _this2.videoElement.duration * _this2.videoElement.currentTime;
+        _this2.durationBar.setState({
+          value: 100 / _this2.videoElement.duration * _this2.videoElement.currentTime
+        });
       });
 
       this.videoElement.addEventListener('ended', function () {
@@ -115,7 +119,9 @@ var HLSPlayer = function (_Component) {
 
 
       this.videoElement.muted = !isMuted;
-      this.volumeBar.value = isMuted ? 1 : 0;
+      this.volumeBar.setState({
+        value: isMuted ? 1 : 0
+      });
 
       this.setState({
         isMuted: !isMuted
@@ -124,7 +130,7 @@ var HLSPlayer = function (_Component) {
   }, {
     key: 'handleVolumeChange',
     value: function handleVolumeChange() {
-      var volume = this.volumeBar.value;
+      var volume = this.volumeBar.state.value;
       var isMuted = parseFloat(volume) === 0;
 
       this.videoElement.volume = volume;
@@ -136,7 +142,7 @@ var HLSPlayer = function (_Component) {
   }, {
     key: 'handleDurationChange',
     value: function handleDurationChange() {
-      this.videoElement.currentTime = this.videoElement.duration * (this.durationBar.value / 100);
+      this.videoElement.currentTime = this.videoElement.duration * (this.durationBar.state.value / 100);
     }
   }, {
     key: 'handleDurationMouseDown',
@@ -248,7 +254,8 @@ var HLSPlayer = function (_Component) {
               type: 'button',
               onClick: this.handleFullScreenBtn },
             _react2.default.createElement('span', { dangerouslySetInnerHTML: this.rawHTML(customControls.fullScreenBtnContent) })
-          )
+          ),
+          '='
         )
       );
     }
