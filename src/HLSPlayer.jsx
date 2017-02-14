@@ -318,7 +318,7 @@ class HLSPlayer extends Component {
                    ref={ (menu) => { this.playbackMenu = menu; } }
               >
                 {
-                  showPlaybackMenu && {playbackRatesList}
+                  showPlaybackMenu && playbackRatesList
                 }
               </div>
               <button style={buttonStyles}

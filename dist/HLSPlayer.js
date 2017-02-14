@@ -353,7 +353,7 @@ var HLSPlayer = function (_Component) {
                 _this3.playbackMenu = menu;
               }
             },
-            showPlaybackMenu && { playbackRatesList: playbackRatesList }
+            showPlaybackMenu && playbackRatesList
           ),
           _react2.default.createElement(
             'button',
