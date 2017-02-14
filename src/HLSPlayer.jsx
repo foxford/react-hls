@@ -92,7 +92,9 @@ class HLSPlayer extends Component {
     return { __html: html };
   }
 
-  handlePlayBtn() {
+  handlePlayBtn(e) {
+    e.stopPropagation();
+
     const { isPlaying } = this.state;
 
     if (isPlaying)

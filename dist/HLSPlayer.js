@@ -95,7 +95,9 @@ var HLSPlayer = function (_Component) {
     }
   }, {
     key: 'handlePlayBtn',
-    value: function handlePlayBtn() {
+    value: function handlePlayBtn(e) {
+      e.stopPropagation();
+
       var isPlaying = this.state.isPlaying;
 
 
