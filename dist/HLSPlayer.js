@@ -14,6 +14,12 @@ var _src = require('hls.js/src');
 
 var _src2 = _interopRequireDefault(_src);
 
+var _rcSlider = require('rc-slider');
+
+var _rcSlider2 = _interopRequireDefault(_rcSlider);
+
+require('rc-slider/assets/index.css');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -210,14 +216,13 @@ var HLSPlayer = function (_Component) {
               onClick: this.handlePlayBtn },
             playBtnContent
           ),
-          _react2.default.createElement('input', { type: 'range',
-            defaultValue: '0',
+          _react2.default.createElement(_rcSlider2.default, {
             ref: function ref(bar) {
               _this3.durationBar = bar;
             },
             onChange: this.handleDurationChange,
-            onMouseDown: this.handleDurationMouseDown,
-            onMouseUp: this.handleDurationMouseUp
+            onBeforeChange: this.handleDurationMouseDown,
+            onAfterChange: this.handleDurationMouseUp
           }),
           _react2.default.createElement(
             'button',
@@ -226,12 +231,12 @@ var HLSPlayer = function (_Component) {
               onClick: this.handleVolumeBtn },
             volumeBtnContent
           ),
-          _react2.default.createElement('input', { style: rangeVolume,
-            type: 'range',
-            min: '0',
-            max: '1',
-            step: '0.1',
-            defaultValue: '1',
+          _react2.default.createElement(_rcSlider2.default, {
+            style: rangeVolume,
+            min: 0,
+            max: 1,
+            step: 0.1,
+            defaultValue: 1,
             ref: function ref(bar) {
               _this3.volumeBar = bar;
             },

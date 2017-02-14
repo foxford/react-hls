@@ -1,5 +1,8 @@
 import React, {Component, PropTypes} from 'react';
 import Hls from 'hls.js/src';
+import Slider from 'rc-slider';
+
+import 'rc-slider/assets/index.css';
 
 class HLSPlayer extends Component {
 
@@ -204,26 +207,25 @@ class HLSPlayer extends Component {
                       onClick={ this.handlePlayBtn }>
                 {playBtnContent}
               </button>
-              <input type="range"
-                     defaultValue="0"
-                     ref={ (bar) => { this.durationBar = bar; } }
-                     onChange={ this.handleDurationChange }
-                     onMouseDown={ this.handleDurationMouseDown }
-                     onMouseUp={ this.handleDurationMouseUp }
+              <Slider
+                ref={ (bar) => { this.durationBar = bar; } }
+                onChange={ this.handleDurationChange }
+                onBeforeChange={ this.handleDurationMouseDown }
+                onAfterChange={ this.handleDurationMouseUp }
               />
               <button style={buttonStyles}
                       type="button"
                       onClick={ this.handleVolumeBtn }>
                 {volumeBtnContent}
               </button>
-              <input style={rangeVolume}
-                     type="range"
-                     min="0"
-                     max="1"
-                     step="0.1"
-                     defaultValue="1"
-                     ref={ (bar) => { this.volumeBar = bar; } }
-                     onChange={ this.handleVolumeChange }
+              <Slider
+                style={rangeVolume}
+                min={0}
+                max={1}
+                step={0.1}
+                defaultValue={1}
+                ref={ (bar) => { this.volumeBar = bar; } }
+                onChange={ this.handleVolumeChange }
               />
               <button style={buttonStyles}
                       type="button"
