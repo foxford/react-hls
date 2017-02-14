@@ -175,7 +175,7 @@ var HLSPlayer = function (_Component) {
       this.setState({
         showPlaybackMenu: !showPlaybackMenu
       });
-      if (showPlaybackMenu) this.playbackMenu.style.left = this.playbackBtn.offsetLeft - 10 + 'px';
+      this.playbackMenu.style.left = this.playbackBtn.offsetLeft - 10 + 'px';
     }
   }, {
     key: 'handlePlayBackRateChange',
