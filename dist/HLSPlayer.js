@@ -38,7 +38,9 @@ var HLSPlayer = function (_Component) {
 
     _this.state = {
       isPlaying: _this.props.isPlaying,
-      isMuted: _this.props.isMuted
+      isMuted: _this.props.isMuted,
+      currentTime: '00:00',
+      duration: '00:00'
     };
 
 
@@ -80,13 +82,26 @@ var HLSPlayer = function (_Component) {
 
       this.videoElement.addEventListener('timeupdate', function () {
         _this2.durationBar.setState({
-          value: 100 / _this2.videoElement.duration * _this2.videoElement.currentTime
+          value: 100 / _this2.videoElement.duration * _this2.videoElement.currentTime,
+          currentTime: formatTime(_this2.videoElement.currentTime, _this2._hasHours())
+        });
+      });
+
+      this.videoElement.addEventListener('canplay', function () {
+        _this2.setState({
+          duration: formatTime(_this2.videoElement.duration, _this2._hasHours()),
+          currentTime: formatTime(0, _this2._hasHours())
         });
       });
 
       this.videoElement.addEventListener('ended', function () {
         _this2.videoElement.pause();
       });
+    }
+  }, {
+    key: '_hasHours',
+    value: function _hasHours() {
+      return this.videoElement.duration / 3600 >= 1.0;
     }
   }, {
     key: 'rawHTML',
@@ -151,7 +166,9 @@ var HLSPlayer = function (_Component) {
 
       var _state2 = this.state,
           isPlaying = _state2.isPlaying,
-          isMuted = _state2.isMuted;
+          isMuted = _state2.isMuted,
+          currentTime = _state2.currentTime,
+          duration = _state2.duration;
       var _props = this.props,
           isCustom = _props.isCustom,
           customControls = _props.customControls;
@@ -212,6 +229,11 @@ var HLSPlayer = function (_Component) {
               onClick: this.handlePlayBtn },
             playBtnContent
           ),
+          _react2.default.createElement(
+            'span',
+            null,
+            currentTime
+          ),
           _react2.default.createElement(_rcSlider2.default, {
             style: rangeDuration,
             ref: function ref(bar) {
@@ -220,6 +242,11 @@ var HLSPlayer = function (_Component) {
             onChange: this.handleDurationChange,
             onAfterChange: this.handleDurationChange
           }),
+          _react2.default.createElement(
+            'span',
+            null,
+            duration
+          ),
           _react2.default.createElement(
             'button',
             { style: buttonStyles,
@@ -290,3 +317,29 @@ exports.default = HLSPlayer;
 
 
 module.exports = HLSPlayer;
+
+function formatTime(time, isHours) {
+  if (isHours) {
+    var h = Math.floor(time / 3600);
+
+    time = time - h * 3600;
+
+    var m = Math.floor(time / 60);
+    var s = Math.floor(time % 60);
+
+    return h.lead0(2) + ':' + m.lead0(2) + ':' + s.lead0(2);
+  } else {
+    var _m = Math.floor(time / 60);
+    var _s = Math.floor(time % 60);
+
+    return _m.lead0(2) + ':' + _s.lead0(2);
+  }
+}
+
+Number.prototype.lead0 = function (n) {
+  var nz = "" + undefined;
+  while (nz.length < n) {
+    nz = "0" + nz;
+  }
+  return nz;
+};

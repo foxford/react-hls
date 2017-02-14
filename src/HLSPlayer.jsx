@@ -42,7 +42,9 @@ class HLSPlayer extends Component {
 
   state = {
     isPlaying: this.props.isPlaying,
-    isMuted: this.props.isMuted
+    isMuted: this.props.isMuted,
+    currentTime: '00:00',
+    duration: '00:00'
   };
 
   constructor(props, context) {
@@ -79,13 +81,25 @@ class HLSPlayer extends Component {
 
     this.videoElement.addEventListener('timeupdate', () => {
       this.durationBar.setState({
-        value: (100 / this.videoElement.duration) * this.videoElement.currentTime
+        value: (100 / this.videoElement.duration) * this.videoElement.currentTime,
+        currentTime: formatTime(this.videoElement.currentTime, this._hasHours())
+      });
+    });
+
+    this.videoElement.addEventListener('canplay', () => {
+      this.setState({
+        duration: formatTime(this.videoElement.duration, this._hasHours()),
+        currentTime: formatTime(0, this._hasHours())
       });
     });
 
     this.videoElement.addEventListener('ended', () => {
       this.videoElement.pause();
     });
+  }
+
+  _hasHours() {
+    return (this.videoElement.duration / 3600) >= 1.0;
   }
 
   rawHTML(html) {
@@ -146,7 +160,7 @@ class HLSPlayer extends Component {
   }
 
   render() {
-    const { isPlaying, isMuted } = this.state;
+    const { isPlaying, isMuted, currentTime, duration } = this.state;
     const { isCustom, customControls } = this.props;
     const customControlsAttr = isCustom ? false : 'controls';
     const videoContainerStyles = {
@@ -205,12 +219,14 @@ class HLSPlayer extends Component {
                       onClick={ this.handlePlayBtn }>
                 {playBtnContent}
               </button>
+              <span>{currentTime}</span>
               <Slider
                 style={rangeDuration}
                 ref={ (bar) => { this.durationBar = bar; } }
                 onChange={ this.handleDurationChange }
                 onAfterChange={ this.handleDurationChange }
               />
+              <span>{duration}</span>
               <button style={buttonStyles}
                       type="button"
                       onClick={ this.handleVolumeBtn }>
@@ -241,3 +257,29 @@ class HLSPlayer extends Component {
 export default HLSPlayer;
 
 module.exports = HLSPlayer;
+
+function formatTime(time, isHours) {
+  if (isHours) {
+    const h = Math.floor(time / 3600);
+
+    time = time - h * 3600;
+
+    const m = Math.floor(time / 60);
+    const s = Math.floor(time % 60);
+
+    return `${h.lead0(2)}:${m.lead0(2)}:${s.lead0(2)}`;
+  } else {
+    const m = Math.floor(time / 60);
+    const s = Math.floor(time % 60);
+
+    return `${m.lead0(2)}:${s.lead0(2)}`;
+  }
+}
+
+Number.prototype.lead0 = (n) => {
+  let nz = "" + this;
+  while (nz.length < n) {
+    nz = "0" + nz;
+  }
+  return nz;
+};
