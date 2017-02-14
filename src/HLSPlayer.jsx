@@ -111,6 +111,13 @@ class HLSPlayer extends Component {
     this.videoElement.addEventListener('ended', () => {
       this.videoElement.pause();
     });
+
+    window.addEventListener('click', () => {
+      if (this.state.showPlaybackMenu)
+        this.setState({
+          showPlaybackMenu: false
+        });
+    });
   }
 
   _hasHours() {
@@ -177,7 +184,9 @@ class HLSPlayer extends Component {
     this.videoElement.currentTime = this.videoElement.duration * (this.durationBar.state.value / 100);
   }
 
-  handlePlayBackBtn() {
+  handlePlayBackBtn(e) {
+    e.stopPropagation();
+
     const { showPlaybackMenu } = this.state;
 
     this.setState({
@@ -186,7 +195,9 @@ class HLSPlayer extends Component {
     this.playbackMenu.style.left = this.playbackBtn.offsetLeft - 10 + 'px';
   }
 
-  handlePlayBackRateChange(rate) {
+  handlePlayBackRateChange(e, rate) {
+    e.stopPropagation();
+
     this.setState({
       activeRate: rate.id,
       showPlaybackMenu: false
@@ -268,7 +279,7 @@ class HLSPlayer extends Component {
       <button key={item.id}
               style={ activeRate === item.id ? activeBtnStyles : buttonStyles }
               type="button"
-              onClick={ this.handlePlayBackRateChange.bind(this,item) }
+              onClick={ (e) => { this.handlePlayBackRateChange(e, item) } }
       >
         {item.value}
       </button>

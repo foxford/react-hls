@@ -112,6 +112,12 @@ var HLSPlayer = function (_Component) {
       this.videoElement.addEventListener('ended', function () {
         _this2.videoElement.pause();
       });
+
+      window.addEventListener('click', function () {
+        if (_this2.state.showPlaybackMenu) _this2.setState({
+          showPlaybackMenu: false
+        });
+      });
     }
   }, {
     key: '_hasHours',
@@ -178,7 +184,9 @@ var HLSPlayer = function (_Component) {
     }
   }, {
     key: 'handlePlayBackBtn',
-    value: function handlePlayBackBtn() {
+    value: function handlePlayBackBtn(e) {
+      e.stopPropagation();
+
       var showPlaybackMenu = this.state.showPlaybackMenu;
 
 
@@ -189,7 +197,9 @@ var HLSPlayer = function (_Component) {
     }
   }, {
     key: 'handlePlayBackRateChange',
-    value: function handlePlayBackRateChange(rate) {
+    value: function handlePlayBackRateChange(e, rate) {
+      e.stopPropagation();
+
       this.setState({
         activeRate: rate.id,
         showPlaybackMenu: false
@@ -285,7 +295,9 @@ var HLSPlayer = function (_Component) {
           { key: item.id,
             style: activeRate === item.id ? activeBtnStyles : buttonStyles,
             type: 'button',
-            onClick: _this3.handlePlayBackRateChange.bind(_this3, item)
+            onClick: function onClick(e) {
+              _this3.handlePlayBackRateChange(e, item);
+            }
           },
           item.value
         );
