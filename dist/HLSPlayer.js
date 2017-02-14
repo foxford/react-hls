@@ -169,17 +169,20 @@ var HLSPlayer = function (_Component) {
   }, {
     key: 'handlePlayBackBtn',
     value: function handlePlayBackBtn() {
-      this.playbackMenu.style.top = -this.playbackMenu.clientHeight + 'px';
-      this.playbackMenu.style.left = this.playbackBtn.offsetLeft - 10 + 'px';
+      var showPlaybackMenu = this.state.showPlaybackMenu;
+
+
       this.setState({
-        showPlaybackMenu: !this.state.showPlaybackMenu
+        showPlaybackMenu: !showPlaybackMenu
       });
+      if (showPlaybackMenu) this.playbackMenu.style.left = this.playbackBtn.offsetLeft - 10 + 'px';
     }
   }, {
     key: 'handlePlayBackRateChange',
     value: function handlePlayBackRateChange(rate) {
       this.setState({
-        activeRate: rate.id
+        activeRate: rate.id,
+        showPlaybackMenu: false
       });
       this.videoElement.playbackRate = rate.value;
     }
@@ -240,6 +243,7 @@ var HLSPlayer = function (_Component) {
       var playbackMenu = {
         position: 'absolute',
         display: 'flex',
+        top: '-157px',
         flexDirection: 'column',
         background: customControls.panelBg
       };

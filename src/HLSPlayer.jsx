@@ -169,16 +169,18 @@ class HLSPlayer extends Component {
   }
 
   handlePlayBackBtn() {
-    this.playbackMenu.style.top = -this.playbackMenu.clientHeight + 'px';
-    this.playbackMenu.style.left = this.playbackBtn.offsetLeft - 10 + 'px';
+    const { showPlaybackMenu } = this.state;
+
     this.setState({
-      showPlaybackMenu: !this.state.showPlaybackMenu
+      showPlaybackMenu: !showPlaybackMenu
     });
+    if (showPlaybackMenu) this.playbackMenu.style.left = this.playbackBtn.offsetLeft - 10 + 'px';
   }
 
   handlePlayBackRateChange(rate) {
     this.setState({
-      activeRate: rate.id
+      activeRate: rate.id,
+      showPlaybackMenu: false
     });
     this.videoElement.playbackRate = rate.value;
   }
@@ -227,6 +229,7 @@ class HLSPlayer extends Component {
     const playbackMenu = {
       position: 'absolute',
       display: 'flex',
+      top: '-157px',
       flexDirection: 'column',
       background: customControls.panelBg
     };
