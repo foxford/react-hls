@@ -250,7 +250,7 @@ class HLSPlayer extends Component {
     };
     const playbackMenu = {
       position: 'absolute',
-      display: 'none',
+      display: showPlaybackMenu ? 'flex' : 'none',
       flexDirection: 'column',
       background: customControls.panelBg
     };
