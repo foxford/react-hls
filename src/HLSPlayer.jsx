@@ -192,6 +192,8 @@ class HLSPlayer extends Component {
     this.setState({
       showPlaybackMenu: !showPlaybackMenu
     });
+
+    this.playbackMenu.style.display = this.state.showPlaybackMenu ? 'flex' : 'none';
     this.playbackMenu.style.top = -this.playbackMenu.clientHeight + 'px';
     this.playbackMenu.style.left = this.playbackBtn.offsetLeft - 10 + 'px';
   }
@@ -248,7 +250,7 @@ class HLSPlayer extends Component {
     };
     const playbackMenu = {
       position: 'absolute',
-      display: showPlaybackMenu ? 'flex' : 'none',
+      display: 'none',
       flexDirection: 'column',
       background: customControls.panelBg
     };
