@@ -113,11 +113,14 @@ var HLSPlayer = function (_Component) {
         _this2.videoElement.pause();
       });
 
-      window.addEventListener('click', function () {
-        if (_this2.state.showPlaybackMenu) _this2.setState({
-          showPlaybackMenu: false
-        });
-      });
+      window.addEventListener('click', this.hidePlayBackMenu.bind(this));
+      window.addEventListener('resize', this.hidePlayBackMenu.bind(this));
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      window.removeEventListener('click', this.hidePlayBackMenu.bind(this));
+      window.removeEventListener('resize', this.hidePlayBackMenu.bind(this));
     }
   }, {
     key: '_hasHours',
@@ -128,6 +131,15 @@ var HLSPlayer = function (_Component) {
     key: 'rawHTML',
     value: function rawHTML(html) {
       return { __html: html };
+    }
+  }, {
+    key: 'hidePlayBackMenu',
+    value: function hidePlayBackMenu() {
+      if (this.state.showPlaybackMenu) {
+        this.setState({
+          showPlaybackMenu: false
+        });
+      }
     }
   }, {
     key: 'handlePlayBtn',

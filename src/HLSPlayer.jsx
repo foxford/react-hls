@@ -112,12 +112,13 @@ class HLSPlayer extends Component {
       this.videoElement.pause();
     });
 
-    window.addEventListener('click', () => {
-      if (this.state.showPlaybackMenu)
-        this.setState({
-          showPlaybackMenu: false
-        });
-    });
+    window.addEventListener('click', this.hidePlayBackMenu.bind(this));
+    window.addEventListener('resize', this.hidePlayBackMenu.bind(this));
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('click', this.hidePlayBackMenu.bind(this));
+    window.removeEventListener('resize', this.hidePlayBackMenu.bind(this));
   }
 
   _hasHours() {
@@ -126,6 +127,14 @@ class HLSPlayer extends Component {
 
   rawHTML(html) {
     return { __html: html };
+  }
+
+  hidePlayBackMenu() {
+    if (this.state.showPlaybackMenu) {
+      this.setState({
+        showPlaybackMenu: false
+      });
+    }
   }
 
   handlePlayBtn(e) {
