@@ -194,7 +194,7 @@ var HLSPlayer = function (_Component) {
         showPlaybackMenu: !showPlaybackMenu
       });
 
-      this.playbackMenu.style.display = this.state.showPlaybackMenu ? 'flex' : 'none';
+      this.playbackMenu.style.display = !showPlaybackMenu ? 'flex' : 'none';
       this.playbackMenu.style.top = -this.playbackMenu.clientHeight + 'px';
       this.playbackMenu.style.left = this.playbackBtn.offsetLeft - 10 + 'px';
     }
