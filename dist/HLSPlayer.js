@@ -193,6 +193,7 @@ var HLSPlayer = function (_Component) {
       this.setState({
         showPlaybackMenu: !showPlaybackMenu
       });
+      this.playbackMenu.style.top = -this.playbackMenu.clientHeight + 'px';
       this.playbackMenu.style.left = this.playbackBtn.offsetLeft - 10 + 'px';
     }
   }, {
@@ -261,8 +262,7 @@ var HLSPlayer = function (_Component) {
       };
       var playbackMenu = {
         position: 'absolute',
-        display: 'flex',
-        top: '-157px',
+        display: showPlaybackMenu ? 'flex' : 'none',
         flexDirection: 'column',
         background: customControls.panelBg
       };
@@ -381,7 +381,7 @@ var HLSPlayer = function (_Component) {
                 _this3.playbackMenu = menu;
               }
             },
-            showPlaybackMenu && playbackRatesList
+            playbackRatesList
           ),
           _react2.default.createElement(
             'button',
