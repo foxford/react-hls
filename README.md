@@ -16,28 +16,28 @@ Hls.js library imports from original sources (src folder), that's why you need t
 
 ## Usage example
  ```````
-    import React, { Component } from 'react';
-    import HLSPlayer from 'react-hls';
+import React, { Component } from 'react';
+import HLSPlayer from 'react-hls';
 
-    class HLSPage extends Component {
-      render() {
-        const source = 'http://www.streambox.fr/playlists/test_001/stream.m3u8';
+class HLSPage extends Component {
+  render() {
+    const source = 'http://www.streambox.fr/playlists/test_001/stream.m3u8';
 
-        return (
-          <div>
-            <HLSPlayer source={source} />
-          </div>
-        );
-      }
-    }
+    return (
+      <div>
+        <HLSPlayer source={source} />
+      </div>
+    );
+  }
+}
 
-    export default HLSPage;
+export default HLSPage;
  ```````
 
 ## Run example
  ```````
  
-    npm run example
+npm run example
  
  ```````
 
