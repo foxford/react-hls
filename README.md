@@ -34,6 +34,13 @@ Hls.js library imports from original sources (src folder), that's why you need t
     export default HLSPage;
  ```````
 
+## Run example
+ ```````
+ 
+    npm run example
+ 
+ ```````
+
 ## Notes
 
 Duration & volume controls made with rc-slider, see docs - https://github.com/react-component/slider
