@@ -1,6 +1,6 @@
 # react-hls
 
-HLS player for react applications
+HLS player for react applications. Demo [here](http://pidginenemy.github.io/react_hls/).
 
 ## Installation
 
