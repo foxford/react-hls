@@ -8,10 +8,11 @@ class App extends Component {
   render() {
     const source = 'http://www.streambox.fr/playlists/x36xhzz/x36xhzz.m3u8';
     const customControls = {
-      panelBg: '#ff7256',
+      panelBg: '#07141e',
       buttonBg: 'none',
-      buttonColor: '#fff',
-      timePadding: '2px 5px',
+      buttonColor: '#ccc',
+      timePadding: '3px 5px',
+      timeSize: '12px',
       playBtnContent: '<span class="glyphicon glyphicon-play"></span>',
       pauseBtnContent: '<span class="glyphicon glyphicon-pause"></span>',
       volumeBtnContent: '<span class="glyphicon glyphicon-volume-up"></span>',

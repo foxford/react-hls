@@ -40,6 +40,7 @@
     "hls.js": "^0.6.21",
     "rc-slider": "^6.1.0",
     "react": "^15.4.2",
+    "screenfull": "^3.0.2",
     "webworkify": "^1.4.0"
   }
 }

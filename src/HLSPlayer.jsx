@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import Hls from 'hls.js/src';
 import Slider from 'rc-slider';
+import screenfull from 'screenfull';
 
 import 'rc-slider/assets/index.css';
 
@@ -16,6 +17,7 @@ class HLSPlayer extends Component {
       buttonBg: 'none',
       buttonColor: '#fff',
       timePadding: '0',
+      timeSize: 'inherit',
       playBtnContent: 'Play',
       pauseBtnContent: 'Pause',
       volumeBtnContent: 'Mute',
@@ -35,6 +37,7 @@ class HLSPlayer extends Component {
       buttonBg: PropTypes.string,
       buttonColor: PropTypes.string,
       timePadding: PropTypes.string,
+      timeSize: PropTypes.string,
       playBtnContent: PropTypes.string,
       pauseBtnContent: PropTypes.string,
       volumeBtnContent: PropTypes.string,
@@ -156,12 +159,8 @@ class HLSPlayer extends Component {
   }
 
   handleFullScreenBtn() {
-    if (this.videoElement.requestFullscreen)
-      this.videoElement.requestFullscreen();
-    else if (this.videoElement.mozRequestFullScreen)
-      this.videoElement.mozRequestFullScreen();
-    else if (this.videoElement.webkitRequestFullscreen)
-      this.videoElement.webkitRequestFullscreen();
+    if (screenfull.enabled)
+      screenfull.toggle(this.videoContainer);
   }
 
   handleVolumeBtn() {
@@ -222,7 +221,10 @@ class HLSPlayer extends Component {
     const { customControls, disableControls } = this.props;
 
     const videoContainerStyles = {
-      position: 'relative'
+      position: 'relative',
+      width:'100%',
+      maxHeight: '100%',
+      background: '#000'
     };
     const videoStyles = {
       width:'100%',
@@ -255,7 +257,10 @@ class HLSPlayer extends Component {
       margin: '5px 10px'
     };
     const timers = {
-      padding: customControls.timePadding
+      padding: customControls.timePadding,
+      fontSize: customControls.timeSize,
+      whiteSpace: 'nowrap',
+      color: customControls.buttonColor
     };
     const playbackMenu = {
       position: 'absolute',
@@ -269,21 +274,27 @@ class HLSPlayer extends Component {
 
     const playbackRates = [{
       id: 1,
+      value: 3
+    },{
+      id: 2,
+      value: 2.5
+    },{
+      id: 3,
       value: 2
     }, {
-      id: 2,
+      id: 4,
       value: 1.5
     }, {
-      id: 3,
+      id: 5,
       value: 1.25
     }, {
-      id: 4,
+      id: 6,
       value: 1
     }, {
-      id: 5,
+      id: 7,
       value: 0.75
     }, {
-      id: 6,
+      id: 8,
       value: 0.5
     }];
     const playbackRatesList = playbackRates.map(item =>
@@ -292,7 +303,7 @@ class HLSPlayer extends Component {
               type="button"
               onClick={ (e) => { this.handlePlayBackRateChange(e, item) } }
       >
-        {item.value}
+        {item.value}x
       </button>
     );
 
@@ -307,7 +318,9 @@ class HLSPlayer extends Component {
       volumeBtnContent = <span dangerouslySetInnerHTML={ this.rawHTML(customControls.volumeBtnContent) } />;
 
     return (
-      <div style={videoContainerStyles}>
+      <div style={videoContainerStyles}
+           ref={ (container) => { this.videoContainer = container; } }
+      >
         <video style={videoStyles}
                ref={ (video) => { this.videoElement = video; } }
                onClick={ this.handlePlayBtn }
@@ -320,14 +333,12 @@ class HLSPlayer extends Component {
                       onClick={ this.handlePlayBtn }>
                 {playBtnContent}
               </button>
-              <span style={timers}>{currentTime}</span>
+              <span style={timers}>{currentTime} / {duration}</span>
               <Slider
                 style={rangeDuration}
                 ref={ (bar) => { this.durationBar = bar; } }
-                onChange={ this.handleDurationChange }
                 onAfterChange={ this.handleDurationChange }
               />
-              <span style={timers}>{duration}</span>
               <button style={buttonStyles}
                       type="button"
                       onClick={ this.handleVolumeBtn }>

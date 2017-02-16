@@ -12,5 +12,16 @@
   height: 80%;
   padding: 20px 0;
   margin: 0 auto;
-  color: #fff;
+}
+
+/* styles for rc-slider */
+.rc-slider-rail {
+  background: rgba(51, 51, 51, 0.9);
+}
+.rc-slider-handle,
+.rc-slider-handle:hover {
+  border: 2px solid #F86749;
+}
+.rc-slider-track {
+  background-color: #F86749;
 }
