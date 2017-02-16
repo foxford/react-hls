@@ -223,13 +223,12 @@ class HLSPlayer extends Component {
     const videoContainerStyles = {
       position: 'relative',
       width:'100%',
-      maxHeight: '100%',
+      height: '100%',
       background: '#000'
     };
     const videoStyles = {
       width:'100%',
-      height: '100%',
-      paddingBottom: '30px'
+      height: '100%'
     };
     const controlsPanelStyles = {
       position: 'absolute',

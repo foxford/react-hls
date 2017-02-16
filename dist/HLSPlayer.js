@@ -285,13 +285,12 @@ var HLSPlayer = _wrapComponent('HLSPlayer')((_temp = _class = function (_Compone
       var videoContainerStyles = {
         position: 'relative',
         width: '100%',
-        maxHeight: '100%',
+        height: '100%',
         background: '#000'
       };
       var videoStyles = {
         width: '100%',
-        height: '100%',
-        paddingBottom: '30px'
+        height: '100%'
       };
       var controlsPanelStyles = {
         position: 'absolute',
