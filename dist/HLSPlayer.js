@@ -4,27 +4,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _index = require('/Users/etolchennikov/Projects/react-hls/node_modules/redbox-react/lib/index.js');
-
-var _index2 = _interopRequireDefault(_index);
-
-var _index3 = require('/Users/etolchennikov/Projects/react-hls/node_modules/react-transform-catch-errors/lib/index.js');
-
-var _index4 = _interopRequireDefault(_index3);
-
-var _react2 = require('react');
-
-var _react3 = _interopRequireDefault(_react2);
-
-var _index5 = require('/Users/etolchennikov/Projects/react-hls/node_modules/react-transform-hmr/lib/index.js');
-
-var _index6 = _interopRequireDefault(_index5);
-
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _class, _temp;
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
 
 var _src = require('hls.js/src');
 
@@ -48,33 +34,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var _components = {
-  HLSPlayer: {
-    displayName: 'HLSPlayer'
-  }
-};
-
-var _UsersEtolchennikovProjectsReactHlsNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
-  filename: 'src/HLSPlayer.jsx',
-  components: _components,
-  locals: [module],
-  imports: [_react3.default]
-});
-
-var _UsersEtolchennikovProjectsReactHlsNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
-  filename: 'src/HLSPlayer.jsx',
-  components: _components,
-  locals: [],
-  imports: [_react3.default, _index2.default]
-});
-
-function _wrapComponent(id) {
-  return function (Component) {
-    return _UsersEtolchennikovProjectsReactHlsNode_modulesReactTransformHmrLibIndexJs2(_UsersEtolchennikovProjectsReactHlsNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
-  };
-}
-
-var HLSPlayer = _wrapComponent('HLSPlayer')((_temp = _class = function (_Component) {
+var HLSPlayer = function (_Component) {
   _inherits(HLSPlayer, _Component);
 
   function HLSPlayer(props, context) {
@@ -359,7 +319,7 @@ var HLSPlayer = _wrapComponent('HLSPlayer')((_temp = _class = function (_Compone
         value: 0.5
       }];
       var playbackRatesList = playbackRates.map(function (item) {
-        return _react3.default.createElement(
+        return _react2.default.createElement(
           'button',
           { key: item.id,
             style: activeRate === item.id ? activeBtnStyles : buttonStyles,
@@ -373,55 +333,55 @@ var HLSPlayer = _wrapComponent('HLSPlayer')((_temp = _class = function (_Compone
         );
       });
 
-      if (isPlaying) playBtnContent = _react3.default.createElement('span', { dangerouslySetInnerHTML: this.rawHTML(customControls.pauseBtnContent) });else playBtnContent = _react3.default.createElement('span', { dangerouslySetInnerHTML: this.rawHTML(customControls.playBtnContent) });
+      if (isPlaying) playBtnContent = _react2.default.createElement('span', { dangerouslySetInnerHTML: this.rawHTML(customControls.pauseBtnContent) });else playBtnContent = _react2.default.createElement('span', { dangerouslySetInnerHTML: this.rawHTML(customControls.playBtnContent) });
 
-      if (isMuted) volumeBtnContent = _react3.default.createElement('span', { dangerouslySetInnerHTML: this.rawHTML(customControls.muteBtnContent) });else volumeBtnContent = _react3.default.createElement('span', { dangerouslySetInnerHTML: this.rawHTML(customControls.volumeBtnContent) });
+      if (isMuted) volumeBtnContent = _react2.default.createElement('span', { dangerouslySetInnerHTML: this.rawHTML(customControls.muteBtnContent) });else volumeBtnContent = _react2.default.createElement('span', { dangerouslySetInnerHTML: this.rawHTML(customControls.volumeBtnContent) });
 
-      return _react3.default.createElement(
+      return _react2.default.createElement(
         'div',
         { style: videoContainerStyles,
           ref: function ref(container) {
             _this3.videoContainer = container;
           }
         },
-        _react3.default.createElement('video', { style: videoStyles,
+        _react2.default.createElement('video', { style: videoStyles,
           ref: function ref(video) {
             _this3.videoElement = video;
           },
           onClick: this.handlePlayBtn
         }),
-        !disableControls && _react3.default.createElement(
+        !disableControls && _react2.default.createElement(
           'div',
           { style: controlsPanelStyles },
-          _react3.default.createElement(
+          _react2.default.createElement(
             'button',
             { style: buttonStyles,
               type: 'button',
               onClick: this.handlePlayBtn },
             playBtnContent
           ),
-          _react3.default.createElement(
+          _react2.default.createElement(
             'span',
             { style: timers },
             currentTime,
             ' / ',
             duration
           ),
-          _react3.default.createElement(_rcSlider2.default, {
+          _react2.default.createElement(_rcSlider2.default, {
             style: rangeDuration,
             ref: function ref(bar) {
               _this3.durationBar = bar;
             },
             onAfterChange: this.handleDurationChange
           }),
-          _react3.default.createElement(
+          _react2.default.createElement(
             'button',
             { style: buttonStyles,
               type: 'button',
               onClick: this.handleVolumeBtn },
             volumeBtnContent
           ),
-          _react3.default.createElement(_rcSlider2.default, {
+          _react2.default.createElement(_rcSlider2.default, {
             style: rangeVolume,
             min: 0,
             max: 1,
@@ -433,7 +393,7 @@ var HLSPlayer = _wrapComponent('HLSPlayer')((_temp = _class = function (_Compone
             onChange: this.handleVolumeChange,
             onAfterChange: this.handleVolumeChange
           }),
-          _react3.default.createElement(
+          _react2.default.createElement(
             'button',
             { style: buttonStyles,
               type: 'button',
@@ -442,9 +402,9 @@ var HLSPlayer = _wrapComponent('HLSPlayer')((_temp = _class = function (_Compone
               },
               onClick: this.handlePlayBackBtn
             },
-            _react3.default.createElement('span', { dangerouslySetInnerHTML: this.rawHTML(customControls.playBackRateContent) })
+            _react2.default.createElement('span', { dangerouslySetInnerHTML: this.rawHTML(customControls.playBackRateContent) })
           ),
-          _react3.default.createElement(
+          _react2.default.createElement(
             'div',
             { style: playbackMenu,
               ref: function ref(menu) {
@@ -453,12 +413,12 @@ var HLSPlayer = _wrapComponent('HLSPlayer')((_temp = _class = function (_Compone
             },
             playbackRatesList
           ),
-          _react3.default.createElement(
+          _react2.default.createElement(
             'button',
             { style: buttonStyles,
               type: 'button',
               onClick: this.handleFullScreenBtn },
-            _react3.default.createElement('span', { dangerouslySetInnerHTML: this.rawHTML(customControls.fullScreenBtnContent) })
+            _react2.default.createElement('span', { dangerouslySetInnerHTML: this.rawHTML(customControls.fullScreenBtnContent) })
           )
         )
       );
@@ -466,7 +426,9 @@ var HLSPlayer = _wrapComponent('HLSPlayer')((_temp = _class = function (_Compone
   }]);
 
   return HLSPlayer;
-}(_react2.Component), _class.defaultProps = {
+}(_react.Component);
+
+HLSPlayer.defaultProps = {
   autoPlay: false,
   autoMute: false,
   disableControls: false,
@@ -484,26 +446,26 @@ var HLSPlayer = _wrapComponent('HLSPlayer')((_temp = _class = function (_Compone
     fullScreenBtnContent: 'Full-screen',
     playBackRateContent: 'Rate'
   }
-}, _class.propTypes = {
-  autoPlay: _react2.PropTypes.bool,
-  autoMute: _react2.PropTypes.bool,
-  disableControls: _react2.PropTypes.bool,
-  source: _react2.PropTypes.string.isRequired,
-  customControls: _react2.PropTypes.shape({
-    panelBg: _react2.PropTypes.string,
-    buttonBg: _react2.PropTypes.string,
-    buttonColor: _react2.PropTypes.string,
-    timePadding: _react2.PropTypes.string,
-    timeSize: _react2.PropTypes.string,
-    playBtnContent: _react2.PropTypes.string,
-    pauseBtnContent: _react2.PropTypes.string,
-    volumeBtnContent: _react2.PropTypes.string,
-    muteBtnContent: _react2.PropTypes.string,
-    fullScreenBtnContent: _react2.PropTypes.string,
-    playBackRateContent: _react2.PropTypes.string
+};
+HLSPlayer.propTypes = {
+  autoPlay: _react.PropTypes.bool,
+  autoMute: _react.PropTypes.bool,
+  disableControls: _react.PropTypes.bool,
+  source: _react.PropTypes.string.isRequired,
+  customControls: _react.PropTypes.shape({
+    panelBg: _react.PropTypes.string,
+    buttonBg: _react.PropTypes.string,
+    buttonColor: _react.PropTypes.string,
+    timePadding: _react.PropTypes.string,
+    timeSize: _react.PropTypes.string,
+    playBtnContent: _react.PropTypes.string,
+    pauseBtnContent: _react.PropTypes.string,
+    volumeBtnContent: _react.PropTypes.string,
+    muteBtnContent: _react.PropTypes.string,
+    fullScreenBtnContent: _react.PropTypes.string,
+    playBackRateContent: _react.PropTypes.string
   })
-}, _temp));
-
+};
 exports.default = HLSPlayer;
 
 
