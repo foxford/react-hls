@@ -53,46 +53,53 @@ var HLSPlayer = function (_Component) {
     };
 
 
+    _this.hls = null;
+
     _this.handlePlayBtn = _this.handlePlayBtn.bind(_this);
     _this.handleFullScreenBtn = _this.handleFullScreenBtn.bind(_this);
     _this.handleVolumeBtn = _this.handleVolumeBtn.bind(_this);
     _this.handleVolumeChange = _this.handleVolumeChange.bind(_this);
     _this.handleDurationChange = _this.handleDurationChange.bind(_this);
     _this.handlePlayBackBtn = _this.handlePlayBackBtn.bind(_this);
+    _this.handleVideoListeners = _this.handleVideoListeners.bind(_this);
+
+    // HLS event callbacks
+    _this.onMediaAttached = _this.onMediaAttached.bind(_this);
+    _this.onManifestParsed = _this.onManifestParsed.bind(_this);
+    _this.onHlsError = _this.onHlsError.bind(_this);
+    _this.onFragParsingMetadata = _this.onFragParsingMetadata.bind(_this);
+    _this.onFragChanged = _this.onFragChanged.bind(_this);
     return _this;
   }
 
   _createClass(HLSPlayer, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
+      var hlsParams = this.props.hlsParams;
+
+
+      if (!_src2.default.isSupported()) return;
+
+      this.hls = new _src2.default(hlsParams);
+
+      this.hls.attachMedia(this.videoElement);
+
+      this.hls.on(_src2.default.Events.MEDIA_ATTACHED, this.onMediaAttached);
+      this.hls.on(_src2.default.Events.MANIFEST_PARSED, this.onManifestParsed);
+      this.hls.on(_src2.default.Events.ERROR, this.onHlsError);
+      this.hls.on(_src2.default.Events.FRAG_PARSING_METADATA, this.onFragParsingMetadata);
+      this.hls.on(_src2.default.Events.FRAG_CHANGED, this.onFragChanged);
+
+      window.addEventListener('click', this.hidePlayBackMenu.bind(this));
+      window.addEventListener('resize', this.hidePlayBackMenu.bind(this));
+    }
+  }, {
+    key: 'handleVideoListeners',
+    value: function handleVideoListeners() {
       var _this2 = this;
 
-      var _state = this.state,
-          isPlaying = _state.isPlaying,
-          isMuted = _state.isMuted;
-      var _props = this.props,
-          source = _props.source,
-          disableControls = _props.disableControls;
+      var disableControls = this.props.disableControls;
 
-
-      if (_src2.default.isSupported()) {
-        var hls = new _src2.default();
-
-        hls.loadSource(source);
-        hls.attachMedia(this.videoElement);
-
-        hls.on(_src2.default.Events.MANIFEST_PARSED, function () {
-          if (isPlaying) _this2.videoElement.play();
-          if (isMuted) {
-            _this2.videoElement.muted = true;
-            if (!disableControls) {
-              _this2.volumeBar.setState({
-                value: 0
-              });
-            }
-          }
-        });
-      }
 
       this.videoElement.addEventListener('timeupdate', function () {
         if (!disableControls) {
@@ -133,15 +140,55 @@ var HLSPlayer = function (_Component) {
           });
         }
       });
-
-      window.addEventListener('click', this.hidePlayBackMenu.bind(this));
-      window.addEventListener('resize', this.hidePlayBackMenu.bind(this));
     }
   }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
       window.removeEventListener('click', this.hidePlayBackMenu.bind(this));
       window.removeEventListener('resize', this.hidePlayBackMenu.bind(this));
+    }
+  }, {
+    key: 'onMediaAttached',
+    value: function onMediaAttached() {
+      this.hls.loadSource(this.props.source);
+    }
+  }, {
+    key: 'onManifestParsed',
+    value: function onManifestParsed() {
+      var _state = this.state,
+          isPlaying = _state.isPlaying,
+          isMuted = _state.isMuted;
+
+
+      this.hls.startLoad();
+
+      if (isPlaying) this.videoElement.play();
+
+      if (isMuted) {
+        this.videoElement.muted = true;
+        if (!disableControls) {
+          this.volumeBar.setState({
+            value: 0
+          });
+        }
+      }
+
+      this.handleVideoListeners();
+    }
+  }, {
+    key: 'onHlsError',
+    value: function onHlsError() {
+      console.log('error with HLS...');
+    }
+  }, {
+    key: 'onFragParsingMetadata',
+    value: function onFragParsingMetadata() {
+      console.log('on fragment parsing metadata...');
+    }
+  }, {
+    key: 'onFragChanged',
+    value: function onFragChanged() {
+      console.log('on fragment changed...');
     }
   }, {
     key: '_hasHours',
@@ -255,9 +302,9 @@ var HLSPlayer = function (_Component) {
           showPlaybackMenu = _state2.showPlaybackMenu,
           activeRate = _state2.activeRate,
           showPreloader = _state2.showPreloader;
-      var _props2 = this.props,
-          customControls = _props2.customControls,
-          disableControls = _props2.disableControls;
+      var _props = this.props,
+          customControls = _props.customControls,
+          disableControls = _props.disableControls;
 
 
       var videoContainerStyles = {
@@ -472,6 +519,7 @@ HLSPlayer.defaultProps = {
   autoMute: false,
   disableControls: false,
   source: '',
+  hlsParams: {},
   customControls: {
     panelBg: '#000',
     buttonBg: 'none',
@@ -492,6 +540,7 @@ HLSPlayer.propTypes = {
   autoMute: _react.PropTypes.bool,
   disableControls: _react.PropTypes.bool,
   source: _react.PropTypes.string.isRequired,
+  hlsParams: _react.PropTypes.object,
   customControls: _react.PropTypes.shape({
     panelBg: _react.PropTypes.string,
     buttonBg: _react.PropTypes.string,

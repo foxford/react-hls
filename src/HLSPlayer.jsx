@@ -12,6 +12,7 @@ class HLSPlayer extends Component {
     autoMute: false,
     disableControls: false,
     source: '',
+    hlsParams: {},
     customControls: {
       panelBg: '#000',
       buttonBg: 'none',
@@ -33,6 +34,7 @@ class HLSPlayer extends Component {
     autoMute: PropTypes.bool,
     disableControls: PropTypes.bool,
     source: PropTypes.string.isRequired,
+    hlsParams: PropTypes.object,
     customControls: PropTypes.shape({
       panelBg: PropTypes.string,
       buttonBg: PropTypes.string,
@@ -62,37 +64,46 @@ class HLSPlayer extends Component {
   constructor(props, context) {
     super(props, context);
 
+    this.hls = null;
+
     this.handlePlayBtn = this.handlePlayBtn.bind(this);
     this.handleFullScreenBtn = this.handleFullScreenBtn.bind(this);
     this.handleVolumeBtn = this.handleVolumeBtn.bind(this);
     this.handleVolumeChange = this.handleVolumeChange.bind(this);
     this.handleDurationChange = this.handleDurationChange.bind(this);
     this.handlePlayBackBtn = this.handlePlayBackBtn.bind(this);
+    this.handleVideoListeners = this.handleVideoListeners.bind(this);
+
+    // HLS event callbacks
+    this.onMediaAttached = this.onMediaAttached.bind(this);
+    this.onManifestParsed = this.onManifestParsed.bind(this);
+    this.onHlsError = this.onHlsError.bind(this);
+    this.onFragParsingMetadata = this.onFragParsingMetadata.bind(this);
+    this.onFragChanged = this.onFragChanged.bind(this);
   }
 
   componentDidMount() {
-    const { isPlaying, isMuted } = this.state;
-    const { source, disableControls } = this.props;
+    const { hlsParams } = this.props;
 
-    if (Hls.isSupported()) {
-      const hls = new Hls();
+    if (!Hls.isSupported())
+      return;
 
-      hls.loadSource(source);
-      hls.attachMedia(this.videoElement);
+    this.hls = new Hls(hlsParams);
 
-      hls.on(Hls.Events.MANIFEST_PARSED, () => {
-        if (isPlaying)
-          this.videoElement.play();
-        if (isMuted) {
-          this.videoElement.muted = true;
-          if (!disableControls) {
-            this.volumeBar.setState({
-              value: 0
-            });
-          }
-        }
-      });
-    }
+    this.hls.attachMedia(this.videoElement);
+
+    this.hls.on(Hls.Events.MEDIA_ATTACHED, this.onMediaAttached);
+    this.hls.on(Hls.Events.MANIFEST_PARSED, this.onManifestParsed);
+    this.hls.on(Hls.Events.ERROR, this.onHlsError);
+    this.hls.on(Hls.Events.FRAG_PARSING_METADATA, this.onFragParsingMetadata);
+    this.hls.on(Hls.Events.FRAG_CHANGED, this.onFragChanged);
+
+    window.addEventListener('click', this.hidePlayBackMenu.bind(this));
+    window.addEventListener('resize', this.hidePlayBackMenu.bind(this));
+  }
+
+  handleVideoListeners() {
+    const { disableControls } = this.props;
 
     this.videoElement.addEventListener('timeupdate', () => {
       if (!disableControls) {
@@ -133,14 +144,47 @@ class HLSPlayer extends Component {
         });
       }
     });
-
-    window.addEventListener('click', this.hidePlayBackMenu.bind(this));
-    window.addEventListener('resize', this.hidePlayBackMenu.bind(this));
   }
 
   componentWillUnmount() {
     window.removeEventListener('click', this.hidePlayBackMenu.bind(this));
     window.removeEventListener('resize', this.hidePlayBackMenu.bind(this));
+  }
+
+  onMediaAttached() {
+    this.hls.loadSource(this.props.source);
+  }
+
+  onManifestParsed() {
+    const { isPlaying, isMuted } = this.state;
+
+    this.hls.startLoad();
+
+    if (isPlaying)
+      this.videoElement.play();
+
+    if (isMuted) {
+      this.videoElement.muted = true;
+      if (!disableControls) {
+        this.volumeBar.setState({
+          value: 0
+        });
+      }
+    }
+
+    this.handleVideoListeners();
+  }
+
+  onHlsError() {
+    console.log('error with HLS...');
+  }
+
+  onFragParsingMetadata() {
+    console.log('on fragment parsing metadata...');
+  }
+
+  onFragChanged() {
+    console.log('on fragment changed...');
   }
 
   _hasHours() {
