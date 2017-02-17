@@ -13,6 +13,13 @@ class HLSPlayer extends Component {
     disableControls: false,
     source: '',
     hlsParams: {},
+    hlsEvents: {
+      onMediaAttached: new Function(),
+      onManifestParsed: new Function(),
+      onError: new Function(),
+      onFragChanged: new Function(),
+      onFragParsingMetadata: new Function()
+    },
     customControls: {
       panelBg: '#000',
       buttonBg: 'none',
@@ -35,6 +42,13 @@ class HLSPlayer extends Component {
     disableControls: PropTypes.bool,
     source: PropTypes.string.isRequired,
     hlsParams: PropTypes.object,
+    hlsEvents: PropTypes.shape({
+      onMediaAttached: PropTypes.func,
+      onManifestParsed: PropTypes.func,
+      onError: PropTypes.func,
+      onFragChanged: PropTypes.func,
+      onFragParsingMetadata: PropTypes.func,
+    }),
     customControls: PropTypes.shape({
       panelBg: PropTypes.string,
       buttonBg: PropTypes.string,
@@ -153,6 +167,7 @@ class HLSPlayer extends Component {
 
   onMediaAttached() {
     this.hls.loadSource(this.props.source);
+    this.props.hlsEvents.onMediaAttached();
   }
 
   onManifestParsed() {
@@ -173,18 +188,23 @@ class HLSPlayer extends Component {
     }
 
     this.handleVideoListeners();
+
+    this.props.hlsEvents.onManifestParsed();
   }
 
   onHlsError() {
     console.log('error with HLS...');
+    this.props.hlsEvents.onError();
   }
 
-  onFragParsingMetadata() {
+  onFragParsingMetadata(e, data) {
     console.log('on fragment parsing metadata...');
+    this.props.hlsEvents.onFragParsingMetadata(e, data);
   }
 
-  onFragChanged() {
+  onFragChanged(e, data) {
     console.log('on fragment changed...');
+    this.props.hlsEvents.onFragChanged(e, data);
   }
 
   _hasHours() {

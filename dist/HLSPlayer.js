@@ -151,6 +151,7 @@ var HLSPlayer = function (_Component) {
     key: 'onMediaAttached',
     value: function onMediaAttached() {
       this.hls.loadSource(this.props.source);
+      this.props.hlsEvents.onMediaAttached();
     }
   }, {
     key: 'onManifestParsed',
@@ -174,21 +175,26 @@ var HLSPlayer = function (_Component) {
       }
 
       this.handleVideoListeners();
+
+      this.props.hlsEvents.onManifestParsed();
     }
   }, {
     key: 'onHlsError',
     value: function onHlsError() {
       console.log('error with HLS...');
+      this.props.hlsEvents.onError();
     }
   }, {
     key: 'onFragParsingMetadata',
-    value: function onFragParsingMetadata() {
+    value: function onFragParsingMetadata(e, data) {
       console.log('on fragment parsing metadata...');
+      this.props.hlsEvents.onFragParsingMetadata(e, data);
     }
   }, {
     key: 'onFragChanged',
-    value: function onFragChanged() {
+    value: function onFragChanged(e, data) {
       console.log('on fragment changed...');
+      this.props.hlsEvents.onFragChanged(e, data);
     }
   }, {
     key: '_hasHours',
@@ -520,6 +526,13 @@ HLSPlayer.defaultProps = {
   disableControls: false,
   source: '',
   hlsParams: {},
+  hlsEvents: {
+    onMediaAttached: new Function(),
+    onManifestParsed: new Function(),
+    onError: new Function(),
+    onFragChanged: new Function(),
+    onFragParsingMetadata: new Function()
+  },
   customControls: {
     panelBg: '#000',
     buttonBg: 'none',
@@ -541,6 +554,13 @@ HLSPlayer.propTypes = {
   disableControls: _react.PropTypes.bool,
   source: _react.PropTypes.string.isRequired,
   hlsParams: _react.PropTypes.object,
+  hlsEvents: _react.PropTypes.shape({
+    onMediaAttached: _react.PropTypes.func,
+    onManifestParsed: _react.PropTypes.func,
+    onError: _react.PropTypes.func,
+    onFragChanged: _react.PropTypes.func,
+    onFragParsingMetadata: _react.PropTypes.func
+  }),
   customControls: _react.PropTypes.shape({
     panelBg: _react.PropTypes.string,
     buttonBg: _react.PropTypes.string,

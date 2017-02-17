@@ -15,6 +15,10 @@ class App extends Component {
     });
   }
 
+  onFragChanged(e, data) {
+    console.log(e, data);
+  }
+
   render() {
     const { styleType } = this.state;
     const playerClass = `player player_${styleType}`;
@@ -33,6 +37,13 @@ class App extends Component {
       playBackRateContent: '<span class="glyphicon glyphicon-forward"></span>',
       preloaderContent: '<span class="glyphicon glyphicon-refresh"></span>'
     };
+    const hlsEvents = {
+      onFragChanged: this.onFragChanged.bind(this),
+      onMediaAttached: new Function(),
+      onManifestParsed: new Function(),
+      onError: new Function(),
+      onFragParsingMetadata: new Function()
+    };
 
     return (
       <div>
@@ -47,7 +58,7 @@ class App extends Component {
           />
         </div>
         <div className={playerClass}>
-          <HLSPlayer source={source} customControls={customControls} />
+          <HLSPlayer source={source} customControls={customControls} hlsEvents={hlsEvents} />
         </div>
       </div>
     );
