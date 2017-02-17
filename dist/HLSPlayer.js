@@ -53,7 +53,7 @@ var HLSPlayer = function (_Component) {
     };
 
 
-    _this.hls = null;
+    _this.player = null;
 
     _this.handlePlayBtn = _this.handlePlayBtn.bind(_this);
     _this.handleFullScreenBtn = _this.handleFullScreenBtn.bind(_this);
@@ -80,15 +80,15 @@ var HLSPlayer = function (_Component) {
 
       if (!_src2.default.isSupported()) return;
 
-      this.hls = new _src2.default(hlsParams);
+      this.player = new _src2.default(hlsParams);
 
-      this.hls.attachMedia(this.videoElement);
+      this.player.attachMedia(this.videoElement);
 
-      this.hls.on(_src2.default.Events.MEDIA_ATTACHED, this.onMediaAttached);
-      this.hls.on(_src2.default.Events.MANIFEST_PARSED, this.onManifestParsed);
-      this.hls.on(_src2.default.Events.ERROR, this.onHlsError);
-      this.hls.on(_src2.default.Events.FRAG_PARSING_METADATA, this.onFragParsingMetadata);
-      this.hls.on(_src2.default.Events.FRAG_CHANGED, this.onFragChanged);
+      this.player.on(_src2.default.Events.MEDIA_ATTACHED, this.onMediaAttached);
+      this.player.on(_src2.default.Events.MANIFEST_PARSED, this.onManifestParsed);
+      this.player.on(_src2.default.Events.ERROR, this.onHlsError);
+      this.player.on(_src2.default.Events.FRAG_PARSING_METADATA, this.onFragParsingMetadata);
+      this.player.on(_src2.default.Events.FRAG_CHANGED, this.onFragChanged);
 
       window.addEventListener('click', this.hidePlayBackMenu.bind(this));
       window.addEventListener('resize', this.hidePlayBackMenu.bind(this));
@@ -150,7 +150,7 @@ var HLSPlayer = function (_Component) {
   }, {
     key: 'onMediaAttached',
     value: function onMediaAttached() {
-      this.hls.loadSource(this.props.source);
+      this.player.loadSource(this.props.source);
       this.props.hlsEvents.onMediaAttached();
     }
   }, {
@@ -161,7 +161,7 @@ var HLSPlayer = function (_Component) {
           isMuted = _state.isMuted;
 
 
-      this.hls.startLoad();
+      this.player.startLoad();
 
       if (isPlaying) this.videoElement.play();
 

@@ -58,7 +58,12 @@ class App extends Component {
           />
         </div>
         <div className={playerClass}>
-          <HLSPlayer source={source} customControls={customControls} hlsEvents={hlsEvents} />
+          <HLSPlayer
+            ref={ (player) => { this.hls = player; } }
+            source={source}
+            customControls={customControls}
+            hlsEvents={hlsEvents}
+          />
         </div>
       </div>
     );

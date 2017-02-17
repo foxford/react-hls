@@ -78,7 +78,7 @@ class HLSPlayer extends Component {
   constructor(props, context) {
     super(props, context);
 
-    this.hls = null;
+    this.player = null;
 
     this.handlePlayBtn = this.handlePlayBtn.bind(this);
     this.handleFullScreenBtn = this.handleFullScreenBtn.bind(this);
@@ -102,15 +102,15 @@ class HLSPlayer extends Component {
     if (!Hls.isSupported())
       return;
 
-    this.hls = new Hls(hlsParams);
+    this.player = new Hls(hlsParams);
 
-    this.hls.attachMedia(this.videoElement);
+    this.player.attachMedia(this.videoElement);
 
-    this.hls.on(Hls.Events.MEDIA_ATTACHED, this.onMediaAttached);
-    this.hls.on(Hls.Events.MANIFEST_PARSED, this.onManifestParsed);
-    this.hls.on(Hls.Events.ERROR, this.onHlsError);
-    this.hls.on(Hls.Events.FRAG_PARSING_METADATA, this.onFragParsingMetadata);
-    this.hls.on(Hls.Events.FRAG_CHANGED, this.onFragChanged);
+    this.player.on(Hls.Events.MEDIA_ATTACHED, this.onMediaAttached);
+    this.player.on(Hls.Events.MANIFEST_PARSED, this.onManifestParsed);
+    this.player.on(Hls.Events.ERROR, this.onHlsError);
+    this.player.on(Hls.Events.FRAG_PARSING_METADATA, this.onFragParsingMetadata);
+    this.player.on(Hls.Events.FRAG_CHANGED, this.onFragChanged);
 
     window.addEventListener('click', this.hidePlayBackMenu.bind(this));
     window.addEventListener('resize', this.hidePlayBackMenu.bind(this));
@@ -166,14 +166,14 @@ class HLSPlayer extends Component {
   }
 
   onMediaAttached() {
-    this.hls.loadSource(this.props.source);
+    this.player.loadSource(this.props.source);
     this.props.hlsEvents.onMediaAttached();
   }
 
   onManifestParsed() {
     const { isPlaying, isMuted } = this.state;
 
-    this.hls.startLoad();
+    this.player.startLoad();
 
     if (isPlaying)
       this.videoElement.play();
