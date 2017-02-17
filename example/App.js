@@ -30,7 +30,8 @@ class App extends Component {
       volumeBtnContent: '<span class="glyphicon glyphicon-volume-up"></span>',
       muteBtnContent: '<span class="glyphicon glyphicon-volume-off"></span>',
       fullScreenBtnContent: '<span class="glyphicon glyphicon-fullscreen"></span>',
-      playBackRateContent: '<span class="glyphicon glyphicon-forward"></span>'
+      playBackRateContent: '<span class="glyphicon glyphicon-forward"></span>',
+      preloaderContent: '<span class="glyphicon glyphicon-refresh"></span>'
     };
 
     return (

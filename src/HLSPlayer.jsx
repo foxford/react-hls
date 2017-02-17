@@ -23,7 +23,8 @@ class HLSPlayer extends Component {
       volumeBtnContent: 'Mute',
       muteBtnContent: 'Unmute',
       fullScreenBtnContent: 'Full-screen',
-      playBackRateContent: 'Rate'
+      playBackRateContent: 'Rate',
+      preloaderContent: 'Loading...'
     }
   };
 
@@ -43,7 +44,8 @@ class HLSPlayer extends Component {
       volumeBtnContent: PropTypes.string,
       muteBtnContent: PropTypes.string,
       fullScreenBtnContent: PropTypes.string,
-      playBackRateContent: PropTypes.string
+      playBackRateContent: PropTypes.string,
+      preloaderContent: PropTypes.string
     })
   };
 
@@ -51,6 +53,7 @@ class HLSPlayer extends Component {
     isPlaying: this.props.autoPlay,
     isMuted: this.props.autoMute,
     showPlaybackMenu: false,
+    showPreloader: false,
     activeRate: 4,
     currentTime: '00:00',
     duration: '00:00'
@@ -113,6 +116,22 @@ class HLSPlayer extends Component {
 
     this.videoElement.addEventListener('ended', () => {
       this.videoElement.pause();
+    });
+
+    this.videoElement.addEventListener('waiting', () => {
+      if (!disableControls) {
+        this.setState({
+          showPreloader: true
+        });
+      }
+    });
+
+    this.videoElement.addEventListener('canplaythrough', () => {
+      if (!disableControls) {
+        this.setState({
+          showPreloader: false
+        });
+      }
     });
 
     window.addEventListener('click', this.hidePlayBackMenu.bind(this));
@@ -217,7 +236,7 @@ class HLSPlayer extends Component {
   }
 
   render() {
-    const { isPlaying, isMuted, currentTime, duration, showPlaybackMenu, activeRate } = this.state;
+    const { isPlaying, isMuted, currentTime, duration, showPlaybackMenu, activeRate, showPreloader } = this.state;
     const { customControls, disableControls } = this.props;
 
     const videoContainerStyles = {
@@ -266,6 +285,22 @@ class HLSPlayer extends Component {
       display: showPlaybackMenu ? 'flex' : 'none',
       flexDirection: 'column',
       background: customControls.panelBg
+    };
+    const preloaderStyles = {
+      width: '100%',
+      height: '100%',
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      background: 'rgba(0,0,0,.5)',
+      zIndex: 100,
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      textAlign: 'center',
+      color: customControls.buttonColor
     };
 
     let playBtnContent = '';
@@ -324,6 +359,11 @@ class HLSPlayer extends Component {
                ref={ (video) => { this.videoElement = video; } }
                onClick={ this.handlePlayBtn }
         />
+        { showPreloader &&
+          <div style={preloaderStyles}>
+            <span dangerouslySetInnerHTML={ this.rawHTML(customControls.preloaderContent) } />
+          </div>
+        }
         {
           !disableControls &&
             <div style={controlsPanelStyles}>

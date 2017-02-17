@@ -2,6 +2,13 @@
 # yarn lockfile v1
 
 
+"@webpack-blocks/babel6@^0.4.1":
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/@webpack-blocks/babel6/-/babel6-0.4.1.tgz#cf815244e7940db862bf32d6ca28e0b48ad2dc3c"
+  dependencies:
+    babel-core "^6.17.0"
+    babel-loader "^6.2.5"
+
 abbrev@1:
   version "1.0.9"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.0.9.tgz#91b4792588a7738c25f35dd6f63752a2f8776135"
@@ -214,7 +221,7 @@ babel-code-frame@^6.11.0, babel-code-frame@^6.22.0:
     esutils "^2.0.2"
     js-tokens "^3.0.0"
 
-babel-core@^6.22.0, babel-core@^6.22.1:
+babel-core@^6.17.0, babel-core@^6.22.0, babel-core@^6.22.1:
   version "6.22.1"
   resolved "https://registry.yarnpkg.com/babel-core/-/babel-core-6.22.1.tgz#9c5fd658ba1772d28d721f6d25d968fc7ae21648"
   dependencies:
@@ -387,7 +394,7 @@ babel-helpers@^6.22.0:
     babel-runtime "^6.22.0"
     babel-template "^6.22.0"
 
-babel-loader@^6.3.1:
+babel-loader@^6.2.5, babel-loader@^6.3.1:
   version "6.3.1"
   resolved "https://registry.yarnpkg.com/babel-loader/-/babel-loader-6.3.1.tgz#e4d590279bbd1dc3b06949850c20ca4187d50991"
   dependencies:

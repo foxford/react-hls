@@ -18,6 +18,11 @@
   margin: 0 auto;
 }
 
+.player .glyphicon-refresh {
+  font-size: 30px;
+  animation: spin .8s infinite linear;
+}
+
 /* styles for rc-slider */
 .rc-slider-rail {
   background: rgba(51, 51, 51, 0.9);
@@ -36,4 +41,9 @@
 }
 .player_2 .rc-slider-track {
   background-color: #8478ff;
+}
+
+@keyframes spin {
+  from { transform: scale(1) rotate(0deg);}
+  to { transform: scale(1) rotate(360deg);}
 }

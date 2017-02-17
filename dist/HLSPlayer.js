@@ -46,6 +46,7 @@ var HLSPlayer = function (_Component) {
       isPlaying: _this.props.autoPlay,
       isMuted: _this.props.autoMute,
       showPlaybackMenu: false,
+      showPreloader: false,
       activeRate: 4,
       currentTime: '00:00',
       duration: '00:00'
@@ -115,6 +116,22 @@ var HLSPlayer = function (_Component) {
 
       this.videoElement.addEventListener('ended', function () {
         _this2.videoElement.pause();
+      });
+
+      this.videoElement.addEventListener('waiting', function () {
+        if (!disableControls) {
+          _this2.setState({
+            showPreloader: true
+          });
+        }
+      });
+
+      this.videoElement.addEventListener('canplaythrough', function () {
+        if (!disableControls) {
+          _this2.setState({
+            showPreloader: false
+          });
+        }
       });
 
       window.addEventListener('click', this.hidePlayBackMenu.bind(this));
@@ -236,7 +253,8 @@ var HLSPlayer = function (_Component) {
           currentTime = _state2.currentTime,
           duration = _state2.duration,
           showPlaybackMenu = _state2.showPlaybackMenu,
-          activeRate = _state2.activeRate;
+          activeRate = _state2.activeRate,
+          showPreloader = _state2.showPreloader;
       var _props2 = this.props,
           customControls = _props2.customControls,
           disableControls = _props2.disableControls;
@@ -288,6 +306,22 @@ var HLSPlayer = function (_Component) {
         display: showPlaybackMenu ? 'flex' : 'none',
         flexDirection: 'column',
         background: customControls.panelBg
+      };
+      var preloaderStyles = {
+        width: '100%',
+        height: '100%',
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        background: 'rgba(0,0,0,.5)',
+        zIndex: 100,
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        textAlign: 'center',
+        color: customControls.buttonColor
       };
 
       var playBtnContent = '';
@@ -350,6 +384,11 @@ var HLSPlayer = function (_Component) {
           },
           onClick: this.handlePlayBtn
         }),
+        showPreloader && _react2.default.createElement(
+          'div',
+          { style: preloaderStyles },
+          _react2.default.createElement('span', { dangerouslySetInnerHTML: this.rawHTML(customControls.preloaderContent) })
+        ),
         !disableControls && _react2.default.createElement(
           'div',
           { style: controlsPanelStyles },
@@ -444,7 +483,8 @@ HLSPlayer.defaultProps = {
     volumeBtnContent: 'Mute',
     muteBtnContent: 'Unmute',
     fullScreenBtnContent: 'Full-screen',
-    playBackRateContent: 'Rate'
+    playBackRateContent: 'Rate',
+    preloaderContent: 'Loading...'
   }
 };
 HLSPlayer.propTypes = {
@@ -463,7 +503,8 @@ HLSPlayer.propTypes = {
     volumeBtnContent: _react.PropTypes.string,
     muteBtnContent: _react.PropTypes.string,
     fullScreenBtnContent: _react.PropTypes.string,
-    playBackRateContent: _react.PropTypes.string
+    playBackRateContent: _react.PropTypes.string,
+    preloaderContent: _react.PropTypes.string
   })
 };
 exports.default = HLSPlayer;
