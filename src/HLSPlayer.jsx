@@ -2,6 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import Hls from 'hls.js/src';
 import Slider from 'rc-slider';
 import screenfull from 'screenfull';
+import cx from 'classnames';
 
 import 'rc-slider/assets/index.css';
 
@@ -332,10 +333,6 @@ class HLSPlayer extends Component {
       color: customControls.buttonColor
     };
 
-    let controlsClass = 'hlsPlayer-controls';
-    if (isFullscreen)
-      controlsClass += ' fullscreen';
-
     let playBtnContent = '';
     let volumeBtnContent = '';
 
@@ -389,7 +386,7 @@ class HLSPlayer extends Component {
       <div className="hlsPlayer"
            ref={ (container) => { this.videoContainer = container; } }
       >
-        <video className="hlsPlayer-video"
+        <video className={cx('hlsPlayer-video', !isPlaying && 'paused')}
                ref={ (video) => { this.videoElement = video; } }
                onClick={ this.handlePlayBtn }
         />
@@ -400,7 +397,7 @@ class HLSPlayer extends Component {
         }
         {
           !disableControls &&
-            <div className={controlsClass} style={controlsPanelStyles}>
+            <div className={cx('hlsPlayer-controls', isFullscreen && 'fullscreen')} style={controlsPanelStyles}>
               <button className="hlsPlayer-button"
                       style={buttonStyles}
                       type="button"

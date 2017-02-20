@@ -24,6 +24,10 @@ var _screenfull = require('screenfull');
 
 var _screenfull2 = _interopRequireDefault(_screenfull);
 
+var _classnames = require('classnames');
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
 require('rc-slider/assets/index.css');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -344,9 +348,6 @@ var HLSPlayer = function (_Component) {
         color: customControls.buttonColor
       };
 
-      var controlsClass = 'hlsPlayer-controls';
-      if (isFullscreen) controlsClass += ' fullscreen';
-
       var playBtnContent = '';
       var volumeBtnContent = '';
 
@@ -402,7 +403,7 @@ var HLSPlayer = function (_Component) {
             _this3.videoContainer = container;
           }
         },
-        _react2.default.createElement('video', { className: 'hlsPlayer-video',
+        _react2.default.createElement('video', { className: (0, _classnames2.default)('hlsPlayer-video', !isPlaying && 'paused'),
           ref: function ref(video) {
             _this3.videoElement = video;
           },
@@ -415,7 +416,7 @@ var HLSPlayer = function (_Component) {
         ),
         !disableControls && _react2.default.createElement(
           'div',
-          { className: controlsClass, style: controlsPanelStyles },
+          { className: (0, _classnames2.default)('hlsPlayer-controls', isFullscreen && 'fullscreen'), style: controlsPanelStyles },
           _react2.default.createElement(
             'button',
             { className: 'hlsPlayer-button',
