@@ -3,6 +3,7 @@ import Hls from 'hls.js/src';
 import Slider from 'rc-slider';
 import screenfull from 'screenfull';
 
+import 'react-hls/src/style.css';
 import 'rc-slider/assets/index.css';
 
 class HLSPlayer extends Component {
@@ -70,6 +71,7 @@ class HLSPlayer extends Component {
     isMuted: this.props.autoMute,
     showPlaybackMenu: false,
     showPreloader: false,
+    isFullscreen: false,
     activeRate: 4,
     currentTime: '00:00',
     duration: '00:00'
@@ -242,8 +244,12 @@ class HLSPlayer extends Component {
   }
 
   handleFullScreenBtn() {
-    if (screenfull.enabled)
+    if (screenfull.enabled) {
       screenfull.toggle(this.videoContainer);
+      this.setState({
+        isFullscreen: screenfull.isFullscreen
+      });
+    }
   }
 
   handleVolumeBtn() {
@@ -300,7 +306,7 @@ class HLSPlayer extends Component {
   }
 
   render() {
-    const { isPlaying, isMuted, currentTime, duration, showPlaybackMenu, activeRate, showPreloader } = this.state;
+    const { isPlaying, isMuted, currentTime, duration, showPlaybackMenu, activeRate, showPreloader, isFullscreen } = this.state;
     const { customControls, disableControls } = this.props;
 
     const videoContainerStyles = {
@@ -367,6 +373,10 @@ class HLSPlayer extends Component {
       color: customControls.buttonColor
     };
 
+    let controlsClass = 'hlsPlayer-controls';
+    if (isFullscreen)
+      controlsClass += ' fullscreen';
+
     let playBtnContent = '';
     let volumeBtnContent = '';
 
@@ -430,7 +440,7 @@ class HLSPlayer extends Component {
         }
         {
           !disableControls &&
-            <div style={controlsPanelStyles}>
+            <div className={controlsClass} style={controlsPanelStyles}>
               <button style={buttonStyles}
                       type="button"
                       onClick={ this.handlePlayBtn }>

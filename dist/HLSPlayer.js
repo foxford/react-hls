@@ -24,6 +24,8 @@ var _screenfull = require('screenfull');
 
 var _screenfull2 = _interopRequireDefault(_screenfull);
 
+require('react-hls/src/style.css');
+
 require('rc-slider/assets/index.css');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -47,6 +49,7 @@ var HLSPlayer = function (_Component) {
       isMuted: _this.props.autoMute,
       showPlaybackMenu: false,
       showPreloader: false,
+      isFullscreen: false,
       activeRate: 4,
       currentTime: '00:00',
       duration: '00:00'
@@ -234,7 +237,12 @@ var HLSPlayer = function (_Component) {
   }, {
     key: 'handleFullScreenBtn',
     value: function handleFullScreenBtn() {
-      if (_screenfull2.default.enabled) _screenfull2.default.toggle(this.videoContainer);
+      if (_screenfull2.default.enabled) {
+        _screenfull2.default.toggle(this.videoContainer);
+        this.setState({
+          isFullscreen: _screenfull2.default.isFullscreen
+        });
+      }
     }
   }, {
     key: 'handleVolumeBtn',
@@ -307,7 +315,8 @@ var HLSPlayer = function (_Component) {
           duration = _state2.duration,
           showPlaybackMenu = _state2.showPlaybackMenu,
           activeRate = _state2.activeRate,
-          showPreloader = _state2.showPreloader;
+          showPreloader = _state2.showPreloader,
+          isFullscreen = _state2.isFullscreen;
       var _props = this.props,
           customControls = _props.customControls,
           disableControls = _props.disableControls;
@@ -377,6 +386,9 @@ var HLSPlayer = function (_Component) {
         color: customControls.buttonColor
       };
 
+      var controlsClass = 'hlsPlayer-controls';
+      if (isFullscreen) controlsClass += ' fullscreen';
+
       var playBtnContent = '';
       var volumeBtnContent = '';
 
@@ -444,7 +456,7 @@ var HLSPlayer = function (_Component) {
         ),
         !disableControls && _react2.default.createElement(
           'div',
-          { style: controlsPanelStyles },
+          { className: controlsClass, style: controlsPanelStyles },
           _react2.default.createElement(
             'button',
             { style: buttonStyles,

@@ -1,0 +1,6 @@
+.hlsPlayer-controls.fullscreen {
+  display: none;
+}
+.hlsPlayer-controls.fullscreen:hover {
+  display: flex;
+}
