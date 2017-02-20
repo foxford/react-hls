@@ -3,7 +3,6 @@ import Hls from 'hls.js/src';
 import Slider from 'rc-slider';
 import screenfull from 'screenfull';
 
-import 'react-hls/src/style.css';
 import 'rc-slider/assets/index.css';
 
 class HLSPlayer extends Component {
@@ -116,6 +115,13 @@ class HLSPlayer extends Component {
 
     window.addEventListener('click', this.hidePlayBackMenu.bind(this));
     window.addEventListener('resize', this.hidePlayBackMenu.bind(this));
+    document.addEventListener(screenfull.raw.fullscreenchange, this.handleScreenfullChange.bind(this));
+  }
+
+  handleScreenfullChange() {
+    this.setState({
+      isFullscreen: screenfull.isFullscreen
+    });
   }
 
   handleVideoListeners() {
@@ -244,12 +250,8 @@ class HLSPlayer extends Component {
   }
 
   handleFullScreenBtn() {
-    if (screenfull.enabled) {
+    if (screenfull.enabled)
       screenfull.toggle(this.videoContainer);
-      this.setState({
-        isFullscreen: screenfull.isFullscreen
-      });
-    }
   }
 
   handleVolumeBtn() {
@@ -309,67 +311,24 @@ class HLSPlayer extends Component {
     const { isPlaying, isMuted, currentTime, duration, showPlaybackMenu, activeRate, showPreloader, isFullscreen } = this.state;
     const { customControls, disableControls } = this.props;
 
-    const videoContainerStyles = {
-      position: 'relative',
-      width:'100%',
-      height: '100%',
-      background: '#000'
-    };
-    const videoStyles = {
-      width:'100%',
-      height: '100%'
-    };
     const controlsPanelStyles = {
-      position: 'absolute',
-      bottom: 0,
-      left: 0,
-      right: 0,
-      display: 'flex',
-      padding: '5px',
-      justifyContent: 'space-around',
-      zIndex: 100,
       background: customControls.panelBg
     };
     const buttonStyles = {
       background: customControls.buttonBg,
       color: customControls.buttonColor,
-      border: 'none',
-      outline: 'none'
     };
     const activeBtnStyles = { ...buttonStyles, ...{ background: '#fff', color: '#000' } };
-    const rangeDuration = {
-      margin: '5px 10px'
-    };
-    const rangeVolume = {
-      flexBasis: '10%',
-      margin: '5px 10px'
-    };
     const timers = {
       padding: customControls.timePadding,
       fontSize: customControls.timeSize,
-      whiteSpace: 'nowrap',
       color: customControls.buttonColor
     };
     const playbackMenu = {
-      position: 'absolute',
       display: showPlaybackMenu ? 'flex' : 'none',
-      flexDirection: 'column',
       background: customControls.panelBg
     };
     const preloaderStyles = {
-      width: '100%',
-      height: '100%',
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      background: 'rgba(0,0,0,.5)',
-      zIndex: 100,
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      textAlign: 'center',
       color: customControls.buttonColor
     };
 
@@ -407,6 +366,7 @@ class HLSPlayer extends Component {
     }];
     const playbackRatesList = playbackRates.map(item =>
       <button key={item.id}
+              className="hlsPlayer-button"
               style={ activeRate === item.id ? activeBtnStyles : buttonStyles }
               type="button"
               onClick={ (e) => { this.handlePlayBackRateChange(e, item) } }
@@ -426,39 +386,41 @@ class HLSPlayer extends Component {
       volumeBtnContent = <span dangerouslySetInnerHTML={ this.rawHTML(customControls.volumeBtnContent) } />;
 
     return (
-      <div style={videoContainerStyles}
+      <div className="hlsPlayer"
            ref={ (container) => { this.videoContainer = container; } }
       >
-        <video style={videoStyles}
+        <video className="hlsPlayer-video"
                ref={ (video) => { this.videoElement = video; } }
                onClick={ this.handlePlayBtn }
         />
         { showPreloader &&
-          <div style={preloaderStyles}>
+          <div className="hlsPlayer-preloader" style={preloaderStyles}>
             <span dangerouslySetInnerHTML={ this.rawHTML(customControls.preloaderContent) } />
           </div>
         }
         {
           !disableControls &&
             <div className={controlsClass} style={controlsPanelStyles}>
-              <button style={buttonStyles}
+              <button className="hlsPlayer-button"
+                      style={buttonStyles}
                       type="button"
                       onClick={ this.handlePlayBtn }>
                 {playBtnContent}
               </button>
-              <span style={timers}>{currentTime} / {duration}</span>
+              <span className="hlsPlayer-timers" style={timers}>{currentTime} / {duration}</span>
               <Slider
-                style={rangeDuration}
+                className="hlsPlayer-duration"
                 ref={ (bar) => { this.durationBar = bar; } }
                 onAfterChange={ this.handleDurationChange }
               />
-              <button style={buttonStyles}
+              <button className="hlsPlayer-button"
+                      style={buttonStyles}
                       type="button"
                       onClick={ this.handleVolumeBtn }>
                 {volumeBtnContent}
               </button>
               <Slider
-                style={rangeVolume}
+                className="hlsPlayer-volume"
                 min={0}
                 max={1}
                 step={0.1}
@@ -467,19 +429,22 @@ class HLSPlayer extends Component {
                 onChange={ this.handleVolumeChange }
                 onAfterChange={ this.handleVolumeChange }
               />
-              <button style={buttonStyles}
+              <button className="hlsPlayer-button"
+                      style={buttonStyles}
                       type="button"
                       ref={ (playback) => { this.playbackBtn = playback; } }
                       onClick={ this.handlePlayBackBtn }
               >
                 { <span dangerouslySetInnerHTML={ this.rawHTML(customControls.playBackRateContent) } /> }
               </button>
-              <div style={playbackMenu}
+              <div className="hlsPlayer-playbackMenu"
+                   style={playbackMenu}
                    ref={ (menu) => { this.playbackMenu = menu; } }
               >
                 { playbackRatesList }
               </div>
-              <button style={buttonStyles}
+              <button className="hlsPlayer-button"
+                      style={buttonStyles}
                       type="button"
                       onClick={ this.handleFullScreenBtn }>
                 { <span dangerouslySetInnerHTML={ this.rawHTML(customControls.fullScreenBtnContent) } /> }

@@ -24,8 +24,6 @@ var _screenfull = require('screenfull');
 
 var _screenfull2 = _interopRequireDefault(_screenfull);
 
-require('react-hls/src/style.css');
-
 require('rc-slider/assets/index.css');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -95,6 +93,14 @@ var HLSPlayer = function (_Component) {
 
       window.addEventListener('click', this.hidePlayBackMenu.bind(this));
       window.addEventListener('resize', this.hidePlayBackMenu.bind(this));
+      document.addEventListener(_screenfull2.default.raw.fullscreenchange, this.handleScreenfullChange.bind(this));
+    }
+  }, {
+    key: 'handleScreenfullChange',
+    value: function handleScreenfullChange() {
+      this.setState({
+        isFullscreen: _screenfull2.default.isFullscreen
+      });
     }
   }, {
     key: 'handleVideoListeners',
@@ -237,12 +243,7 @@ var HLSPlayer = function (_Component) {
   }, {
     key: 'handleFullScreenBtn',
     value: function handleFullScreenBtn() {
-      if (_screenfull2.default.enabled) {
-        _screenfull2.default.toggle(this.videoContainer);
-        this.setState({
-          isFullscreen: _screenfull2.default.isFullscreen
-        });
-      }
+      if (_screenfull2.default.enabled) _screenfull2.default.toggle(this.videoContainer);
     }
   }, {
     key: 'handleVolumeBtn',
@@ -322,67 +323,24 @@ var HLSPlayer = function (_Component) {
           disableControls = _props.disableControls;
 
 
-      var videoContainerStyles = {
-        position: 'relative',
-        width: '100%',
-        height: '100%',
-        background: '#000'
-      };
-      var videoStyles = {
-        width: '100%',
-        height: '100%'
-      };
       var controlsPanelStyles = {
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        display: 'flex',
-        padding: '5px',
-        justifyContent: 'space-around',
-        zIndex: 100,
         background: customControls.panelBg
       };
       var buttonStyles = {
         background: customControls.buttonBg,
-        color: customControls.buttonColor,
-        border: 'none',
-        outline: 'none'
+        color: customControls.buttonColor
       };
       var activeBtnStyles = _extends({}, buttonStyles, { background: '#fff', color: '#000' });
-      var rangeDuration = {
-        margin: '5px 10px'
-      };
-      var rangeVolume = {
-        flexBasis: '10%',
-        margin: '5px 10px'
-      };
       var timers = {
         padding: customControls.timePadding,
         fontSize: customControls.timeSize,
-        whiteSpace: 'nowrap',
         color: customControls.buttonColor
       };
       var playbackMenu = {
-        position: 'absolute',
         display: showPlaybackMenu ? 'flex' : 'none',
-        flexDirection: 'column',
         background: customControls.panelBg
       };
       var preloaderStyles = {
-        width: '100%',
-        height: '100%',
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        background: 'rgba(0,0,0,.5)',
-        zIndex: 100,
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        textAlign: 'center',
         color: customControls.buttonColor
       };
 
@@ -421,6 +379,7 @@ var HLSPlayer = function (_Component) {
         return _react2.default.createElement(
           'button',
           { key: item.id,
+            className: 'hlsPlayer-button',
             style: activeRate === item.id ? activeBtnStyles : buttonStyles,
             type: 'button',
             onClick: function onClick(e) {
@@ -438,12 +397,12 @@ var HLSPlayer = function (_Component) {
 
       return _react2.default.createElement(
         'div',
-        { style: videoContainerStyles,
+        { className: 'hlsPlayer',
           ref: function ref(container) {
             _this3.videoContainer = container;
           }
         },
-        _react2.default.createElement('video', { style: videoStyles,
+        _react2.default.createElement('video', { className: 'hlsPlayer-video',
           ref: function ref(video) {
             _this3.videoElement = video;
           },
@@ -451,7 +410,7 @@ var HLSPlayer = function (_Component) {
         }),
         showPreloader && _react2.default.createElement(
           'div',
-          { style: preloaderStyles },
+          { className: 'hlsPlayer-preloader', style: preloaderStyles },
           _react2.default.createElement('span', { dangerouslySetInnerHTML: this.rawHTML(customControls.preloaderContent) })
         ),
         !disableControls && _react2.default.createElement(
@@ -459,20 +418,21 @@ var HLSPlayer = function (_Component) {
           { className: controlsClass, style: controlsPanelStyles },
           _react2.default.createElement(
             'button',
-            { style: buttonStyles,
+            { className: 'hlsPlayer-button',
+              style: buttonStyles,
               type: 'button',
               onClick: this.handlePlayBtn },
             playBtnContent
           ),
           _react2.default.createElement(
             'span',
-            { style: timers },
+            { className: 'hlsPlayer-timers', style: timers },
             currentTime,
             ' / ',
             duration
           ),
           _react2.default.createElement(_rcSlider2.default, {
-            style: rangeDuration,
+            className: 'hlsPlayer-duration',
             ref: function ref(bar) {
               _this3.durationBar = bar;
             },
@@ -480,13 +440,14 @@ var HLSPlayer = function (_Component) {
           }),
           _react2.default.createElement(
             'button',
-            { style: buttonStyles,
+            { className: 'hlsPlayer-button',
+              style: buttonStyles,
               type: 'button',
               onClick: this.handleVolumeBtn },
             volumeBtnContent
           ),
           _react2.default.createElement(_rcSlider2.default, {
-            style: rangeVolume,
+            className: 'hlsPlayer-volume',
             min: 0,
             max: 1,
             step: 0.1,
@@ -499,7 +460,8 @@ var HLSPlayer = function (_Component) {
           }),
           _react2.default.createElement(
             'button',
-            { style: buttonStyles,
+            { className: 'hlsPlayer-button',
+              style: buttonStyles,
               type: 'button',
               ref: function ref(playback) {
                 _this3.playbackBtn = playback;
@@ -510,7 +472,8 @@ var HLSPlayer = function (_Component) {
           ),
           _react2.default.createElement(
             'div',
-            { style: playbackMenu,
+            { className: 'hlsPlayer-playbackMenu',
+              style: playbackMenu,
               ref: function ref(menu) {
                 _this3.playbackMenu = menu;
               }
@@ -519,7 +482,8 @@ var HLSPlayer = function (_Component) {
           ),
           _react2.default.createElement(
             'button',
-            { style: buttonStyles,
+            { className: 'hlsPlayer-button',
+              style: buttonStyles,
               type: 'button',
               onClick: this.handleFullScreenBtn },
             _react2.default.createElement('span', { dangerouslySetInnerHTML: this.rawHTML(customControls.fullScreenBtnContent) })

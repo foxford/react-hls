@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import HLSPlayer from '../dist/HLSPlayer';
 
+import '../src/style.css';
 import './style.css';
 
 class App extends Component {
