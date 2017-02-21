@@ -18,6 +18,7 @@ Hls.js library imports from original sources (src folder), that's why you need t
  ```````
 import React, { Component } from 'react';
 import HLSPlayer from 'react-hls';
+import 'react-hls/src/style.css'; // need to import basic styles
 
 class HLSPage extends Component {
   render() {
