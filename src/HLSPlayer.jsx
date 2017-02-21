@@ -72,7 +72,7 @@ class HLSPlayer extends Component {
     showPlaybackMenu: false,
     showPreloader: false,
     isFullscreen: false,
-    activeRate: 4,
+    activeRate: 6,
     currentTime: '00:00',
     duration: '00:00'
   };
