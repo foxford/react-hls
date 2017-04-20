@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import HLSPlayer from '../dist/HLSPlayer';
 
 import '../src/style.css';
+import '../src/icons.css';
 import './style.css';
 
 class App extends Component {
@@ -28,15 +29,15 @@ class App extends Component {
       panelBg: '#07141e',
       buttonBg: 'none',
       buttonColor: '#ccc',
-      timePadding: '3px 5px',
+      timePadding: '5px',
       timeSize: '12px',
-      playBtnContent: '<span class="glyphicon glyphicon-play"></span>',
-      pauseBtnContent: '<span class="glyphicon glyphicon-pause"></span>',
-      volumeBtnContent: '<span class="glyphicon glyphicon-volume-up"></span>',
-      muteBtnContent: '<span class="glyphicon glyphicon-volume-off"></span>',
-      fullScreenBtnContent: '<span class="glyphicon glyphicon-fullscreen"></span>',
-      playBackRateContent: '<span class="glyphicon glyphicon-forward"></span>',
-      preloaderContent: '<span class="glyphicon glyphicon-refresh"></span>'
+      playBtnContent: '<span class="icon-player-play"></span>',
+      pauseBtnContent: '<span class="icon-player-stop"></span>',
+      volumeBtnContent: '<span class="icon-player-volume"></span>',
+      muteBtnContent: '<span class="icon-player-mute"></span>',
+      fullScreenBtnContent: '<span class="icon-player-fullscreen"></span>',
+      playBackRateContent: '<span class="icon-player-rate"></span>',
+      preloaderContent: '<span class="icon-player-loader"></span>'
     };
     const hlsEvents = {
       onFragChanged: this.onFragChanged.bind(this),

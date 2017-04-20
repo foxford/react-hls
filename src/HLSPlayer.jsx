@@ -3,6 +3,7 @@ import Hls from 'hls.js/src';
 import Slider from 'rc-slider';
 import screenfull from 'screenfull';
 import cx from 'classnames';
+import MobileDetect from 'mobile-detect';
 
 import 'rc-slider/assets/index.css';
 
@@ -22,18 +23,18 @@ class HLSPlayer extends Component {
       onFragParsingMetadata: new Function()
     },
     customControls: {
-      panelBg: '#000',
+      panelBg: '#07141e',
       buttonBg: 'none',
       buttonColor: '#fff',
-      timePadding: '0',
-      timeSize: 'inherit',
-      playBtnContent: 'Play',
-      pauseBtnContent: 'Pause',
-      volumeBtnContent: 'Mute',
-      muteBtnContent: 'Unmute',
-      fullScreenBtnContent: 'Full-screen',
-      playBackRateContent: 'Rate',
-      preloaderContent: 'Loading...'
+      timePadding: '5px',
+      timeSize: '12px',
+      playBtnContent: '<span class="icon-player-play"></span>',
+      pauseBtnContent: '<span class="icon-player-stop"></span>',
+      volumeBtnContent: '<span class="icon-player-volume"></span>',
+      muteBtnContent: '<span class="icon-player-mute"></span>',
+      fullScreenBtnContent: '<span class="icon-player-fullscreen"></span>',
+      playBackRateContent: '<span class="icon-player-rate"></span>',
+      preloaderContent: '<span class="icon-player-loader"></span>'
     }
   };
 
@@ -100,6 +101,10 @@ class HLSPlayer extends Component {
 
   componentDidMount() {
     const { hlsParams } = this.props;
+    const mobile = this.whatMobile();
+
+    if (mobile === 'iPad' || mobile === 'iPhone')
+      this.videoElement.src = this.props.source;
 
     if (!Hls.isSupported())
       return;
@@ -117,6 +122,10 @@ class HLSPlayer extends Component {
     window.addEventListener('click', this.hidePlayBackMenu.bind(this));
     window.addEventListener('resize', this.hidePlayBackMenu.bind(this));
     document.addEventListener(screenfull.raw.fullscreenchange, this.handleScreenfullChange.bind(this));
+  }
+
+  whatMobile() {
+    return new MobileDetect(window.navigator.userAgent).mobile();
   }
 
   handleScreenfullChange() {
@@ -233,6 +242,11 @@ class HLSPlayer extends Component {
   }
 
   handlePlayBtn(e) {
+    const mobile = this.whatMobile();
+
+    if (mobile === 'iPad' || mobile === 'iPhone')
+      this.videoElement.play();
+
     if (this.props.disableControls)
       return;
 
