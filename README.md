@@ -15,10 +15,11 @@ Hls.js library imports from original sources (src folder), that's why you need t
     /node_modules\/hls\.js/
 
 ## Usage example
- ```````
+ ``` javascript
 import React, { Component } from 'react';
 import HLSPlayer from 'react-hls';
 import 'react-hls/src/style.css'; // need to import basic styles
+import 'react-hls/src/icons.css'; // need to import basic icons
 
 class HLSPage extends Component {
   render() {
@@ -33,7 +34,7 @@ class HLSPage extends Component {
 }
 
 export default HLSPage;
- ```````
+ ```
 
 ## Run example
  ```````
