@@ -12,10 +12,6 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _src = require('hls.js/src');
-
-var _src2 = _interopRequireDefault(_src);
-
 var _rcSlider = require('rc-slider');
 
 var _rcSlider2 = _interopRequireDefault(_rcSlider);
@@ -41,6 +37,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+require('!script-loader!hls.js');
 
 var HLSPlayer = function (_Component) {
   _inherits(HLSPlayer, _Component);
@@ -90,17 +88,17 @@ var HLSPlayer = function (_Component) {
 
       if (mobile === 'iPad' || mobile === 'iPhone') this.videoElement.src = this.props.source;
 
-      if (!_src2.default.isSupported()) return;
+      if (!Hls.isSupported()) return;
 
-      this.player = new _src2.default(hlsParams);
+      this.player = new Hls(hlsParams);
 
       this.player.attachMedia(this.videoElement);
 
-      this.player.on(_src2.default.Events.MEDIA_ATTACHED, this.onMediaAttached);
-      this.player.on(_src2.default.Events.MANIFEST_PARSED, this.onManifestParsed);
-      this.player.on(_src2.default.Events.ERROR, this.onHlsError);
-      this.player.on(_src2.default.Events.FRAG_PARSING_METADATA, this.onFragParsingMetadata);
-      this.player.on(_src2.default.Events.FRAG_CHANGED, this.onFragChanged);
+      this.player.on(Hls.Events.MEDIA_ATTACHED, this.onMediaAttached);
+      this.player.on(Hls.Events.MANIFEST_PARSED, this.onManifestParsed);
+      this.player.on(Hls.Events.ERROR, this.onHlsError);
+      this.player.on(Hls.Events.FRAG_PARSING_METADATA, this.onFragParsingMetadata);
+      this.player.on(Hls.Events.FRAG_CHANGED, this.onFragChanged);
 
       window.addEventListener('click', this.hidePlayBackMenu.bind(this));
       window.addEventListener('resize', this.hidePlayBackMenu.bind(this));

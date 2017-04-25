@@ -45,6 +45,7 @@
     "rc-slider": "^6.1.0",
     "react": "^15.4.2",
     "screenfull": "^3.0.2",
+    "script-loader": "^0.7.0",
     "webworkify": "^1.4.0"
   }
 }

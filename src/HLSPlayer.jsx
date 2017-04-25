@@ -1,5 +1,6 @@
+require('!script-loader!hls.js');
+
 import React, {Component, PropTypes} from 'react';
-import Hls from 'hls.js/src';
 import Slider from 'rc-slider';
 import screenfull from 'screenfull';
 import cx from 'classnames';
