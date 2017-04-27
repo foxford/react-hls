@@ -9,11 +9,6 @@ config.module.rules.push({
     path.join(__dirname, 'example'),
     /node_modules\/hls\.js/
   ]
-}, {
-  test: /\.(ttf|otf|eot|svg|woff|woff2)$/i,
-  loaders: [
-    'file-loader?name=[path][name].[ext]'
-  ]
 });
 config.devtool = 'source-map';
 config.devServer = {
