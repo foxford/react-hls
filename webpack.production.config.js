@@ -1,5 +1,6 @@
-var path = require('path');
-var config = require('./webpack.common.config');
+const path = require('path');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const config = require('./webpack.common.config');
 
 config.module.rules.push({
   test: /\.js?/,
@@ -9,5 +10,14 @@ config.module.rules.push({
     /node_modules\/hls\.js/
   ]
 });
+
+config.module.rules.push({
+  test: /\.css$/,
+  loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader' })
+});
+
+config.plugins.push(
+  new ExtractTextPlugin('style.min.css')
+);
 
 module.exports = config;

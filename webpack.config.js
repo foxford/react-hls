@@ -1,7 +1,8 @@
-var path = require('path');
-var webpack = require('webpack');
-var config = require('./webpack.common.config');
+const path = require('path');
+const webpack = require('webpack');
+const config = require('./webpack.common.config');
 
+config.output.publicPath = '/build/';
 config.module.rules.push({
   test: /\.js?/,
   loaders: ['react-hot-loader','babel-loader'],
@@ -9,6 +10,10 @@ config.module.rules.push({
     path.join(__dirname, 'example'),
     /node_modules\/hls\.js/
   ]
+});
+config.module.rules.push({
+  test: /\.css$/,
+  loader: 'style-loader!css-loader'
 });
 config.devtool = 'source-map';
 config.devServer = {

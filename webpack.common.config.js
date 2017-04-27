@@ -1,5 +1,5 @@
-var path = require('path');
-var webpack = require('webpack');
+const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
   entry: [
@@ -7,19 +7,14 @@ module.exports = {
   ],
   output: {
     path: path.join(__dirname, 'example/build'),
-    filename: 'bundle.js',
-    publicPath: '/build/'
+    filename: 'bundle.js'
   },
   module: {
     rules: [
       {
-        test: /\.css$/,
-        loader: 'style-loader!css-loader'
-      },
-      {
         test: /\.(ttf|otf|eot|svg|woff|woff2)$/i,
         loaders: [
-          'file-loader?name=[path][name].[ext]'
+          'file-loader?name=[name].[ext]?[hash]&hash=sha512&digest=hex'
         ]
       }
     ]
