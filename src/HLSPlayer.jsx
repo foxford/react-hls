@@ -202,9 +202,9 @@ class HLSPlayer extends Component {
     this.props.hlsEvents.onManifestParsed();
   }
 
-  onHlsError(err) {
+  onHlsError(e, data) {
     console.log('error with HLS...');
-    this.props.hlsEvents.onError(err);
+    this.props.hlsEvents.onError(e, data);
   }
 
   onFragParsingMetadata(e, data) {

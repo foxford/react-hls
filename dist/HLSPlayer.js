@@ -192,9 +192,9 @@ var HLSPlayer = function (_Component) {
     }
   }, {
     key: 'onHlsError',
-    value: function onHlsError(err) {
+    value: function onHlsError(e, data) {
       console.log('error with HLS...');
-      this.props.hlsEvents.onError(err);
+      this.props.hlsEvents.onError(e, data);
     }
   }, {
     key: 'onFragParsingMetadata',
