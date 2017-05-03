@@ -110,11 +110,14 @@ var HLSPlayer = function (_Component) {
       return new _mobileDetect2.default(window.navigator.userAgent).mobile();
     }
   }, {
+    key: 'isMobile',
+    value: function isMobile() {
+      return !!new _mobileDetect2.default(window.navigator.userAgent).mobile();
+    }
+  }, {
     key: 'handleScreenfullChange',
     value: function handleScreenfullChange() {
-      this.setState({
-        isFullscreen: _screenfull2.default.isFullscreen
-      });
+      this.setState({ isFullscreen: _screenfull2.default.isFullscreen });
     }
   }, {
     key: 'handleVideoListeners',
@@ -136,12 +139,10 @@ var HLSPlayer = function (_Component) {
       });
 
       this.videoElement.addEventListener('canplay', function () {
-        if (!disableControls) {
-          _this2.setState({
-            duration: formatTime(_this2.videoElement.duration, _this2._hasHours()),
-            currentTime: formatTime(0, _this2._hasHours())
-          });
-        }
+        if (!disableControls) _this2.setState({
+          duration: formatTime(_this2.videoElement.duration, _this2._hasHours()),
+          currentTime: formatTime(0, _this2._hasHours())
+        });
       });
 
       this.videoElement.addEventListener('ended', function () {
@@ -149,19 +150,11 @@ var HLSPlayer = function (_Component) {
       });
 
       this.videoElement.addEventListener('waiting', function () {
-        if (!disableControls) {
-          _this2.setState({
-            showPreloader: true
-          });
-        }
+        if (!disableControls) _this2.setState({ showPreloader: true });
       });
 
       this.videoElement.addEventListener('canplaythrough', function () {
-        if (!disableControls) {
-          _this2.setState({
-            showPreloader: false
-          });
-        }
+        if (!disableControls) _this2.setState({ showPreloader: false });
       });
     }
   }, {
@@ -190,11 +183,7 @@ var HLSPlayer = function (_Component) {
 
       if (isMuted) {
         this.videoElement.muted = true;
-        if (!disableControls) {
-          this.volumeBar.setState({
-            value: 0
-          });
-        }
+        if (!disableControls) this.volumeBar.setState({ value: 0 });
       }
 
       this.handleVideoListeners();
@@ -203,9 +192,9 @@ var HLSPlayer = function (_Component) {
     }
   }, {
     key: 'onHlsError',
-    value: function onHlsError() {
+    value: function onHlsError(err) {
       console.log('error with HLS...');
-      this.props.hlsEvents.onError();
+      this.props.hlsEvents.onError(err);
     }
   }, {
     key: 'onFragParsingMetadata',
@@ -232,11 +221,7 @@ var HLSPlayer = function (_Component) {
   }, {
     key: 'hidePlayBackMenu',
     value: function hidePlayBackMenu() {
-      if (this.state.showPlaybackMenu) {
-        this.setState({
-          showPlaybackMenu: false
-        });
-      }
+      if (this.state.showPlaybackMenu) this.setState({ showPlaybackMenu: false });
     }
   }, {
     key: 'handlePlayBtn',
@@ -254,9 +239,7 @@ var HLSPlayer = function (_Component) {
 
       if (isPlaying) this.videoElement.pause();else this.videoElement.play();
 
-      this.setState({
-        isPlaying: !isPlaying
-      });
+      this.setState({ isPlaying: !isPlaying });
     }
   }, {
     key: 'handleFullScreenBtn',
@@ -270,13 +253,10 @@ var HLSPlayer = function (_Component) {
 
 
       this.videoElement.muted = !isMuted;
-      this.volumeBar.setState({
-        value: isMuted ? 1 : 0
-      });
 
-      this.setState({
-        isMuted: !isMuted
-      });
+      if (this.volumeBar) this.volumeBar.setState({ value: isMuted ? 1 : 0 });
+
+      this.setState({ isMuted: !isMuted });
     }
   }, {
     key: 'handleVolumeChange',
@@ -286,9 +266,8 @@ var HLSPlayer = function (_Component) {
 
       this.videoElement.volume = volume;
       this.videoElement.muted = isMuted;
-      this.setState({
-        isMuted: isMuted
-      });
+
+      this.setState({ isMuted: isMuted });
     }
   }, {
     key: 'handleDurationChange',
@@ -303,9 +282,7 @@ var HLSPlayer = function (_Component) {
       var showPlaybackMenu = this.state.showPlaybackMenu;
 
 
-      this.setState({
-        showPlaybackMenu: !showPlaybackMenu
-      });
+      this.setState({ showPlaybackMenu: !showPlaybackMenu });
 
       this.playbackMenu.style.display = !showPlaybackMenu ? 'flex' : 'none';
       this.playbackMenu.style.top = -this.playbackMenu.clientHeight + 'px';
@@ -320,6 +297,7 @@ var HLSPlayer = function (_Component) {
         activeRate: rate.id,
         showPlaybackMenu: false
       });
+
       this.videoElement.playbackRate = rate.value;
     }
   }, {
@@ -461,7 +439,7 @@ var HLSPlayer = function (_Component) {
               onClick: this.handleVolumeBtn },
             volumeBtnContent
           ),
-          _react2.default.createElement(_rcSlider2.default, {
+          !this.isMobile() && _react2.default.createElement(_rcSlider2.default, {
             className: 'hlsPlayer-volume',
             min: 0,
             max: 1,

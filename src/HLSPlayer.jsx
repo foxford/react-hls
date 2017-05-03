@@ -128,10 +128,12 @@ class HLSPlayer extends Component {
     return new MobileDetect(window.navigator.userAgent).mobile();
   }
 
+  isMobile() {
+    return !!new MobileDetect(window.navigator.userAgent).mobile();
+  }
+
   handleScreenfullChange() {
-    this.setState({
-      isFullscreen: screenfull.isFullscreen
-    });
+    this.setState({ isFullscreen: screenfull.isFullscreen });
   }
 
   handleVideoListeners() {
@@ -149,12 +151,11 @@ class HLSPlayer extends Component {
     });
 
     this.videoElement.addEventListener('canplay', () => {
-      if (!disableControls) {
+      if (!disableControls)
         this.setState({
           duration: formatTime(this.videoElement.duration, this._hasHours()),
           currentTime: formatTime(0, this._hasHours())
         });
-      }
     });
 
     this.videoElement.addEventListener('ended', () => {
@@ -162,19 +163,13 @@ class HLSPlayer extends Component {
     });
 
     this.videoElement.addEventListener('waiting', () => {
-      if (!disableControls) {
-        this.setState({
-          showPreloader: true
-        });
-      }
+      if (!disableControls)
+        this.setState({ showPreloader: true });
     });
 
     this.videoElement.addEventListener('canplaythrough', () => {
-      if (!disableControls) {
-        this.setState({
-          showPreloader: false
-        });
-      }
+      if (!disableControls)
+        this.setState({ showPreloader: false });
     });
   }
 
@@ -198,11 +193,8 @@ class HLSPlayer extends Component {
 
     if (isMuted) {
       this.videoElement.muted = true;
-      if (!disableControls) {
-        this.volumeBar.setState({
-          value: 0
-        });
-      }
+      if (!disableControls)
+        this.volumeBar.setState({ value: 0 });
     }
 
     this.handleVideoListeners();
@@ -210,9 +202,9 @@ class HLSPlayer extends Component {
     this.props.hlsEvents.onManifestParsed();
   }
 
-  onHlsError() {
+  onHlsError(err) {
     console.log('error with HLS...');
-    this.props.hlsEvents.onError();
+    this.props.hlsEvents.onError(err);
   }
 
   onFragParsingMetadata(e, data) {
@@ -234,11 +226,8 @@ class HLSPlayer extends Component {
   }
 
   hidePlayBackMenu() {
-    if (this.state.showPlaybackMenu) {
-      this.setState({
-        showPlaybackMenu: false
-      });
-    }
+    if (this.state.showPlaybackMenu)
+      this.setState({ showPlaybackMenu: false });
   }
 
   handlePlayBtn(e) {
@@ -259,9 +248,7 @@ class HLSPlayer extends Component {
     else
       this.videoElement.play();
 
-    this.setState({
-      isPlaying: !isPlaying
-    });
+    this.setState({ isPlaying: !isPlaying });
   }
 
   handleFullScreenBtn() {
@@ -273,13 +260,11 @@ class HLSPlayer extends Component {
     const { isMuted } = this.state;
 
     this.videoElement.muted = !isMuted;
-    this.volumeBar.setState({
-      value: isMuted ? 1 : 0
-    });
 
-    this.setState({
-      isMuted: !isMuted
-    });
+    if (this.volumeBar)
+      this.volumeBar.setState({ value: isMuted ? 1 : 0 });
+
+    this.setState({ isMuted: !isMuted });
   }
 
   handleVolumeChange() {
@@ -288,9 +273,8 @@ class HLSPlayer extends Component {
 
     this.videoElement.volume = volume;
     this.videoElement.muted = isMuted;
-    this.setState({
-      isMuted: isMuted
-    });
+
+    this.setState({ isMuted: isMuted });
   }
 
 
@@ -303,9 +287,7 @@ class HLSPlayer extends Component {
 
     const { showPlaybackMenu } = this.state;
 
-    this.setState({
-      showPlaybackMenu: !showPlaybackMenu
-    });
+    this.setState({ showPlaybackMenu: !showPlaybackMenu });
 
     this.playbackMenu.style.display = !showPlaybackMenu ? 'flex' : 'none';
     this.playbackMenu.style.top = -this.playbackMenu.clientHeight + 'px';
@@ -319,6 +301,7 @@ class HLSPlayer extends Component {
       activeRate: rate.id,
       showPlaybackMenu: false
     });
+
     this.videoElement.playbackRate = rate.value;
   }
 
@@ -430,16 +413,20 @@ class HLSPlayer extends Component {
                       onClick={ this.handleVolumeBtn }>
                 {volumeBtnContent}
               </button>
-              <Slider
-                className="hlsPlayer-volume"
-                min={0}
-                max={1}
-                step={0.1}
-                defaultValue={1}
-                ref={ (bar) => { this.volumeBar = bar; } }
-                onChange={ this.handleVolumeChange }
-                onAfterChange={ this.handleVolumeChange }
-              />
+              { !this.isMobile() &&
+                <Slider
+                  className="hlsPlayer-volume"
+                  min={0}
+                  max={1}
+                  step={0.1}
+                  defaultValue={1}
+                  ref={ (bar) => {
+                    this.volumeBar = bar;
+                  } }
+                  onChange={ this.handleVolumeChange }
+                  onAfterChange={ this.handleVolumeChange }
+                />
+              }
               <button className="hlsPlayer-button"
                       style={buttonStyles}
                       type="button"
