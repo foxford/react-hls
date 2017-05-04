@@ -62,11 +62,15 @@ var HLSPlayer = function (_Component) {
 
     _this.player = null;
 
+    _this.isChangeDuration = false;
+
     _this.handlePlayBtn = _this.handlePlayBtn.bind(_this);
     _this.handleFullScreenBtn = _this.handleFullScreenBtn.bind(_this);
     _this.handleVolumeBtn = _this.handleVolumeBtn.bind(_this);
     _this.handleVolumeChange = _this.handleVolumeChange.bind(_this);
+    _this.handleBeforeDurationChange = _this.handleBeforeDurationChange.bind(_this);
     _this.handleDurationChange = _this.handleDurationChange.bind(_this);
+    _this.handleAfterDurationChange = _this.handleAfterDurationChange.bind(_this);
     _this.handlePlayBackBtn = _this.handlePlayBackBtn.bind(_this);
     _this.handleVideoListeners = _this.handleVideoListeners.bind(_this);
 
@@ -129,7 +133,7 @@ var HLSPlayer = function (_Component) {
 
       this.videoElement.addEventListener('timeupdate', function () {
         if (!disableControls) {
-          _this2.durationBar.setState({
+          if (!_this2.isChangeDuration) _this2.durationBar.setState({
             value: 100 / _this2.videoElement.duration * _this2.videoElement.currentTime
           });
           _this2.setState({
@@ -140,6 +144,7 @@ var HLSPlayer = function (_Component) {
 
       this.videoElement.addEventListener('canplay', function () {
         if (!disableControls) _this2.setState({
+          showPreloader: false,
           duration: formatTime(_this2.videoElement.duration, _this2._hasHours()),
           currentTime: formatTime(0, _this2._hasHours())
         });
@@ -193,7 +198,7 @@ var HLSPlayer = function (_Component) {
   }, {
     key: 'onHlsError',
     value: function onHlsError(e, data) {
-      console.log('error with HLS...');
+      console.log('error with HLS...', e, data);
       this.props.hlsEvents.onError(e, data);
     }
   }, {
@@ -270,9 +275,22 @@ var HLSPlayer = function (_Component) {
       this.setState({ isMuted: isMuted });
     }
   }, {
+    key: 'handleBeforeDurationChange',
+    value: function handleBeforeDurationChange() {
+      this.isChangeDuration = true;
+      this.videoElement.pause();
+    }
+  }, {
     key: 'handleDurationChange',
     value: function handleDurationChange() {
       this.videoElement.currentTime = this.videoElement.duration * (this.durationBar.state.value / 100);
+    }
+  }, {
+    key: 'handleAfterDurationChange',
+    value: function handleAfterDurationChange() {
+      this.videoElement.currentTime = this.videoElement.duration * (this.durationBar.state.value / 100);
+      this.isChangeDuration = false;
+      this.videoElement.play();
     }
   }, {
     key: 'handlePlayBackBtn',
@@ -429,7 +447,9 @@ var HLSPlayer = function (_Component) {
             ref: function ref(bar) {
               _this3.durationBar = bar;
             },
-            onAfterChange: this.handleDurationChange
+            onBeforeChange: this.handleBeforeDurationChange,
+            onChange: this.handleDurationChange,
+            onAfterChange: this.handleAfterDurationChange
           }),
           _react2.default.createElement(
             'button',

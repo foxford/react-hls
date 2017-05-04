@@ -83,11 +83,15 @@ class HLSPlayer extends Component {
 
     this.player = null;
 
+    this.isChangeDuration = false;
+
     this.handlePlayBtn = this.handlePlayBtn.bind(this);
     this.handleFullScreenBtn = this.handleFullScreenBtn.bind(this);
     this.handleVolumeBtn = this.handleVolumeBtn.bind(this);
     this.handleVolumeChange = this.handleVolumeChange.bind(this);
+    this.handleBeforeDurationChange = this.handleBeforeDurationChange.bind(this);
     this.handleDurationChange = this.handleDurationChange.bind(this);
+    this.handleAfterDurationChange = this.handleAfterDurationChange.bind(this);
     this.handlePlayBackBtn = this.handlePlayBackBtn.bind(this);
     this.handleVideoListeners = this.handleVideoListeners.bind(this);
 
@@ -141,9 +145,10 @@ class HLSPlayer extends Component {
 
     this.videoElement.addEventListener('timeupdate', () => {
       if (!disableControls) {
-        this.durationBar.setState({
-          value: (100 / this.videoElement.duration) * this.videoElement.currentTime
-        });
+        if (!this.isChangeDuration)
+          this.durationBar.setState({
+            value: (100 / this.videoElement.duration) * this.videoElement.currentTime
+          });
         this.setState({
           currentTime: formatTime(this.videoElement.currentTime, this._hasHours())
         });
@@ -153,6 +158,7 @@ class HLSPlayer extends Component {
     this.videoElement.addEventListener('canplay', () => {
       if (!disableControls)
         this.setState({
+          showPreloader: false,
           duration: formatTime(this.videoElement.duration, this._hasHours()),
           currentTime: formatTime(0, this._hasHours())
         });
@@ -203,7 +209,7 @@ class HLSPlayer extends Component {
   }
 
   onHlsError(e, data) {
-    console.log('error with HLS...');
+    console.log('error with HLS...', e, data);
     this.props.hlsEvents.onError(e, data);
   }
 
@@ -277,9 +283,19 @@ class HLSPlayer extends Component {
     this.setState({ isMuted: isMuted });
   }
 
+  handleBeforeDurationChange() {
+    this.isChangeDuration = true;
+    this.videoElement.pause();
+  }
 
   handleDurationChange() {
     this.videoElement.currentTime = this.videoElement.duration * (this.durationBar.state.value / 100);
+  }
+
+  handleAfterDurationChange() {
+    this.videoElement.currentTime = this.videoElement.duration * (this.durationBar.state.value / 100);
+    this.isChangeDuration = false;
+    this.videoElement.play();
   }
 
   handlePlayBackBtn(e) {
@@ -405,7 +421,9 @@ class HLSPlayer extends Component {
               <Slider
                 className="hlsPlayer-duration"
                 ref={ (bar) => { this.durationBar = bar; } }
-                onAfterChange={ this.handleDurationChange }
+                onBeforeChange={ this.handleBeforeDurationChange }
+                onChange={ this.handleDurationChange }
+                onAfterChange={ this.handleAfterDurationChange }
               />
               <button className="hlsPlayer-button"
                       style={buttonStyles}
