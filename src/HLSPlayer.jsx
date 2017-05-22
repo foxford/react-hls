@@ -1,5 +1,6 @@
 import '!script-loader!hls.js';
-import React, {Component, PropTypes} from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Slider from 'rc-slider';
 import screenfull from 'screenfull';
 import cx from 'classnames';

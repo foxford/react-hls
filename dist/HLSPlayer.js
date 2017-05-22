@@ -14,6 +14,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
 var _rcSlider = require('rc-slider');
 
 var _rcSlider2 = _interopRequireDefault(_rcSlider);
@@ -591,31 +595,31 @@ HLSPlayer.defaultProps = {
   }
 };
 HLSPlayer.propTypes = {
-  autoPlay: _react.PropTypes.bool,
-  autoMute: _react.PropTypes.bool,
-  disableControls: _react.PropTypes.bool,
-  source: _react.PropTypes.string.isRequired,
-  hlsParams: _react.PropTypes.object,
-  hlsEvents: _react.PropTypes.shape({
-    onMediaAttached: _react.PropTypes.func,
-    onManifestParsed: _react.PropTypes.func,
-    onError: _react.PropTypes.func,
-    onFragChanged: _react.PropTypes.func,
-    onFragParsingMetadata: _react.PropTypes.func
+  autoPlay: _propTypes2.default.bool,
+  autoMute: _propTypes2.default.bool,
+  disableControls: _propTypes2.default.bool,
+  source: _propTypes2.default.string.isRequired,
+  hlsParams: _propTypes2.default.object,
+  hlsEvents: _propTypes2.default.shape({
+    onMediaAttached: _propTypes2.default.func,
+    onManifestParsed: _propTypes2.default.func,
+    onError: _propTypes2.default.func,
+    onFragChanged: _propTypes2.default.func,
+    onFragParsingMetadata: _propTypes2.default.func
   }),
-  customControls: _react.PropTypes.shape({
-    panelBg: _react.PropTypes.string,
-    buttonBg: _react.PropTypes.string,
-    buttonColor: _react.PropTypes.string,
-    timePadding: _react.PropTypes.string,
-    timeSize: _react.PropTypes.string,
-    playBtnContent: _react.PropTypes.string,
-    pauseBtnContent: _react.PropTypes.string,
-    volumeBtnContent: _react.PropTypes.string,
-    muteBtnContent: _react.PropTypes.string,
-    fullScreenBtnContent: _react.PropTypes.string,
-    playBackRateContent: _react.PropTypes.string,
-    preloaderContent: _react.PropTypes.string
+  customControls: _propTypes2.default.shape({
+    panelBg: _propTypes2.default.string,
+    buttonBg: _propTypes2.default.string,
+    buttonColor: _propTypes2.default.string,
+    timePadding: _propTypes2.default.string,
+    timeSize: _propTypes2.default.string,
+    playBtnContent: _propTypes2.default.string,
+    pauseBtnContent: _propTypes2.default.string,
+    volumeBtnContent: _propTypes2.default.string,
+    muteBtnContent: _propTypes2.default.string,
+    fullScreenBtnContent: _propTypes2.default.string,
+    playBackRateContent: _propTypes2.default.string,
+    preloaderContent: _propTypes2.default.string
   })
 };
 exports.default = HLSPlayer;
