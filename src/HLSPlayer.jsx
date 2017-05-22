@@ -144,7 +144,7 @@ class HLSPlayer extends Component {
     const { disableControls } = this.props;
 
     this.videoElement.addEventListener('timeupdate', () => {
-      if (!disableControls) {
+      if (!disableControls && this.player) {
         if (!this.isChangeDuration)
           this.durationBar.setState({
             value: (100 / this.videoElement.duration) * this.videoElement.currentTime
