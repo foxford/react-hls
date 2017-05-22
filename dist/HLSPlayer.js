@@ -80,6 +80,13 @@ var HLSPlayer = function (_Component) {
     _this.onHlsError = _this.onHlsError.bind(_this);
     _this.onFragParsingMetadata = _this.onFragParsingMetadata.bind(_this);
     _this.onFragChanged = _this.onFragChanged.bind(_this);
+
+    // Video events
+    _this.onTimeUpdate = _this.onTimeUpdate.bind(_this);
+    _this.onCanPlay = _this.onCanPlay.bind(_this);
+    _this.onEnded = _this.onEnded.bind(_this);
+    _this.onWaiting = _this.onWaiting.bind(_this);
+    _this.onCanPlayThrough = _this.onCanPlayThrough.bind(_this);
     return _this;
   }
 
@@ -126,47 +133,80 @@ var HLSPlayer = function (_Component) {
   }, {
     key: 'handleVideoListeners',
     value: function handleVideoListeners() {
-      var _this2 = this;
-
-      var disableControls = this.props.disableControls;
-
-
-      this.videoElement.addEventListener('timeupdate', function () {
-        if (!disableControls && _this2.player) {
-          if (!_this2.isChangeDuration) _this2.durationBar.setState({
-            value: 100 / _this2.videoElement.duration * _this2.videoElement.currentTime
-          });
-          _this2.setState({
-            currentTime: formatTime(_this2.videoElement.currentTime, _this2._hasHours())
-          });
-        }
-      });
-
-      this.videoElement.addEventListener('canplay', function () {
-        if (!disableControls) _this2.setState({
-          showPreloader: false,
-          duration: formatTime(_this2.videoElement.duration, _this2._hasHours()),
-          currentTime: formatTime(0, _this2._hasHours())
-        });
-      });
-
-      this.videoElement.addEventListener('ended', function () {
-        _this2.videoElement.pause();
-      });
-
-      this.videoElement.addEventListener('waiting', function () {
-        if (!disableControls) _this2.setState({ showPreloader: true });
-      });
-
-      this.videoElement.addEventListener('canplaythrough', function () {
-        if (!disableControls) _this2.setState({ showPreloader: false });
-      });
+      this.videoElement.addEventListener('timeupdate', this.onTimeUpdate);
+      this.videoElement.addEventListener('canplay', this.onCanPlay);
+      this.videoElement.addEventListener('ended', this.onEnded);
+      this.videoElement.addEventListener('waiting', this.onWaiting);
+      this.videoElement.addEventListener('canplaythrough', this.onCanPlayThrough);
+    }
+  }, {
+    key: 'removeVideoListeners',
+    value: function removeVideoListeners() {
+      this.videoElement.removeEventListener('timeupdate', this.onTimeUpdate);
+      this.videoElement.removeEventListener('canplay', this.onCanPlay);
+      this.videoElement.removeEventListener('ended', this.onEnded);
+      this.videoElement.removeEventListener('waiting', this.onWaiting);
+      this.videoElement.removeEventListener('canplaythrough', this.onCanPlayThrough);
     }
   }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
       window.removeEventListener('click', this.hidePlayBackMenu.bind(this));
       window.removeEventListener('resize', this.hidePlayBackMenu.bind(this));
+    }
+  }, {
+    key: 'onTimeUpdate',
+    value: function onTimeUpdate() {
+      var disableControls = this.props.disableControls;
+
+
+      if (disableControls) return false;
+
+      if (!this.isChangeDuration) this.durationBar.setState({
+        value: 100 / this.videoElement.duration * this.videoElement.currentTime
+      });
+      this.setState({
+        currentTime: formatTime(this.videoElement.currentTime, this._hasHours())
+      });
+    }
+  }, {
+    key: 'onCanPlay',
+    value: function onCanPlay() {
+      var disableControls = this.props.disableControls;
+
+
+      if (disableControls) return false;
+
+      this.setState({
+        showPreloader: false,
+        duration: formatTime(this.videoElement.duration, this._hasHours()),
+        currentTime: formatTime(0, this._hasHours())
+      });
+    }
+  }, {
+    key: 'onEnded',
+    value: function onEnded() {
+      this.videoElement.pause();
+    }
+  }, {
+    key: 'onWaiting',
+    value: function onWaiting() {
+      var disableControls = this.props.disableControls;
+
+
+      if (disableControls) return false;
+
+      this.setState({ showPreloader: true });
+    }
+  }, {
+    key: 'onCanPlayThrough',
+    value: function onCanPlayThrough() {
+      var disableControls = this.props.disableControls;
+
+
+      if (disableControls) return false;
+
+      this.setState({ showPreloader: false });
     }
   }, {
     key: 'onMediaAttached',
@@ -224,6 +264,7 @@ var HLSPlayer = function (_Component) {
       this.player.off(Hls.Events.FRAG_CHANGED, this.onFragChanged);
       this.player.off(Hls.Events.MANIFEST_PARSED, this.onManifestParsed);
       this.player.destroy();
+      this.removeVideoListeners();
     }
   }, {
     key: '_hasHours',
@@ -333,7 +374,7 @@ var HLSPlayer = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      var _this3 = this;
+      var _this2 = this;
 
       var _state2 = this.state,
           isPlaying = _state2.isPlaying,
@@ -406,7 +447,7 @@ var HLSPlayer = function (_Component) {
             style: activeRate === item.id ? activeBtnStyles : buttonStyles,
             type: 'button',
             onClick: function onClick(e) {
-              _this3.handlePlayBackRateChange(e, item);
+              _this2.handlePlayBackRateChange(e, item);
             }
           },
           item.value,
@@ -422,12 +463,12 @@ var HLSPlayer = function (_Component) {
         'div',
         { className: 'hlsPlayer',
           ref: function ref(container) {
-            _this3.videoContainer = container;
+            _this2.videoContainer = container;
           }
         },
         _react2.default.createElement('video', { className: (0, _classnames2.default)('hlsPlayer-video', !isPlaying && 'paused'),
           ref: function ref(video) {
-            _this3.videoElement = video;
+            _this2.videoElement = video;
           },
           onClick: this.handlePlayBtn
         }),
@@ -457,7 +498,7 @@ var HLSPlayer = function (_Component) {
           _react2.default.createElement(_rcSlider2.default, {
             className: 'hlsPlayer-duration',
             ref: function ref(bar) {
-              _this3.durationBar = bar;
+              _this2.durationBar = bar;
             },
             onBeforeChange: this.handleBeforeDurationChange,
             onChange: this.handleDurationChange,
@@ -478,7 +519,7 @@ var HLSPlayer = function (_Component) {
             step: 0.1,
             defaultValue: 1,
             ref: function ref(bar) {
-              _this3.volumeBar = bar;
+              _this2.volumeBar = bar;
             },
             onChange: this.handleVolumeChange,
             onAfterChange: this.handleVolumeChange
@@ -489,7 +530,7 @@ var HLSPlayer = function (_Component) {
               style: buttonStyles,
               type: 'button',
               ref: function ref(playback) {
-                _this3.playbackBtn = playback;
+                _this2.playbackBtn = playback;
               },
               onClick: this.handlePlayBackBtn
             },
@@ -500,7 +541,7 @@ var HLSPlayer = function (_Component) {
             { className: 'hlsPlayer-playbackMenu',
               style: playbackMenu,
               ref: function ref(menu) {
-                _this3.playbackMenu = menu;
+                _this2.playbackMenu = menu;
               }
             },
             playbackRatesList

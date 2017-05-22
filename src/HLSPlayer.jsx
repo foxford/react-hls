@@ -101,6 +101,13 @@ class HLSPlayer extends Component {
     this.onHlsError = this.onHlsError.bind(this);
     this.onFragParsingMetadata = this.onFragParsingMetadata.bind(this);
     this.onFragChanged = this.onFragChanged.bind(this);
+
+    // Video events
+    this.onTimeUpdate = this.onTimeUpdate.bind(this);
+    this.onCanPlay = this.onCanPlay.bind(this);
+    this.onEnded = this.onEnded.bind(this);
+    this.onWaiting = this.onWaiting.bind(this);
+    this.onCanPlayThrough = this.onCanPlayThrough.bind(this);
   }
 
   componentDidMount() {
@@ -141,47 +148,68 @@ class HLSPlayer extends Component {
   }
 
   handleVideoListeners() {
-    const { disableControls } = this.props;
+    this.videoElement.addEventListener('timeupdate', this.onTimeUpdate);
+    this.videoElement.addEventListener('canplay', this.onCanPlay);
+    this.videoElement.addEventListener('ended', this.onEnded);
+    this.videoElement.addEventListener('waiting', this.onWaiting);
+    this.videoElement.addEventListener('canplaythrough', this.onCanPlayThrough);
+  }
 
-    this.videoElement.addEventListener('timeupdate', () => {
-      if (!disableControls && this.player) {
-        if (!this.isChangeDuration)
-          this.durationBar.setState({
-            value: (100 / this.videoElement.duration) * this.videoElement.currentTime
-          });
-        this.setState({
-          currentTime: formatTime(this.videoElement.currentTime, this._hasHours())
-        });
-      }
-    });
-
-    this.videoElement.addEventListener('canplay', () => {
-      if (!disableControls)
-        this.setState({
-          showPreloader: false,
-          duration: formatTime(this.videoElement.duration, this._hasHours()),
-          currentTime: formatTime(0, this._hasHours())
-        });
-    });
-
-    this.videoElement.addEventListener('ended', () => {
-      this.videoElement.pause();
-    });
-
-    this.videoElement.addEventListener('waiting', () => {
-      if (!disableControls)
-        this.setState({ showPreloader: true });
-    });
-
-    this.videoElement.addEventListener('canplaythrough', () => {
-      if (!disableControls)
-        this.setState({ showPreloader: false });
-    });
+  removeVideoListeners() {
+    this.videoElement.removeEventListener('timeupdate', this.onTimeUpdate);
+    this.videoElement.removeEventListener('canplay', this.onCanPlay);
+    this.videoElement.removeEventListener('ended', this.onEnded);
+    this.videoElement.removeEventListener('waiting', this.onWaiting);
+    this.videoElement.removeEventListener('canplaythrough', this.onCanPlayThrough);
   }
 
   componentWillUnmount() {
     window.removeEventListener('click', this.hidePlayBackMenu.bind(this));
     window.removeEventListener('resize', this.hidePlayBackMenu.bind(this));
+  }
+
+  onTimeUpdate() {
+    const { disableControls } = this.props;
+
+    if (disableControls) return false;
+
+    if (!this.isChangeDuration)
+      this.durationBar.setState({
+        value: (100 / this.videoElement.duration) * this.videoElement.currentTime
+      });
+    this.setState({
+      currentTime: formatTime(this.videoElement.currentTime, this._hasHours())
+    });
+  }
+
+  onCanPlay() {
+    const { disableControls } = this.props;
+
+    if (disableControls) return false;
+
+    this.setState({
+      showPreloader: false,
+      duration: formatTime(this.videoElement.duration, this._hasHours()),
+      currentTime: formatTime(0, this._hasHours())
+    });
+  }
+
+  onEnded() { this.videoElement.pause(); }
+
+  onWaiting() {
+    const { disableControls } = this.props;
+
+    if (disableControls) return false;
+
+    this.setState({ showPreloader: true });
+  }
+
+  onCanPlayThrough() {
+    const { disableControls } = this.props;
+
+    if (disableControls) return false;
+
+    this.setState({ showPreloader: false });
   }
 
   onMediaAttached() {
@@ -233,6 +261,7 @@ class HLSPlayer extends Component {
     this.player.off(Hls.Events.FRAG_CHANGED, this.onFragChanged);
     this.player.off(Hls.Events.MANIFEST_PARSED, this.onManifestParsed);
     this.player.destroy();
+    this.removeVideoListeners();
   }
 
   _hasHours() {
