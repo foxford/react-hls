@@ -214,6 +214,18 @@ var HLSPlayer = function (_Component) {
       this.props.hlsEvents.onFragChanged(e, data);
     }
   }, {
+    key: 'destroyHLSPlayer',
+    value: function destroyHLSPlayer() {
+      if (!this.player) return false;
+
+      this.player.off(Hls.Events.MEDIA_ATTACHED, this.onMediaAttached);
+      this.player.off(Hls.Events.FRAG_PARSING_METADATA, this.onFragParsingMetadata);
+      this.player.off(Hls.Events.ERROR, this.onHlsError);
+      this.player.off(Hls.Events.FRAG_CHANGED, this.onFragChanged);
+      this.player.off(Hls.Events.MANIFEST_PARSED, this.onManifestParsed);
+      this.player.destroy();
+    }
+  }, {
     key: '_hasHours',
     value: function _hasHours() {
       return this.videoElement.duration / 3600 >= 1.0;
