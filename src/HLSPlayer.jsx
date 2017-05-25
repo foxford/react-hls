@@ -328,6 +328,7 @@ class HLSPlayer extends Component {
   handleBeforeDurationChange() {
     this.isChangeDuration = true;
     this.videoElement.pause();
+    this.setState({ isPlaying: false });
   }
 
   handleDurationChange() {
@@ -338,6 +339,7 @@ class HLSPlayer extends Component {
     this.videoElement.currentTime = this.videoElement.duration * (this.durationBar.state.value / 100);
     this.isChangeDuration = false;
     this.videoElement.play();
+    this.setState({ isPlaying: true });
   }
 
   handlePlayBackBtn(e) {

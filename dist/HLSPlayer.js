@@ -336,6 +336,7 @@ var HLSPlayer = function (_Component) {
     value: function handleBeforeDurationChange() {
       this.isChangeDuration = true;
       this.videoElement.pause();
+      this.setState({ isPlaying: false });
     }
   }, {
     key: 'handleDurationChange',
@@ -348,6 +349,7 @@ var HLSPlayer = function (_Component) {
       this.videoElement.currentTime = this.videoElement.duration * (this.durationBar.state.value / 100);
       this.isChangeDuration = false;
       this.videoElement.play();
+      this.setState({ isPlaying: true });
     }
   }, {
     key: 'handlePlayBackBtn',
