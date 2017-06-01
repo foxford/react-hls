@@ -67,6 +67,8 @@ var HLSPlayer = function (_Component) {
     _this.player = null;
 
     _this.isChangeDuration = false;
+    _this.onPaused = props.autoPlay;
+    _this.onPlayed = !props.autoPlay;
 
     _this.handlePlayBtn = _this.handlePlayBtn.bind(_this);
     _this.handleFullScreenBtn = _this.handleFullScreenBtn.bind(_this);
@@ -91,6 +93,8 @@ var HLSPlayer = function (_Component) {
     _this.onEnded = _this.onEnded.bind(_this);
     _this.onWaiting = _this.onWaiting.bind(_this);
     _this.onCanPlayThrough = _this.onCanPlayThrough.bind(_this);
+    _this.onPlaying = _this.onPlaying.bind(_this);
+    _this.onPause = _this.onPause.bind(_this);
     return _this;
   }
 
@@ -142,6 +146,8 @@ var HLSPlayer = function (_Component) {
       this.videoElement.addEventListener('ended', this.onEnded);
       this.videoElement.addEventListener('waiting', this.onWaiting);
       this.videoElement.addEventListener('canplaythrough', this.onCanPlayThrough);
+      this.videoElement.addEventListener('playing', this.onPlaying);
+      this.videoElement.addEventListener('pause', this.onPause);
     }
   }, {
     key: 'removeVideoListeners',
@@ -151,6 +157,8 @@ var HLSPlayer = function (_Component) {
       this.videoElement.removeEventListener('ended', this.onEnded);
       this.videoElement.removeEventListener('waiting', this.onWaiting);
       this.videoElement.removeEventListener('canplaythrough', this.onCanPlayThrough);
+      this.videoElement.removeEventListener('playing', this.onPlaying);
+      this.videoElement.removeEventListener('pause', this.onPause);
     }
   }, {
     key: 'componentWillUnmount',
@@ -191,6 +199,18 @@ var HLSPlayer = function (_Component) {
     key: 'onEnded',
     value: function onEnded() {
       this.videoElement.pause();
+    }
+  }, {
+    key: 'onPlaying',
+    value: function onPlaying() {
+      this.onPlayed = true;
+      this.onPaused = false;
+    }
+  }, {
+    key: 'onPause',
+    value: function onPause() {
+      this.onPlayed = false;
+      this.onPaused = true;
     }
   }, {
     key: 'onWaiting',
@@ -335,7 +355,7 @@ var HLSPlayer = function (_Component) {
     key: 'handleBeforeDurationChange',
     value: function handleBeforeDurationChange() {
       this.isChangeDuration = true;
-      this.videoElement.pause();
+      if (this.onPlayed) this.videoElement.pause();
       this.setState({ isPlaying: false });
     }
   }, {
@@ -348,7 +368,7 @@ var HLSPlayer = function (_Component) {
     value: function handleAfterDurationChange() {
       this.videoElement.currentTime = this.videoElement.duration * (this.durationBar.state.value / 100);
       this.isChangeDuration = false;
-      this.videoElement.play();
+      if (this.onPaused) this.videoElement.play();
       this.setState({ isPlaying: true });
     }
   }, {

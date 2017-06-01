@@ -85,6 +85,8 @@ class HLSPlayer extends Component {
     this.player = null;
 
     this.isChangeDuration = false;
+    this.onPaused = props.autoPlay;
+    this.onPlayed = !props.autoPlay;
 
     this.handlePlayBtn = this.handlePlayBtn.bind(this);
     this.handleFullScreenBtn = this.handleFullScreenBtn.bind(this);
@@ -109,6 +111,8 @@ class HLSPlayer extends Component {
     this.onEnded = this.onEnded.bind(this);
     this.onWaiting = this.onWaiting.bind(this);
     this.onCanPlayThrough = this.onCanPlayThrough.bind(this);
+    this.onPlaying = this.onPlaying.bind(this);
+    this.onPause = this.onPause.bind(this);
   }
 
   componentDidMount() {
@@ -154,6 +158,8 @@ class HLSPlayer extends Component {
     this.videoElement.addEventListener('ended', this.onEnded);
     this.videoElement.addEventListener('waiting', this.onWaiting);
     this.videoElement.addEventListener('canplaythrough', this.onCanPlayThrough);
+    this.videoElement.addEventListener('playing', this.onPlaying);
+    this.videoElement.addEventListener('pause', this.onPause);
   }
 
   removeVideoListeners() {
@@ -162,6 +168,8 @@ class HLSPlayer extends Component {
     this.videoElement.removeEventListener('ended', this.onEnded);
     this.videoElement.removeEventListener('waiting', this.onWaiting);
     this.videoElement.removeEventListener('canplaythrough', this.onCanPlayThrough);
+    this.videoElement.removeEventListener('playing', this.onPlaying);
+    this.videoElement.removeEventListener('pause', this.onPause);
   }
 
   componentWillUnmount() {
@@ -196,6 +204,16 @@ class HLSPlayer extends Component {
   }
 
   onEnded() { this.videoElement.pause(); }
+
+  onPlaying() {
+    this.onPlayed = true;
+    this.onPaused = false;
+  }
+
+  onPause() {
+    this.onPlayed = false;
+    this.onPaused = true;
+  }
 
   onWaiting() {
     const { disableControls } = this.props;
@@ -327,7 +345,8 @@ class HLSPlayer extends Component {
 
   handleBeforeDurationChange() {
     this.isChangeDuration = true;
-    this.videoElement.pause();
+    if (this.onPlayed)
+      this.videoElement.pause();
     this.setState({ isPlaying: false });
   }
 
@@ -338,7 +357,8 @@ class HLSPlayer extends Component {
   handleAfterDurationChange() {
     this.videoElement.currentTime = this.videoElement.duration * (this.durationBar.state.value / 100);
     this.isChangeDuration = false;
-    this.videoElement.play();
+    if (this.onPaused)
+      this.videoElement.play();
     this.setState({ isPlaying: true });
   }
 
