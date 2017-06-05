@@ -57,6 +57,7 @@ var HLSPlayer = function (_Component) {
       isMuted: _this.props.autoMute,
       showPlaybackMenu: false,
       showPreloader: false,
+      showPlaceHolder: true,
       isFullscreen: false,
       activeRate: 6,
       currentTime: '00:00',
@@ -95,6 +96,7 @@ var HLSPlayer = function (_Component) {
     _this.onCanPlayThrough = _this.onCanPlayThrough.bind(_this);
     _this.onPlaying = _this.onPlaying.bind(_this);
     _this.onPause = _this.onPause.bind(_this);
+    _this.onLoadedData = _this.onLoadedData.bind(_this);
     return _this;
   }
 
@@ -148,6 +150,7 @@ var HLSPlayer = function (_Component) {
       this.videoElement.addEventListener('canplaythrough', this.onCanPlayThrough);
       this.videoElement.addEventListener('playing', this.onPlaying);
       this.videoElement.addEventListener('pause', this.onPause);
+      this.videoElement.addEventListener('loadeddata', this.onLoadedData);
     }
   }, {
     key: 'removeVideoListeners',
@@ -159,6 +162,7 @@ var HLSPlayer = function (_Component) {
       this.videoElement.removeEventListener('canplaythrough', this.onCanPlayThrough);
       this.videoElement.removeEventListener('playing', this.onPlaying);
       this.videoElement.removeEventListener('pause', this.onPause);
+      this.videoElement.removeEventListener('loadeddata', this.onLoadedData);
     }
   }, {
     key: 'componentWillUnmount',
@@ -276,6 +280,11 @@ var HLSPlayer = function (_Component) {
     value: function onFragChanged(e, data) {
       console.log('on fragment changed...');
       this.props.hlsEvents.onFragChanged(e, data);
+    }
+  }, {
+    key: 'onLoadedData',
+    value: function onLoadedData() {
+      this.setState({ showPlaceHolder: false });
     }
   }, {
     key: 'destroyHLSPlayer',
@@ -410,6 +419,7 @@ var HLSPlayer = function (_Component) {
           showPlaybackMenu = _state2.showPlaybackMenu,
           activeRate = _state2.activeRate,
           showPreloader = _state2.showPreloader,
+          showPlaceHolder = _state2.showPlaceHolder,
           isFullscreen = _state2.isFullscreen;
       var _props = this.props,
           customControls = _props.customControls,
@@ -498,6 +508,7 @@ var HLSPlayer = function (_Component) {
           },
           onClick: this.handlePlayBtn
         }),
+        showPlaceHolder && _react2.default.createElement('div', { className: 'hlsPlayer-placeholder' }),
         showPreloader && _react2.default.createElement(
           'div',
           { className: 'hlsPlayer-preloader', style: preloaderStyles },

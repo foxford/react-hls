@@ -73,6 +73,7 @@ class HLSPlayer extends Component {
     isMuted: this.props.autoMute,
     showPlaybackMenu: false,
     showPreloader: false,
+    showPlaceHolder: true,
     isFullscreen: false,
     activeRate: 6,
     currentTime: '00:00',
@@ -113,6 +114,7 @@ class HLSPlayer extends Component {
     this.onCanPlayThrough = this.onCanPlayThrough.bind(this);
     this.onPlaying = this.onPlaying.bind(this);
     this.onPause = this.onPause.bind(this);
+    this.onLoadedData = this.onLoadedData.bind(this);
   }
 
   componentDidMount() {
@@ -160,6 +162,7 @@ class HLSPlayer extends Component {
     this.videoElement.addEventListener('canplaythrough', this.onCanPlayThrough);
     this.videoElement.addEventListener('playing', this.onPlaying);
     this.videoElement.addEventListener('pause', this.onPause);
+    this.videoElement.addEventListener('loadeddata', this.onLoadedData);
   }
 
   removeVideoListeners() {
@@ -170,6 +173,7 @@ class HLSPlayer extends Component {
     this.videoElement.removeEventListener('canplaythrough', this.onCanPlayThrough);
     this.videoElement.removeEventListener('playing', this.onPlaying);
     this.videoElement.removeEventListener('pause', this.onPause);
+    this.videoElement.removeEventListener('loadeddata', this.onLoadedData);
   }
 
   componentWillUnmount() {
@@ -268,6 +272,10 @@ class HLSPlayer extends Component {
   onFragChanged(e, data) {
     console.log('on fragment changed...');
     this.props.hlsEvents.onFragChanged(e, data);
+  }
+
+  onLoadedData() {
+    this.setState({ showPlaceHolder: false });
   }
 
   destroyHLSPlayer() {
@@ -386,7 +394,17 @@ class HLSPlayer extends Component {
   }
 
   render() {
-    const { isPlaying, isMuted, currentTime, duration, showPlaybackMenu, activeRate, showPreloader, isFullscreen } = this.state;
+    const {
+      isPlaying,
+      isMuted,
+      currentTime,
+      duration,
+      showPlaybackMenu,
+      activeRate,
+      showPreloader,
+      showPlaceHolder,
+      isFullscreen
+    } = this.state;
     const { customControls, disableControls } = this.props;
 
     const controlsPanelStyles = {
@@ -467,6 +485,10 @@ class HLSPlayer extends Component {
                ref={ (video) => { this.videoElement = video; } }
                onClick={ this.handlePlayBtn }
         />
+        {
+          showPlaceHolder &&
+          <div className="hlsPlayer-placeholder" />
+        }
         { showPreloader &&
           <div className="hlsPlayer-preloader" style={preloaderStyles}>
             <span dangerouslySetInnerHTML={ this.rawHTML(customControls.preloaderContent) } />
