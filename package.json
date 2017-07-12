@@ -40,7 +40,7 @@
   },
   "dependencies": {
     "classnames": "^2.2.5",
-    "hls.js": "https://github.com/video-dev/hls.js.git#15b7270dfcaaf29689f19fef0d3d943a470d1fba",
+    "hls.js": "^0.7.10",
     "mobile-detect": "^1.3.5",
     "prop-types": "^15.5.10",
     "rc-slider": "^7.0.8",
