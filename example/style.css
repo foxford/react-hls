@@ -1,5 +1,5 @@
 body {
-  font-family: 'Arial';
+  font-family: 'Arial', sans-serif;
 }
 .logos {
   width: 100%;
@@ -49,4 +49,43 @@ body {
 @keyframes spin {
   from { transform: scale(1) rotate(0deg);}
   to { transform: scale(1) rotate(360deg);}
+}
+
+
+/* Styles for new player */
+.video-react {
+  font-family: 'Arial', sans-serif;
+}
+/* Big button */
+.video-react .video-react-big-play-button {
+  width: 2em;
+  height: 2em;
+  line-height: 1.8em;
+  border-radius: 2em;
+}
+.video-react .video-react-big-play-button,
+.video-react:hover .video-react-big-play-button,
+.video-react .video-react-big-play-button:hover {
+  background-color: #f86749;
+}
+.video-react .video-react-big-play-button.video-react-big-play-button-center {
+  margin-top: -1em;
+  margin-left: -1em;
+}
+/* Volume */
+.video-react .video-react-volume-level {
+  background-color: #f86749
+}
+/* Progress */
+.video-react .video-react-play-progress {
+  background-color: #f86749
+}
+/* Popup menu (playback rate) */
+.video-react .video-react-menu-content {
+  max-height: 20em !important;
+}
+/* Slider */
+.video-react .video-react-slider:focus {
+  text-shadow: none;
+  box-shadow: none;
 }
