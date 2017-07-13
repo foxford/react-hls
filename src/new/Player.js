@@ -25,6 +25,10 @@ class ReactPlayer extends Component {
     this.onSetTrack = this.onSetTrack.bind(this)
   }
 
+  componentDidMount () {
+    this.videoElement = this.player.video.video
+  }
+
   onLoadLevels (activeTrack, tracks) {
     this.setState({
       activeTrack,

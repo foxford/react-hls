@@ -59,6 +59,12 @@ var ReactPlayer = function (_Component) {
   }
 
   _createClass(ReactPlayer, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.videoElement = this.player.video.video;
+      console.log(this.videoElement);
+    }
+  }, {
     key: 'onLoadLevels',
     value: function onLoadLevels(activeTrack, tracks) {
       this.setState({
