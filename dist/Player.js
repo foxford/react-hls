@@ -1,0 +1,135 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _videoReact = require('video-react');
+
+var _HLSSource = require('./HLSSource');
+
+var _HLSSource2 = _interopRequireDefault(_HLSSource);
+
+var _QualityPicker = require('./QualityPicker');
+
+var _QualityPicker2 = _interopRequireDefault(_QualityPicker);
+
+require('video-react/dist/video-react.css');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var ReactPlayer = function (_Component) {
+  _inherits(ReactPlayer, _Component);
+
+  function ReactPlayer() {
+    _classCallCheck(this, ReactPlayer);
+
+    var _this = _possibleConstructorReturn(this, (ReactPlayer.__proto__ || Object.getPrototypeOf(ReactPlayer)).apply(this, arguments));
+
+    _this.state = {
+      activeTrack: -1,
+      tracks: []
+    };
+
+    _this.onLoadLevels = _this.onLoadLevels.bind(_this);
+    _this.onSetTrack = _this.onSetTrack.bind(_this);
+    return _this;
+  }
+
+  _createClass(ReactPlayer, [{
+    key: 'onLoadLevels',
+    value: function onLoadLevels(activeTrack, tracks) {
+      this.setState({
+        activeTrack: activeTrack,
+        tracks: tracks
+      });
+    }
+  }, {
+    key: 'onSetTrack',
+    value: function onSetTrack(activeTrack) {
+      this.setState({ activeTrack: activeTrack });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      var _props = this.props,
+          isHLS = _props.isHLS,
+          src = _props.src,
+          autoPlay = _props.autoPlay,
+          muted = _props.muted;
+      var _state = this.state,
+          activeTrack = _state.activeTrack,
+          tracks = _state.tracks;
+
+
+      return _react2.default.createElement(
+        _videoReact.Player,
+        {
+          autoPlay: autoPlay,
+          muted: muted,
+          ref: function ref(player) {
+            _this2.player = player;
+          }
+        },
+        isHLS ? _react2.default.createElement(_HLSSource2.default, _extends({
+          isVideoChild: true
+        }, this.props, {
+          activeLevel: activeTrack,
+          onLoadLevels: this.onLoadLevels
+        })) : _react2.default.createElement('source', { src: src }),
+        _react2.default.createElement(_videoReact.BigPlayButton, { position: 'center' }),
+        _react2.default.createElement(
+          _videoReact.ControlBar,
+          null,
+          _react2.default.createElement(_videoReact.VolumeMenuButton, { order: 7 }),
+          _react2.default.createElement(_videoReact.PlaybackRateMenuButton, {
+            rates: [3, 2.5, 2, 1.75, 1.5, 1.25, 1, 0.75, 0.5],
+            order: 7.1
+          }),
+          tracks.length > 0 && _react2.default.createElement(_QualityPicker2.default, {
+            activeTrack: activeTrack,
+            tracks: tracks,
+            onSetTrack: this.onSetTrack,
+            order: 8
+          })
+        )
+      );
+    }
+  }]);
+
+  return ReactPlayer;
+}(_react.Component);
+
+ReactPlayer.propTypes = {
+  isHLS: _propTypes2.default.bool.isRequired,
+  src: _propTypes2.default.string.isRequired,
+  autoPlay: _propTypes2.default.bool.isRequired,
+  muted: _propTypes2.default.bool.isRequired
+};
+ReactPlayer.defaultProps = {
+  isHLS: true,
+  autoPlay: false,
+  muted: false
+};
+
+exports.default = ReactPlayer;
