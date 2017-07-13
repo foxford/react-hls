@@ -49,7 +49,8 @@ class ReactPlayer extends Component {
       isHLS,
       src,
       autoPlay,
-      muted
+      muted,
+      startTime
     } = this.props
     const {
       activeTrack,
@@ -62,6 +63,7 @@ class ReactPlayer extends Component {
       <Player
         autoPlay={autoPlay}
         muted={muted}
+        startTime={startTime}
         ref={(player) => { this.player = player }}
       >
         { (isHLS && !isApple)
@@ -98,7 +100,8 @@ ReactPlayer.propTypes = {
   isHLS: PropTypes.bool.isRequired,
   src: PropTypes.string.isRequired,
   autoPlay: PropTypes.bool.isRequired,
-  muted: PropTypes.bool.isRequired
+  muted: PropTypes.bool.isRequired,
+  startTime: PropTypes.number
 }
 ReactPlayer.defaultProps = {
   isHLS: true,
