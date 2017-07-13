@@ -80,7 +80,7 @@ class ReactPlayer extends Component {
             rates={[3, 2.5, 2, 1.75, 1.5, 1.25, 1, 0.75, 0.5]}
             order={7.1}
           />
-          { tracks.length > 0 &&
+          { tracks.length > 1 &&
             <QualityPicker
               activeTrack={activeTrack}
               tracks={tracks}

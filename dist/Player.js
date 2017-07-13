@@ -62,7 +62,6 @@ var ReactPlayer = function (_Component) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       this.videoElement = this.player.video.video;
-      console.log(this.videoElement);
     }
   }, {
     key: 'onLoadLevels',
@@ -123,7 +122,7 @@ var ReactPlayer = function (_Component) {
             rates: [3, 2.5, 2, 1.75, 1.5, 1.25, 1, 0.75, 0.5],
             order: 7.1
           }),
-          tracks.length > 0 && _react2.default.createElement(_QualityPicker2.default, {
+          tracks.length > 1 && _react2.default.createElement(_QualityPicker2.default, {
             activeTrack: activeTrack,
             tracks: tracks,
             onSetTrack: this.onSetTrack,
