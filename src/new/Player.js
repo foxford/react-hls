@@ -7,6 +7,7 @@ import {
   VolumeMenuButton,
   PlaybackRateMenuButton
 } from 'video-react'
+import MobileDetect from 'mobile-detect'
 import HLSSource from './HLSSource'
 import QualityPicker from './QualityPicker'
 import 'video-react/dist/video-react.css'
@@ -35,6 +36,10 @@ class ReactPlayer extends Component {
     this.setState({ activeTrack })
   }
 
+  _getDeviceName () {
+    return new MobileDetect(window.navigator.userAgent).mobile()
+  }
+
   render () {
     const {
       isHLS,
@@ -46,6 +51,8 @@ class ReactPlayer extends Component {
       activeTrack,
       tracks
     } = this.state
+    const deviceName = this._getDeviceName()
+    const isApple = deviceName === 'iPhone' || deviceName === 'iPad'
 
     return (
       <Player
@@ -53,7 +60,7 @@ class ReactPlayer extends Component {
         muted={muted}
         ref={(player) => { this.player = player }}
       >
-        { isHLS
+        { (isHLS && !isApple)
           ? <HLSSource
             isVideoChild
             {...this.props}

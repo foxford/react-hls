@@ -18,6 +18,10 @@ var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _videoReact = require('video-react');
 
+var _mobileDetect = require('mobile-detect');
+
+var _mobileDetect2 = _interopRequireDefault(_mobileDetect);
+
 var _HLSSource = require('./HLSSource');
 
 var _HLSSource2 = _interopRequireDefault(_HLSSource);
@@ -68,6 +72,11 @@ var ReactPlayer = function (_Component) {
       this.setState({ activeTrack: activeTrack });
     }
   }, {
+    key: '_getDeviceName',
+    value: function _getDeviceName() {
+      return new _mobileDetect2.default(window.navigator.userAgent).mobile();
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _this2 = this;
@@ -81,6 +90,8 @@ var ReactPlayer = function (_Component) {
           activeTrack = _state.activeTrack,
           tracks = _state.tracks;
 
+      var deviceName = this._getDeviceName();
+      var isApple = deviceName === 'iPhone' || deviceName === 'iPad';
 
       return _react2.default.createElement(
         _videoReact.Player,
@@ -91,7 +102,7 @@ var ReactPlayer = function (_Component) {
             _this2.player = player;
           }
         },
-        isHLS ? _react2.default.createElement(_HLSSource2.default, _extends({
+        isHLS && !isApple ? _react2.default.createElement(_HLSSource2.default, _extends({
           isVideoChild: true
         }, this.props, {
           activeLevel: activeTrack,
