@@ -6,7 +6,7 @@ class App extends Component {
   render () {
     const playerOptions = {
       isHLS: true,
-      src: 'https://media-store-rc.foxford.ru:10002/api/v1/buckets/foxford-media.webinar.hls/objects/42456.master.m3u8',
+      src: 'https://video-dev.github.io/streams/x36xhzz/x36xhzz.m3u8',
       autoPlay: false,
       hlsOptions: {
         debug: true
