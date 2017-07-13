@@ -29,6 +29,12 @@ class HLSSource extends Component {
     }
   }
 
+  componentWillReceiveProps (nextProps) {
+    if (this.props.activeLevel !== nextProps.activeLevel) {
+      this.hls.nextLevel = nextProps.activeLevel
+    }
+  }
+
   onMediaAttached () {
     const { src } = this.props
 
@@ -39,16 +45,13 @@ class HLSSource extends Component {
     const {
       video,
       events: { onManifestParsed },
-      onLoadLevels,
       autoPlay
     } = this.props
 
     this.hls.startLoad()
     if (autoPlay) video.play()
     onManifestParsed()
-    if (data.levels.length > 1) {
-      onLoadLevels(data.levels)
-    }
+    this.buildTrackList(data.levels)
   }
 
   onHlsError (e, data) {
@@ -67,6 +70,37 @@ class HLSSource extends Component {
     const { events: { onFragChanged } } = this.props
 
     onFragChanged(e, data)
+  }
+
+  buildTrackList (levels) {
+    const trackList = []
+    let activeLevel = null
+
+    if (levels.length > 1) {
+      const autoLevel = {
+        id: -1,
+        label: 'auto'
+      }
+      if (this.hls.manualLevel === -1) activeLevel = -1
+      trackList.push(autoLevel)
+    }
+
+    levels.forEach((level, index) => {
+      const quality = {}
+
+      quality.id = index
+      quality.label = this._levelLabel(level)
+      trackList.push(quality)
+      if (index === this.hls.manualLevel) activeLevel = index
+    })
+    this.props.onLoadLevels(activeLevel, trackList)
+  }
+
+  _levelLabel (level) {
+    if (level.height) return `${level.height}p`
+    else if (level.width) return `${Math.round(level.width * 9 / 16)}p`
+    else if (level.bitrate) return `${parseInt((level.bitrate / 1000))}kbps`
+    else return 0
   }
 
   render () {
@@ -88,7 +122,8 @@ HLSSource.propTypes = {
   autoPlay: PropTypes.bool.isRequired,
   options: PropTypes.object,
   events: PropTypes.object,
-  onLoadLevels: PropTypes.func
+  onLoadLevels: PropTypes.func,
+  activeLevel: PropTypes.number
 }
 HLSSource.defaultProps = {
   options: {},

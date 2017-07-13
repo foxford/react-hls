@@ -8,7 +8,7 @@ import {
   PlaybackRateMenuButton
 } from 'video-react'
 import HLSSource from './HLSSource'
-import HLSQualityPicker from './HLSQualityPicker'
+import QualityPicker from './QualityPicker'
 import 'video-react/dist/video-react.css'
 
 class ReactPlayer extends Component {
@@ -16,14 +16,23 @@ class ReactPlayer extends Component {
     super(...arguments)
 
     this.state = {
-      hlsLevels: []
+      activeTrack: -1,
+      tracks: []
     }
 
     this.onLoadLevels = this.onLoadLevels.bind(this)
+    this.onSetTrack = this.onSetTrack.bind(this)
   }
 
-  onLoadLevels (levels) {
-    this.setState({ hlsLevels: levels })
+  onLoadLevels (activeTrack, tracks) {
+    this.setState({
+      activeTrack,
+      tracks
+    })
+  }
+
+  onSetTrack (activeTrack) {
+    this.setState({ activeTrack })
   }
 
   render () {
@@ -33,7 +42,10 @@ class ReactPlayer extends Component {
       autoPlay,
       muted
     } = this.props
-    const { hlsLevels } = this.state
+    const {
+      activeTrack,
+      tracks
+    } = this.state
 
     return (
       <Player
@@ -45,19 +57,25 @@ class ReactPlayer extends Component {
           ? <HLSSource
             isVideoChild
             {...this.props}
+            activeLevel={activeTrack}
             onLoadLevels={this.onLoadLevels}
           />
           : <source src={src} />
         }
         <BigPlayButton position='center' />
         <ControlBar>
-          <VolumeMenuButton order={6} />
+          <VolumeMenuButton order={7} />
           <PlaybackRateMenuButton
             rates={[3, 2.5, 2, 1.75, 1.5, 1.25, 1, 0.75, 0.5]}
-            order={7}
+            order={7.1}
           />
-          { hlsLevels.length > 0 &&
-            <HLSQualityPicker hls={this.player.hls} levels={hlsLevels} />
+          { tracks.length > 0 &&
+            <QualityPicker
+              activeTrack={activeTrack}
+              tracks={tracks}
+              onSetTrack={this.onSetTrack}
+              order={8}
+            />
           }
         </ControlBar>
       </Player>

@@ -53,7 +53,8 @@ body {
 
 
 /* Styles for new player */
-.video-react {
+.video-react,
+.video-react-menu .video-react-menu-content {
   font-family: 'Arial', sans-serif;
 }
 /* Big button */
@@ -85,7 +86,14 @@ body {
   max-height: 20em !important;
 }
 /* Slider */
+.video-react .video-react-control:focus:before,
+.video-react .video-react-control:hover:before,
 .video-react .video-react-slider:focus {
   text-shadow: none;
   box-shadow: none;
+}
+/* Quality label */
+.video-react-active-track-label {
+  line-height: 3em;
+  text-align: center;
 }
