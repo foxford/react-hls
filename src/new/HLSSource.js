@@ -6,7 +6,7 @@ class HLSSource extends Component {
   constructor () {
     super(...arguments)
 
-    this.hls = new Hls(this.props.options)
+    this.hls = new Hls(this.props.hlsOptions)
 
     this.onMediaAttached = this.onMediaAttached.bind(this)
     this.onManifestParsed = this.onManifestParsed.bind(this)
@@ -44,7 +44,7 @@ class HLSSource extends Component {
   onManifestParsed (e, data) {
     const {
       video,
-      events: { onManifestParsed },
+      hlsEvents: { onManifestParsed },
       autoPlay
     } = this.props
 
@@ -55,19 +55,19 @@ class HLSSource extends Component {
   }
 
   onHlsError (e, data) {
-    const { events: { onError } } = this.props
+    const { hlsEvents: { onError } } = this.props
 
     onError(e, data)
   }
 
   onFragParsingMetadata (e, data) {
-    const { events: { onFragParsingMetadata } } = this.props
+    const { hlsEvents: { onFragParsingMetadata } } = this.props
 
     onFragParsingMetadata(e, data)
   }
 
   onFragChanged (e, data) {
-    const { events: { onFragChanged } } = this.props
+    const { hlsEvents: { onFragChanged } } = this.props
 
     onFragChanged(e, data)
   }
@@ -120,15 +120,15 @@ HLSSource.propTypes = {
   type: PropTypes.string,
   video: PropTypes.object,
   autoPlay: PropTypes.bool.isRequired,
-  options: PropTypes.object,
-  events: PropTypes.object,
+  hlsOptions: PropTypes.object,
+  hlsEvents: PropTypes.object,
   onLoadLevels: PropTypes.func,
   activeLevel: PropTypes.number
 }
 HLSSource.defaultProps = {
-  options: {},
+  hlsOptions: {},
   type: 'application/x-mpegURL',
-  events: {
+  hlsEvents: {
     onMediaAttached: () => {},
     onManifestParsed: () => {},
     onError: () => {},

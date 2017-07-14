@@ -32,7 +32,7 @@ var HLSSource = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, (HLSSource.__proto__ || Object.getPrototypeOf(HLSSource)).apply(this, arguments));
 
-    _this.hls = new Hls(_this.props.options);
+    _this.hls = new Hls(_this.props.hlsOptions);
 
     _this.onMediaAttached = _this.onMediaAttached.bind(_this);
     _this.onManifestParsed = _this.onManifestParsed.bind(_this);
@@ -78,7 +78,7 @@ var HLSSource = function (_Component) {
     value: function onManifestParsed(e, data) {
       var _props = this.props,
           video = _props.video,
-          onManifestParsed = _props.events.onManifestParsed,
+          onManifestParsed = _props.hlsEvents.onManifestParsed,
           autoPlay = _props.autoPlay;
 
 
@@ -90,7 +90,7 @@ var HLSSource = function (_Component) {
   }, {
     key: 'onHlsError',
     value: function onHlsError(e, data) {
-      var onError = this.props.events.onError;
+      var onError = this.props.hlsEvents.onError;
 
 
       onError(e, data);
@@ -98,7 +98,7 @@ var HLSSource = function (_Component) {
   }, {
     key: 'onFragParsingMetadata',
     value: function onFragParsingMetadata(e, data) {
-      var onFragParsingMetadata = this.props.events.onFragParsingMetadata;
+      var onFragParsingMetadata = this.props.hlsEvents.onFragParsingMetadata;
 
 
       onFragParsingMetadata(e, data);
@@ -106,7 +106,7 @@ var HLSSource = function (_Component) {
   }, {
     key: 'onFragChanged',
     value: function onFragChanged(e, data) {
-      var onFragChanged = this.props.events.onFragChanged;
+      var onFragChanged = this.props.hlsEvents.onFragChanged;
 
 
       onFragChanged(e, data);
@@ -166,15 +166,15 @@ HLSSource.propTypes = {
   type: _propTypes2.default.string,
   video: _propTypes2.default.object,
   autoPlay: _propTypes2.default.bool.isRequired,
-  options: _propTypes2.default.object,
-  events: _propTypes2.default.object,
+  hlsOptions: _propTypes2.default.object,
+  hlsEvents: _propTypes2.default.object,
   onLoadLevels: _propTypes2.default.func,
   activeLevel: _propTypes2.default.number
 };
 HLSSource.defaultProps = {
-  options: {},
+  hlsOptions: {},
   type: 'application/x-mpegURL',
-  events: {
+  hlsEvents: {
     onMediaAttached: function onMediaAttached() {},
     onManifestParsed: function onManifestParsed() {},
     onError: function onError() {},

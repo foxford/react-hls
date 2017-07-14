@@ -15,7 +15,8 @@ body {
   text-align: center;
 }
 .player {
-  max-width: 1200px;
+  width: 80%;
+  height: 80%;
   padding: 20px 0;
   margin: 0 auto;
 }
@@ -49,7 +50,6 @@ body {
   from { transform: scale(1) rotate(0deg);}
   to { transform: scale(1) rotate(360deg);}
 }
-
 
 /* Styles for new player */
 .video-react,
