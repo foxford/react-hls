@@ -7,6 +7,7 @@ class HLSSource extends Component {
     super(...arguments)
 
     this.hls = new Hls(this.props.hlsOptions)
+    this.levelLabels = ['low', 'medium', 'high']
 
     this.onMediaAttached = this.onMediaAttached.bind(this)
     this.onManifestParsed = this.onManifestParsed.bind(this)
@@ -89,17 +90,17 @@ class HLSSource extends Component {
       const quality = {}
 
       quality.id = index
-      quality.label = this._levelLabel(level)
+      quality.label = this._levelLabel(level, index)
       trackList.push(quality)
       if (index === this.hls.manualLevel) activeLevel = index
     })
     this.props.onLoadLevels(activeLevel, trackList)
   }
 
-  _levelLabel (level) {
+  _levelLabel (level, index) {
     if (level.height) return `${level.height}p`
     else if (level.width) return `${Math.round(level.width * 9 / 16)}p`
-    else if (level.bitrate) return `${parseInt((level.bitrate / 1000))}kbps`
+    else if (level.bitrate) return this.levelLabels[index] || `${parseInt((level.bitrate / 1000))}kbps`
     else return 0
   }
 

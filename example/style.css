@@ -84,6 +84,9 @@ body {
 .video-react .video-react-menu-content {
   max-height: 20em !important;
 }
+.video-react .video-react-menu-quality li {
+  text-transform: uppercase;
+}
 /* Slider */
 .video-react .video-react-control:focus:before,
 .video-react .video-react-control:hover:before,
@@ -95,4 +98,5 @@ body {
 .video-react-active-track-label {
   line-height: 3em;
   text-align: center;
+  text-transform: uppercase;
 }

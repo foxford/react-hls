@@ -33,6 +33,7 @@ var HLSSource = function (_Component) {
     var _this = _possibleConstructorReturn(this, (HLSSource.__proto__ || Object.getPrototypeOf(HLSSource)).apply(this, arguments));
 
     _this.hls = new Hls(_this.props.hlsOptions);
+    _this.levelLabels = ['low', 'medium', 'high'];
 
     _this.onMediaAttached = _this.onMediaAttached.bind(_this);
     _this.onManifestParsed = _this.onManifestParsed.bind(_this);
@@ -132,7 +133,7 @@ var HLSSource = function (_Component) {
         var quality = {};
 
         quality.id = index;
-        quality.label = _this2._levelLabel(level);
+        quality.label = _this2._levelLabel(level, index);
         trackList.push(quality);
         if (index === _this2.hls.manualLevel) activeLevel = index;
       });
@@ -140,8 +141,8 @@ var HLSSource = function (_Component) {
     }
   }, {
     key: '_levelLabel',
-    value: function _levelLabel(level) {
-      if (level.height) return level.height + 'p';else if (level.width) return Math.round(level.width * 9 / 16) + 'p';else if (level.bitrate) return parseInt(level.bitrate / 1000) + 'kbps';else return 0;
+    value: function _levelLabel(level, index) {
+      if (level.height) return level.height + 'p';else if (level.width) return Math.round(level.width * 9 / 16) + 'p';else if (level.bitrate) return this.levelLabels[index] || parseInt(level.bitrate / 1000) + 'kbps';else return 0;
     }
   }, {
     key: 'render',

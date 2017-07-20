@@ -66,7 +66,8 @@ var QualityPicker = function (_Component) {
         {
           items: items,
           selectedIndex: selectedIndex,
-          onSelectItem: this.handleSelectItem
+          onSelectItem: this.handleSelectItem,
+          className: 'video-react-menu-quality'
         },
         _react2.default.createElement(
           'div',

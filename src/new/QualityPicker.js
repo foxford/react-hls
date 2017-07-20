@@ -29,6 +29,7 @@ class QualityPicker extends Component {
         items={items}
         selectedIndex={selectedIndex}
         onSelectItem={this.handleSelectItem}
+        className='video-react-menu-quality'
       >
         <div className='video-react-active-track-label'>{activeTrackLabel.label}</div>
       </MenuButton>
