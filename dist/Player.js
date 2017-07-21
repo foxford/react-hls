@@ -92,7 +92,8 @@ var ReactPlayer = function (_Component) {
           autoPlay = _props.autoPlay,
           muted = _props.muted,
           startTime = _props.startTime,
-          fluid = _props.fluid;
+          fluid = _props.fluid,
+          poster = _props.poster;
       var _state = this.state,
           activeTrack = _state.activeTrack,
           tracks = _state.tracks;
@@ -107,6 +108,7 @@ var ReactPlayer = function (_Component) {
           muted: muted,
           startTime: startTime,
           fluid: fluid,
+          poster: poster,
           ref: function ref(player) {
             _this2.player = player;
           }
@@ -146,7 +148,8 @@ ReactPlayer.propTypes = {
   autoPlay: _propTypes2.default.bool.isRequired,
   muted: _propTypes2.default.bool.isRequired,
   startTime: _propTypes2.default.number,
-  fluid: _propTypes2.default.bool
+  fluid: _propTypes2.default.bool,
+  poster: _propTypes2.default.string
 };
 ReactPlayer.defaultProps = {
   isHLS: true,
