@@ -16,6 +16,7 @@ class App extends Component {
     this.handlePlayButton = this.handlePlayButton.bind(this)
 
     window.addEventListener('popstate', () => {
+      console.log('pop state')
       this.setComponentState()
     })
   }
@@ -30,12 +31,12 @@ class App extends Component {
 
   handlePlayButton () {
     const { source, token } = this.state
-    let newUrl = ''
-    if (source) newUrl += `/?url=${source}`
+    let newUrl = window.location.href
+    if (source) newUrl += `?url=${source}`
     if (token) newUrl += `&token=${token}`
     if (source) {
-      this.setState({ readyToPlay: true })
       window.history.pushState({}, '', newUrl)
+      this.setState({ readyToPlay: true })
     }
   }
 
@@ -61,7 +62,7 @@ class App extends Component {
       autoPlay: true,
       fluid: true,
       hlsOptions: {
-        debug: false,
+        debug: true,
         xhrSetup: (xhr) => {
           if (!token) return false
           xhr.setRequestHeader('Authorization', `Bearer ${token}`)
