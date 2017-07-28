@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Player from '../dist/Player'
+import { parseQueryString } from './utils'
 import './style.css'
 
 class App extends Component {
@@ -7,14 +8,49 @@ class App extends Component {
     super(...arguments)
 
     this.state = {
-      source: 'https://media-store-rc.foxford.ru:10002/api/v1/buckets/foxford-media.webinar.hls/objects/42456.master.m3u8',
+      source: '',
       token: '',
       readyToPlay: false
     }
+
+    this.handlePlayButton = this.handlePlayButton.bind(this)
+
+    window.addEventListener('popstate', () => {
+      this.setComponentState()
+    })
+  }
+
+  componentWillMount () {
+    this.setComponentState()
   }
 
   handleInputChange (field, value) {
     this.setState({ [field]: value })
+  }
+
+  handlePlayButton () {
+    const { source, token } = this.state
+    let newUrl = ''
+    if (source) newUrl += `/?url=${source}`
+    if (token) newUrl += `&token=${token}`
+    if (source) {
+      this.setState({ readyToPlay: true })
+      window.history.pushState({}, '', newUrl)
+    }
+  }
+
+  setComponentState () {
+    const { token, url } = parseQueryString()
+    const newState = {}
+
+    if (token) newState.token = token
+    if (url) newState.source = url
+    if (Object.keys(newState).length) {
+      newState.readyToPlay = true
+      this.setState(newState)
+    } else {
+      this.setState({ source: '', token: '', readyToPlay: false })
+    }
   }
 
   render () {
@@ -25,7 +61,7 @@ class App extends Component {
       autoPlay: true,
       fluid: true,
       hlsOptions: {
-        debug: true,
+        debug: false,
         xhrSetup: (xhr) => {
           if (!token) return false
           xhr.setRequestHeader('Authorization', `Bearer ${token}`)
@@ -49,7 +85,7 @@ class App extends Component {
               type='text'
               onChange={(e) => { this.handleInputChange('token', e.target.value) }}
             />
-            <button onClick={() => { this.setState({ readyToPlay: true }) }} type='button'>Play</button>
+            <button onClick={this.handlePlayButton} type='button'>Play</button>
           </div>
         }
         { readyToPlay && <Player {...playerOptions} /> }
