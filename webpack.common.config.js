@@ -3,6 +3,7 @@ const webpack = require('webpack');
 
 module.exports = {
   entry: [
+    'babel-polyfill',
     './example/index.js'
   ],
   output: {

@@ -10,6 +10,7 @@ import {
 import MobileDetect from 'mobile-detect'
 import HLSSource from './HLSSource'
 import QualityPicker from './QualityPicker'
+import HlsLoader from './HLSLoader'
 import 'video-react/dist/video-react.css'
 
 class ReactPlayer extends Component {
@@ -116,4 +117,5 @@ ReactPlayer.defaultProps = {
   fluid: false
 }
 
+export { HlsLoader }
 export default ReactPlayer

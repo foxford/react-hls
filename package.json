@@ -27,6 +27,7 @@
     "babel": "^6.23.0",
     "babel-cli": "^6.24.1",
     "babel-loader": "^7.0.0",
+    "babel-polyfill": "^6.26.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-react-hmre": "^1.1.1",
@@ -51,7 +52,7 @@
   },
   "dependencies": {
     "classnames": "^2.2.5",
-    "hls.js": "^0.7.11",
+    "hls.js": "^0.8.2",
     "mobile-detect": "^1.3.5",
     "prop-types": "^15.5.10",
     "rc-slider": "^7.0.8",

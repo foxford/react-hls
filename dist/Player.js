@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.HlsLoader = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -29,6 +30,10 @@ var _HLSSource2 = _interopRequireDefault(_HLSSource);
 var _QualityPicker = require('./QualityPicker');
 
 var _QualityPicker2 = _interopRequireDefault(_QualityPicker);
+
+var _HLSLoader = require('./HLSLoader');
+
+var _HLSLoader2 = _interopRequireDefault(_HLSLoader);
 
 require('video-react/dist/video-react.css');
 
@@ -158,4 +163,5 @@ ReactPlayer.defaultProps = {
   fluid: false
 };
 
+exports.HlsLoader = _HLSLoader2.default;
 exports.default = ReactPlayer;
