@@ -75,7 +75,7 @@ class HLSSource extends Component {
 
   buildTrackList (levels) {
     const trackList = []
-    let activeLevel = null
+    let activeLevel = this.props.activeLevel
 
     if (levels.length > 1) {
       const autoLevel = {
@@ -127,6 +127,7 @@ HLSSource.propTypes = {
   activeLevel: PropTypes.number
 }
 HLSSource.defaultProps = {
+  activeLevel: -1,
   hlsOptions: {},
   type: 'application/x-mpegURL',
   hlsEvents: {

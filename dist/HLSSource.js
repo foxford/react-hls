@@ -118,7 +118,7 @@ var HLSSource = function (_Component) {
       var _this2 = this;
 
       var trackList = [];
-      var activeLevel = null;
+      var activeLevel = this.props.activeLevel;
 
       if (levels.length > 1) {
         var autoLevel = {
@@ -173,6 +173,7 @@ HLSSource.propTypes = {
   activeLevel: _propTypes2.default.number
 };
 HLSSource.defaultProps = {
+  activeLevel: -1,
   hlsOptions: {},
   type: 'application/x-mpegURL',
   hlsEvents: {
