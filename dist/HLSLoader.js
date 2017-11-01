@@ -26,7 +26,7 @@ var HlsLoader = function (_Hls$DefaultConfig$lo) {
   _createClass(HlsLoader, [{
     key: 'loadInternal',
     value: function () {
-      var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+      var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
         var context, xhr, stats, xhrSetup;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
