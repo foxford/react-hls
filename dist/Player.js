@@ -31,6 +31,10 @@ var _QualityPicker = require('./QualityPicker');
 
 var _QualityPicker2 = _interopRequireDefault(_QualityPicker);
 
+var _ChapterPicker = require('./ChapterPicker');
+
+var _ChapterPicker2 = _interopRequireDefault(_ChapterPicker);
+
 var _HLSLoader = require('./HLSLoader');
 
 var _HLSLoader2 = _interopRequireDefault(_HLSLoader);
@@ -98,7 +102,8 @@ var ReactPlayer = function (_Component) {
           muted = _props.muted,
           startTime = _props.startTime,
           fluid = _props.fluid,
-          poster = _props.poster;
+          poster = _props.poster,
+          chapters = _props.chapters;
       var _state = this.state,
           activeTrack = _state.activeTrack,
           tracks = _state.tracks;
@@ -138,6 +143,10 @@ var ReactPlayer = function (_Component) {
             tracks: tracks,
             onSetTrack: this.onSetTrack,
             order: 8
+          }),
+          chapters && chapters.length > 1 && _react2.default.createElement(_ChapterPicker2.default, {
+            items: chapters,
+            order: 8
           })
         )
       );
@@ -154,7 +163,8 @@ ReactPlayer.propTypes = {
   muted: _propTypes2.default.bool.isRequired,
   startTime: _propTypes2.default.number,
   fluid: _propTypes2.default.bool,
-  poster: _propTypes2.default.string
+  poster: _propTypes2.default.string,
+  chapters: _propTypes2.default.array
 };
 ReactPlayer.defaultProps = {
   isHLS: true,

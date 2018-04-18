@@ -1,0 +1,13 @@
+.video-react .video-react-menu-button-popup.video-react-chapter-picker .video-react-active-track-label {
+  background-image: url(data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjRkZGRkZGIiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4gICAgPHBhdGggZD0iTTMgOWgxNFY3SDN2MnptMCA0aDE0di0ySDN2MnptMCA0aDE0di0ySDN2MnptMTYgMGgydi0yaC0ydjJ6bTAtMTB2MmgyVjdoLTJ6bTAgNmgydi0yaC0ydjJ6Ii8+ICAgIDxwYXRoIGQ9Ik0wIDBoMjR2MjRIMHoiIGZpbGw9Im5vbmUiLz48L3N2Zz4=);
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.video-react .video-react-menu-button-popup.video-react-chapter-picker .video-react-menu {
+  width: 200px;
+  left: auto;
+  right: -4em;
+}
+.video-react .video-react-chapter-picker li {
+  text-transform: none;
+}
