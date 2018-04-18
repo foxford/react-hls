@@ -59,7 +59,7 @@ class App extends Component {
     const playerOptions = {
       isHLS: true,
       src: source,
-      autoPlay: true,
+      autoPlay: false,
       fluid: true,
       hlsOptions: {
         debug: true,
@@ -67,7 +67,15 @@ class App extends Component {
           if (!token) return false
           xhr.setRequestHeader('Authorization', `Bearer ${token}`)
         }
-      }
+      },
+      chapters: [
+        {start: 0, end: 10, label: 'Intro'},
+        {start: 10, end: 20, label: 'Chapter 1. Example of label'},
+        {start: 20, end: 30, label: 'Chapter 2. Example of label'},
+        {start: 30, end: 40, label: 'Chapter 3. Example of label'},
+        {start: 40, end: 50, label: 'Chapter 4. Example of label'},
+        {start: 50, end: 60, label: 'Outro'}
+      ]
     }
 
     return (

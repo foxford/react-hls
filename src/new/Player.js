@@ -10,6 +10,7 @@ import {
 import MobileDetect from 'mobile-detect'
 import HLSSource from './HLSSource'
 import QualityPicker from './QualityPicker'
+import ChapterPicker from './ChapterPicker'
 import HlsLoader from './HLSLoader'
 import 'video-react/dist/video-react.css'
 
@@ -53,7 +54,8 @@ class ReactPlayer extends Component {
       muted,
       startTime,
       fluid,
-      poster
+      poster,
+      chapters
     } = this.props
     const {
       activeTrack,
@@ -95,6 +97,12 @@ class ReactPlayer extends Component {
               order={8}
             />
           }
+          { chapters && chapters.length > 1 &&
+            <ChapterPicker
+              items={chapters}
+              order={8}
+            />
+          }
         </ControlBar>
       </Player>
     )
@@ -108,7 +116,8 @@ ReactPlayer.propTypes = {
   muted: PropTypes.bool.isRequired,
   startTime: PropTypes.number,
   fluid: PropTypes.bool,
-  poster: PropTypes.string
+  poster: PropTypes.string,
+  chapters: PropTypes.array
 }
 ReactPlayer.defaultProps = {
   isHLS: true,

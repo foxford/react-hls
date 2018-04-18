@@ -1,13 +1,13 @@
 {
   "name": "react-hls",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "React component for HLS player",
   "main": "dist/Player.js",
   "scripts": {
-    "start": "export NODE_ENV=development && webpack-dev-server --inline --host 0.0.0.0",
+    "start": "export NODE_ENV=development && webpack-dev-server --inline",
     "build": "export NODE_ENV=production && webpack -p --config webpack.production.config.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "compile": "./node_modules/.bin/babel src/new -d dist/ --presets es2015,react,stage-0",
+    "compile": "./node_modules/.bin/babel src/new -d dist/ --presets es2015,react,stage-0 --copy-files",
     "compile_old": "./node_modules/.bin/babel src/old -d dist/ --presets es2015,react,stage-0",
     "prepublish": "npm run-script compile",
     "lint": "eslint --ext .js,.jsx src/new/**",
