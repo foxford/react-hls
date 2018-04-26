@@ -1,4 +1,5 @@
 language: node_js
+node_js: lts/*
 cache:
   directories:
     - ${HOME}/node_modules
@@ -6,12 +7,22 @@ git:
   depth: 1
 notifications:
   email: false
+env:
+  - NPM_KEY=${NPM_API_TOKEN}
 jobs:
   include:
     - stage: commit
-      node_js: lts/*
-      script: npm run test
+      script: npm test
+    - stage: release
+      provider: npm
+      skip_cleanup: true
+      before_install:
+        - printf "${NPM_SCOPE}:registry=https://registry.npmjs.org/\n//registry.npmjs.org/:_authToken=${NPM_KEY}" >> ${HOME}/.npmrc
+      script:
+        - if [[ ! -z ${TRAVIS_TAG} ]]; then npm dist-tag add ${TRAVIS_REPO_SLUG}@latest ${TRAVIS_TAG}; else npm publish --access=public --tag=latest; fi
 stages:
   - name: warmup
   - name: commit
   - name: test
+  - name: release
+    if: branch = master OR env(TRAVIS_TAG) IS present

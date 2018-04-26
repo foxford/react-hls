@@ -1,6 +1,6 @@
 {
   "name": "@foxford/react-hls",
-  "version": "2.2.1",
+  "version": "2.3.0",
   "description": "React component for HLS player",
   "main": "dist/Player.js",
   "scripts": {
@@ -8,7 +8,7 @@
     "build": "NODE_ENV=production webpack -p --config webpack.production.config.js",
     "test": "npm run lint",
     "compile": "babel src -d dist --copy-files",
-    "prepare": "npm run compile",
+    "prepare": "npm run compile && npm run build",
     "lint": "eslint src",
     "fix": "npm run lint -- --fix"
   },
@@ -22,14 +22,13 @@
     "hls"
   ],
   "directories": {
-    "lib": "lib",
+    "lib": "dist",
     "example": "example"
   },
   "author": "PidginEnemy <e.tolchennikov@netology-group.ru>",
   "license": "MIT",
   "devDependencies": {
-    "babel": "^6.23.0",
-    "babel-cli": "^6.24.1",
+    "babel-cli": "^6.26.0",
     "babel-eslint": "^8.2.3",
     "babel-loader": "^7.0.0",
     "babel-polyfill": "^6.26.0",
