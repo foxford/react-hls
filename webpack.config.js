@@ -1,26 +1,26 @@
-const path = require('path');
-const webpack = require('webpack');
-const config = require('./webpack.common.config');
+const path = require('path')
+const webpack = require('webpack')
+const config = require('./webpack.common.config')
 
-config.output.publicPath = '/build/';
+config.output.publicPath = '/build/'
 config.module.rules.push({
   test: /\.js?/,
-  loaders: ['react-hot-loader','babel-loader'],
+  loaders: ['react-hot-loader', 'babel-loader'],
   include: [
     path.join(__dirname, 'example'),
     /node_modules\/hls\.js/
   ]
-});
+})
 config.module.rules.push({
-  test: /\.css$/,
-  loader: 'style-loader!css-loader'
-});
-config.devtool = 'source-map';
+  test: /\.s?css$/,
+  loader: 'style-loader!css-loader!sass-loader'
+})
+config.devtool = 'source-map'
 config.devServer = {
   historyApiFallback: {
     index: 'example/index.html'
   }
-};
-config.plugins.push(new webpack.HotModuleReplacementPlugin());
+}
+config.plugins.push(new webpack.HotModuleReplacementPlugin())
 
-module.exports = config;
+module.exports = config

@@ -3,13 +3,18 @@ import Player from '../dist/Player'
 import { parseQueryString } from './utils'
 import './style.css'
 
+const DURATION = 60
+const SOURCE = ''
+const TOKEN = ''
+
 class App extends Component {
   constructor () {
     super(...arguments)
 
     this.state = {
-      source: '',
-      token: '',
+      source: SOURCE,
+      token: TOKEN,
+      duration: DURATION,
       readyToPlay: false
     }
 
@@ -30,32 +35,53 @@ class App extends Component {
   }
 
   handlePlayButton () {
-    const { source, token } = this.state
-    let newUrl = window.location.href
-    if (source) newUrl += `?url=${source}`
-    if (token) newUrl += `&token=${token}`
+    const { source, token, duration } = this.state
+    const urlChunks = []
+    if (duration) urlChunks.push(`duration=${duration}`)
+    if (source) urlChunks.push(`url=${source}`)
+    if (token) urlChunks.push(`token=${token}`)
+    const newUrl = `${window.location.href}?${urlChunks.join('&')}`
     if (source) {
       window.history.pushState({}, '', newUrl)
       this.setState({ readyToPlay: true })
     }
   }
 
+  prepareChapters (duration = 0) {
+    const chapters = [
+      'Intro',
+      'Chapter 1. Example of label', 'Chapter 2. Example of label',
+      'Chapter 3. Example of label', 'Chapter 4. Example of label',
+      'Outro'
+    ]
+    const getStartEnd = (length, list) => {
+      const chunkLength = length / list.length
+      return list.map((it, i) => ({
+        start: i * chunkLength,
+        end: i * chunkLength + chunkLength,
+        label: it
+      }))
+    }
+    return getStartEnd(duration, chapters)
+  }
+
   setComponentState () {
-    const { token, url } = parseQueryString()
+    const { token, url, duration } = parseQueryString()
     const newState = {}
 
     if (token) newState.token = token
     if (url) newState.source = url
+    if (duration) newState.duration = duration
     if (Object.keys(newState).length) {
       newState.readyToPlay = true
       this.setState(newState)
     } else {
-      this.setState({ source: '', token: '', readyToPlay: false })
+      this.setState({ source: SOURCE, token: TOKEN, duration: DURATION, readyToPlay: false })
     }
   }
 
   render () {
-    const { readyToPlay, source, token } = this.state
+    const { readyToPlay, source, token, duration } = this.state
     const playerOptions = {
       isHLS: true,
       src: source,
@@ -68,34 +94,36 @@ class App extends Component {
           xhr.setRequestHeader('Authorization', `Bearer ${token}`)
         }
       },
-      chapters: [
-        {start: 0, end: 10, label: 'Intro'},
-        {start: 10, end: 20, label: 'Chapter 1. Example of label'},
-        {start: 20, end: 30, label: 'Chapter 2. Example of label'},
-        {start: 30, end: 40, label: 'Chapter 3. Example of label'},
-        {start: 40, end: 50, label: 'Chapter 4. Example of label'},
-        {start: 50, end: 60, label: 'Outro'}
-      ]
+      chapters: this.prepareChapters(duration)
     }
 
     return (
       <div className='player'>
         { !readyToPlay &&
-          <div>
+          <form onSubmit={this.handlePlayButton}>
             <span>Video source:</span>
             <input
               defaultValue={source}
               type='text'
               onChange={(e) => { this.handleInputChange('source', e.target.value) }}
             />
+            <br/>
+            <span>Supposed duration:</span>
+            <input
+              defaultValue={duration}
+              type='text'
+              onChange={(e) => { this.handleInputChange('duration', e.target.value) }}
+            />
+            <br/>
             <span>Authorization token:</span>
             <input
               defaultValue={token}
               type='text'
               onChange={(e) => { this.handleInputChange('token', e.target.value) }}
             />
-            <button onClick={this.handlePlayButton} type='button'>Play</button>
-          </div>
+            <br/>
+            <button type='submit'>Play</button>
+          </form>
         }
         { readyToPlay && <Player {...playerOptions} /> }
       </div>

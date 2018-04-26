@@ -12,6 +12,7 @@ import HLSSource from './HLSSource'
 import QualityPicker from './QualityPicker'
 import ChapterPicker from './ChapterPicker'
 import HlsLoader from './HLSLoader'
+import { ProgressControlLabeled } from './control-bar/ProgressControlLabeled'
 import 'video-react/dist/video-react.css'
 
 class ReactPlayer extends Component {
@@ -63,6 +64,7 @@ class ReactPlayer extends Component {
     } = this.state
     const deviceName = this._getDeviceName()
     const isApple = deviceName === 'iPhone' || deviceName === 'iPad'
+    const hasChapters = chapters && chapters.length > 1
 
     return (
       <Player
@@ -84,7 +86,12 @@ class ReactPlayer extends Component {
         }
         <BigPlayButton position='center' />
         <ControlBar>
-          <VolumeMenuButton order={7} />
+          {hasChapters && <ProgressControlLabeled
+            {...this.props}
+            key='progress-control'
+            order={6}
+          />}
+          <VolumeMenuButton order={7.9} />
           <PlaybackRateMenuButton
             rates={[3, 2.5, 2, 1.75, 1.5, 1.25, 1, 0.75, 0.5]}
             order={7.1}
@@ -94,10 +101,10 @@ class ReactPlayer extends Component {
               activeTrack={activeTrack}
               tracks={tracks}
               onSetTrack={this.onSetTrack}
-              order={8}
+              order={7.5}
             />
           }
-          { chapters && chapters.length > 1 &&
+          { hasChapters &&
             <ChapterPicker
               items={chapters}
               order={8}

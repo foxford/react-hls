@@ -51,7 +51,7 @@ var HLSSource = function (_Component) {
 
       if (Hls.isSupported()) {
         this.hls.attachMedia(video);
-        // hls events
+
         this.hls.on(Hls.Events.MEDIA_ATTACHED, this.onMediaAttached);
         this.hls.on(Hls.Events.MANIFEST_PARSED, this.onManifestParsed);
         this.hls.on(Hls.Events.ERROR, this.onHlsError);
