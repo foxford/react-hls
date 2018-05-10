@@ -135,35 +135,12 @@ var ReactPlayer = function (_Component) {
         _react2.default.createElement(_videoReact.BigPlayButton, { position: 'center' }),
         _react2.default.createElement(
           _videoReact.ControlBar,
-          { disableDefaultControls: true },
-          _react2.default.createElement(_videoReact.PlayToggle, _extends({}, this.props, {
-            key: 'play-toggle',
-            order: 1
-          })),
-          _react2.default.createElement(_videoReact.CurrentTimeDisplay, _extends({}, this.props, {
-            key: 'current-time-display',
-            order: 5.1
-          })),
-          _react2.default.createElement(_videoReact.TimeDivider, _extends({}, this.props, {
-            key: 'time-divider',
-            order: 5.2
-          })),
-          _react2.default.createElement(_videoReact.DurationDisplay, _extends({}, this.props, {
-            key: 'duration-display',
-            order: 5.3
-          })),
-          _react2.default.createElement(_videoReact.FullscreenToggle, _extends({}, this.props, {
-            key: 'fullscreen-toggle',
-            order: 9
-          })),
-          hasChapters ? _react2.default.createElement(_ProgressControlLabeled.ProgressControlLabeled, _extends({}, this.props, {
-            key: 'progress-control',
-            order: 6
-          })) : _react2.default.createElement(_videoReact.ProgressControl, _extends({}, this.props, {
+          null,
+          hasChapters && _react2.default.createElement(_ProgressControlLabeled.ProgressControlLabeled, _extends({}, this.props, {
             key: 'progress-control',
             order: 6
           })),
-          _react2.default.createElement(_videoReact.VolumeMenuButton, { order: 7 }),
+          _react2.default.createElement(_videoReact.VolumeMenuButton, { order: 7.9 }),
           _react2.default.createElement(_videoReact.PlaybackRateMenuButton, {
             rates: [3, 2.5, 2, 1.75, 1.5, 1.25, 1, 0.75, 0.5],
             order: 7.1
