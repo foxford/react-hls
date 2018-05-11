@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import '!script-loader!hls.js/dist/hls.min.js'
+import '!script-loader!hls.js/dist/hls.min.js' // eslint-disable-line import/no-webpack-loader-syntax
 
 class HLSSource extends Component {
   constructor () {

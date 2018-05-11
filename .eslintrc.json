@@ -1,6 +1,17 @@
 {
   "extends": ["standard", "standard-react"],
+  "parser": "babel-eslint",
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "globals": {
+    "Hls": true
+  },
   "rules": {
-    "no-undef": 0
+    "no-undef": 2,
+    "no-shadow": 2,
+    "no-shadow-restricted-names": 2,
+    "no-unused-vars": 1
   }
 }

@@ -1,0 +1,16 @@
+#http://EditorConfig.org
+root = true
+# top-most EditorConfig file
+
+[*]
+indent_style = space
+indent_size = 2
+# 2 space indentation
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+# Unix-style newlines with a newline ending every file
+
+[*.md]
+trim_trailing_whitespace = false

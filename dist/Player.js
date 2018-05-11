@@ -39,6 +39,8 @@ var _HLSLoader = require('./HLSLoader');
 
 var _HLSLoader2 = _interopRequireDefault(_HLSLoader);
 
+var _ProgressControlLabeled = require('./control-bar/ProgressControlLabeled');
+
 require('video-react/dist/video-react.css');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -110,6 +112,7 @@ var ReactPlayer = function (_Component) {
 
       var deviceName = this._getDeviceName();
       var isApple = deviceName === 'iPhone' || deviceName === 'iPad';
+      var hasChapters = chapters && chapters.length > 1;
 
       return _react2.default.createElement(
         _videoReact.Player,
@@ -133,7 +136,11 @@ var ReactPlayer = function (_Component) {
         _react2.default.createElement(
           _videoReact.ControlBar,
           null,
-          _react2.default.createElement(_videoReact.VolumeMenuButton, { order: 7 }),
+          hasChapters && _react2.default.createElement(_ProgressControlLabeled.ProgressControlLabeled, _extends({}, this.props, {
+            key: 'progress-control',
+            order: 6
+          })),
+          _react2.default.createElement(_videoReact.VolumeMenuButton, { order: 7.9 }),
           _react2.default.createElement(_videoReact.PlaybackRateMenuButton, {
             rates: [3, 2.5, 2, 1.75, 1.5, 1.25, 1, 0.75, 0.5],
             order: 7.1
@@ -142,9 +149,9 @@ var ReactPlayer = function (_Component) {
             activeTrack: activeTrack,
             tracks: tracks,
             onSetTrack: this.onSetTrack,
-            order: 8
+            order: 7.5
           }),
-          chapters && chapters.length > 1 && _react2.default.createElement(_ChapterPicker2.default, {
+          hasChapters && _react2.default.createElement(_ChapterPicker2.default, {
             items: chapters,
             order: 8
           })

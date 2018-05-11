@@ -26,7 +26,7 @@ var HlsLoader = function (_Hls$DefaultConfig$lo) {
   _createClass(HlsLoader, [{
     key: 'loadInternal',
     value: function () {
-      var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+      var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
         var context, xhr, stats, xhrSetup;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
@@ -60,8 +60,6 @@ var HlsLoader = function (_Hls$DefaultConfig$lo) {
                 _context.prev = 13;
                 _context.t0 = _context['catch'](8);
 
-                // fix xhrSetup: (xhr, url) => {xhr.setRequestHeader("Content-Language", "test")}
-                // not working, as xhr.setRequestHeader expects xhr.readyState === OPEN
                 xhr.open('GET', context.url, true);
                 _context.next = 18;
                 return xhrSetup(xhr, context.url);
@@ -77,7 +75,6 @@ var HlsLoader = function (_Hls$DefaultConfig$lo) {
                 _context.prev = 21;
                 _context.t1 = _context['catch'](6);
 
-                // IE11 throws an exception on xhr.open if attempting to access an HTTP resource over HTTPS
                 this.callbacks.onError({ code: xhr.status, text: _context.t1.message }, context, xhr);
                 return _context.abrupt('return');
 
@@ -90,7 +87,6 @@ var HlsLoader = function (_Hls$DefaultConfig$lo) {
                 xhr.onprogress = this.loadprogress.bind(this);
                 xhr.responseType = context.responseType;
 
-                // setup timeout before we perform request
                 this.requestTimeout = window.setTimeout(this.loadtimeout.bind(this), this.config.timeout);
                 xhr.send();
 
